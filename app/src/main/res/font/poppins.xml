@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <font
+        android:font="@font/PoppinsSemiBold" />
+
+    <font
+        android:font="@font/PoppinsRegular" />
+
+    <font
+        android:font="@font/PoppinsBold" />
+
+    <font
+        android:font="@font/PoppinsThin" />
+
+
+</font-family>
