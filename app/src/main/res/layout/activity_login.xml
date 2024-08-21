@@ -12,7 +12,8 @@
         android:layout_height="56dp"
         android:layout_marginTop="160dp"
         android:background="@drawable/login_button"
-        android:fontFamily="@font/PoppinsSemiBold"
+        android:fontFamily="@font/poppins_semi_bold"
+
         android:text="@string/login"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -21,12 +22,14 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView10" />
 
     <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/PoppinsRegular"
+        android:fontFamily="@font/poppins_regular"
+
         android:text="@string/um_oferecimento_por"
         android:textColor="@color/vermelho_claro"
-        android:textSize="12dp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -41,7 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
         android:layout_marginEnd="104dp"
-        android:fontFamily="@font/PoppinsRegular"
+        android:fontFamily="@font/poppins_regular"
+
         android:text="@string/cadastre_se_aqui"
         android:textColor="@color/vermelho_claro"
         android:textSize="12sp"
@@ -54,7 +58,8 @@
         android:layout_width="89dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="17dp"
-        android:fontFamily="@font/PoppinsRegular"
+        android:fontFamily="@font/poppins_regular"
+
         android:paddingEnd="8dp"
         android:text="@string/primeira_vez"
         android:textColor="@color/azul"
@@ -97,9 +102,9 @@
             android:drawableLeft="@drawable/cadeado_icon"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:fontFamily="@font/PoppinsRegular"
+            android:fontFamily="@font/poppins_regular"
             android:inputType="textEmailAddress"
-            android:text="@string/email"
+            android:hint="@string/email"
             android:textColor="@color/cinza"
             tools:ignore="MissingConstraints" />
 
@@ -120,11 +125,13 @@
             android:drawableLeft="@drawable/cadeado_icon"
             android:drawablePadding="10dp"
             android:ems="10"
-            android:fontFamily="@font/PoppinsRegular"
+            android:fontFamily="@font/poppins_regular"
+
             android:inputType="textVisiblePassword"
-            android:text="@string/senha"
+            android:hint="@string/senha"
             android:textColor="@color/cinza"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+          />
 
     </LinearLayout>
 
@@ -145,5 +152,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="94dp"
+        android:layout_height="82dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:srcCompat="@drawable/dion_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
