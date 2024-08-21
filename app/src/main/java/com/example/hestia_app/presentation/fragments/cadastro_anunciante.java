@@ -63,11 +63,29 @@ public class cadastro_anunciante extends Fragment {
         campo4 = view.findViewById(R.id.campo4);
         usuario = view.findViewById(R.id.tipo_usuario);
 
-        // Adicionar os hints
-        campo1.setHint(campos[0]);
-        campo2.setHint(campos[1]);
-        campo3.setHint(campos[2]);
-        campo4.setHint(campos[3]);
+        // deixar todos os campos invisíveis
+        campo1.setVisibility(View.INVISIBLE);
+        campo2.setVisibility(View.INVISIBLE);
+        campo3.setVisibility(View.INVISIBLE);
+        campo4.setVisibility(View.INVISIBLE);
+
+        // Adicionar os hints se tiver vindo no parâmetro
+        if (campos[0] != null) {
+            campo1.setHint(campos[0]);
+            campo1.setVisibility(View.VISIBLE);
+        }
+        if (campos[1] != null) {
+            campo2.setHint(campos[1]);
+            campo2.setVisibility(View.VISIBLE);
+        }
+        if (campos[2] != null) {
+            campo3.setHint(campos[2]);
+            campo3.setVisibility(View.VISIBLE);
+        }
+        if (campos[3] != null) {
+            campo4.setHint(campos[3]);
+            campo4.setVisibility(View.VISIBLE);
+        }
 
         // colocar a descrição de acordo com o tipo de usuário
         if (tipo_usuario.equals("anunciante")) {
@@ -85,9 +103,9 @@ public class cadastro_anunciante extends Fragment {
         bt_acao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!etapa.equals("etapa2")) {
+                if (!etapa.equals("fim")) {
                     // Passar para o próximo fragmento
-                    cadastro_anunciante fragment = cadastro_anunciante.newInstance("anunciante", new String[]{"Telefone", "Senha", "Confirmar Senha"}, "etapa2");
+                    cadastro_anunciante fragment = cadastro_anunciante.newInstance("anunciante", new String[]{"Telefone", "Senha", "Confirmar Senha"}, "fim");
                     getParentFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, fragment)
                             .addToBackStack(null)
