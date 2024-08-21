@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">hestia-app</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -9,6 +8,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">Héstia</string>
     <string name="login">Login</string>
     <string name="primeira_vez">Primeira vez?</string>
     <string name="cadastre_se_aqui">Cadastre-se aqui</string>
