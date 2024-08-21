@@ -1,8 +1,10 @@
-package com.example.hestia_app;
+package com.example.hestia_app.presentation.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.hestia_app.R;
 
 public class MainActivity extends AppCompatActivity {
 
