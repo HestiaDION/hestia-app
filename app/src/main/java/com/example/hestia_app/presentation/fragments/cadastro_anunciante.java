@@ -105,7 +105,7 @@ public class cadastro_anunciante extends Fragment {
             public void onClick(View v) {
                 if (!etapa.equals("fim")) {
                     // Passar para o próximo fragmento
-                    cadastro_anunciante fragment = cadastro_anunciante.newInstance("anunciante", new String[]{"Telefone", "Senha", "Confirmar Senha"}, "fim");
+                    cadastro_anunciante fragment = cadastro_anunciante.newInstance("anunciante", new String[]{"Telefone", "Senha", "Confirmar Senha", null}, "fim");
                     getParentFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, fragment)
                             .addToBackStack(null)
