@@ -112,9 +112,8 @@ public class CadastroManager implements Parcelable {
         }
 
         /**
-         * Cria um novo objeto CadastroManager a partir de um Parcel.
-         * @param in The Parcel to read the object's data from.
-         * @return Um novo CadastroManager
+         * Cria um novo array de objetos CadastroManager.
+         * @param size O tamanho do array.
          */
         @Override
         public CadastroManager[] newArray(int size) {
