@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
-import com.example.hestia_app.presentation.fragments.cadastro_anunciante;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -30,9 +29,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             // abrir main mandando os parâmetros
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("tipo_usuario", "anunciante");
-            intent.putExtra("campos", new String[]{"Nome", "Cidade", "E-mail", "Telefone"});
-            intent.putExtra("etapa", "etapa1");
+            intent.putExtra("tipo_usuario", "universitario");
             startActivity(intent);
         });
     }
