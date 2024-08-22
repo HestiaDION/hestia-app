@@ -118,9 +118,9 @@ public class cadastro_anunciante_universitario extends Fragment {
         bt_acao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                atualizarProgressBar(usuario, cadastroManager);
                 if (usuario.equals("anunciante")) {
                     if (cadastroManager.hasNextEtapaAnunciante()) {
-                        atualizarProgressBar(usuario, cadastroManager);
                         cadastroManager.nextEtapaAnunciante();
 
                         cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("anunciante", cadastroManager);
@@ -134,7 +134,6 @@ public class cadastro_anunciante_universitario extends Fragment {
                     }
                 } else if (usuario.equals("universitario")) {
                     if (cadastroManager.hasNextEtapaUniversitario()) {
-                        atualizarProgressBar(usuario, cadastroManager);
                         cadastroManager.nextEtapaUniversitario();
 
                         cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("universitario", cadastroManager);
