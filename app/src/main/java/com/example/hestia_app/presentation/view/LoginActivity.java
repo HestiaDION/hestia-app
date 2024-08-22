@@ -4,18 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.view.ViewStructure;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.fragments.cadastro_anunciante;
+import com.example.hestia_app.utils.ViewUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
     Button loginButton;
     TextView cadastroRedirect;
     EditText email, senha;
+    ImageButton eyeOpenedPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
         cadastroRedirect = findViewById(R.id.cadastroRedirect);
         email = findViewById(R.id.email);
         senha = findViewById(R.id.password);
+        eyeOpenedPassword = findViewById(R.id.openEyePassword);
+
 
         loginButton.setOnClickListener(v -> {
             // abrir main mandando os parâmetros
@@ -35,5 +44,10 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("etapa", "etapa1");
             startActivity(intent);
         });
+
+        // verificação para abrir o ícone de "olho"
+        ViewUtils.setEyeIconVisibilityAndChangeIconOnClick(senha, eyeOpenedPassword);
+
+
     }
 }
