@@ -4,17 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.view.ViewStructure;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
-import com.example.hestia_app.presentation.fragments.cadastro_anunciante;
 import com.example.hestia_app.utils.ViewUtils;
 
 public class LoginActivity extends AppCompatActivity {
@@ -39,9 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(v -> {
             // abrir main mandando os parâmetros
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("tipo_usuario", "anunciante");
-            intent.putExtra("campos", new String[]{"Nome", "Cidade", "E-mail", "Telefone"});
-            intent.putExtra("etapa", "etapa1");
+            intent.putExtra("tipo_usuario", "universitario");
             startActivity(intent);
         });
 

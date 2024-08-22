@@ -105,6 +105,7 @@
 
         <!-- Linha -->
         <View
+            android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/azul" />
@@ -135,6 +136,7 @@
 
         <!-- Linha -->
         <View
+            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/azul" />
@@ -165,6 +167,7 @@
 
         <!-- Linha -->
         <View
+            android:id="@+id/view3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/azul" />
@@ -195,6 +198,7 @@
 
         <!-- Linha -->
         <View
+            android:id="@+id/view4"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/azul" />
@@ -227,7 +231,7 @@
         android:max="100"
         android:maxHeight="20dip"
         android:minHeight="20dip"
-        android:progress="50"
+        android:progress="0"
         android:progressDrawable="@drawable/custom_progress_bar" />
 
     <ImageView
