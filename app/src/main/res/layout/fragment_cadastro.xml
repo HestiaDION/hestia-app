@@ -15,8 +15,8 @@
         android:layout_marginLeft="7dp"
         android:layout_marginTop="10dp"
         android:fontFamily="@font/poppins_semi_bold"
-        android:text="Universitário"
-        android:textSize="20sp" />
+        android:text="UNIVERSITÁRIO"
+        android:textSize="14sp" />
 
     <!-- Campo para falar do cadastro -->
     <TextView
