@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class cadastro_anunciante_universitario extends Fragment {
     private String usuario;
     private CadastroManager cadastroManager;
     private ProgressBar progressBar;
+    private View view;
 
     // construtor
     public cadastro_anunciante_universitario() {}
@@ -50,8 +52,8 @@ public class cadastro_anunciante_universitario extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Infla o layout para este fragmento
-        View view = inflater.inflate(R.layout.fragment_cadastro, container, false);
+
+        view = inflater.inflate(R.layout.fragment_cadastro, container, false);
 
         // declarando os objetos
         Button bt_acao = view.findViewById(R.id.bt_acao);
@@ -65,6 +67,7 @@ public class cadastro_anunciante_universitario extends Fragment {
         View view3 = view.findViewById(R.id.view3);
         View view4 = view.findViewById(R.id.view4);
         progressBar = view.findViewById(R.id.progresso);
+        int etapaAtual;
 
         // deixar todos os campos e views invisíveis
         campo1.setVisibility(View.INVISIBLE);
@@ -83,12 +86,13 @@ public class cadastro_anunciante_universitario extends Fragment {
             tipo_usuario.setTextColor(getResources().getColor(R.color.azul));
             tipo_usuario.setText("ANUNCIANTE");
             campos = cadastroManager.getCamposDaEtapaAnunciante();
+            etapaAtual = cadastroManager.getEtapaAtual();
         } else {
             tipo_usuario.setTextColor(getResources().getColor(R.color.vermelho));
             tipo_usuario.setText("UNIVERSITÁRIO");
             campos = cadastroManager.getCamposDaEtapaUniversitario();
+            etapaAtual = cadastroManager.getEtapaAtual();
         }
-
         // Adicionar os hints se tiver vindo no parâmetro
         if (campos[0] != null) {
             campo1.setHint(campos[0]);
@@ -114,56 +118,63 @@ public class cadastro_anunciante_universitario extends Fragment {
         // colocar o foco no primeiro campo
         campo1.requestFocus();
 
+        // Atualizar a barra de progresso
+        atualizarProgressBar(usuario, etapaAtual);
+
         // Configurar o botão de cadastro
         bt_acao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                atualizarProgressBar(usuario, cadastroManager);
                 if (usuario.equals("anunciante")) {
                     if (cadastroManager.hasNextEtapaAnunciante()) {
                         cadastroManager.nextEtapaAnunciante();
-
                         cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("anunciante", cadastroManager);
                         getParentFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, fragment)
                                 .addToBackStack(null)
                                 .commit();
-                    } else {
-                        // Concluir o cadastro
-                        Toast.makeText(getActivity(), "Cadastro realizado com sucesso", Toast.LENGTH_SHORT).show();
                     }
                 } else if (usuario.equals("universitario")) {
                     if (cadastroManager.hasNextEtapaUniversitario()) {
                         cadastroManager.nextEtapaUniversitario();
 
-                        cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("universitario", cadastroManager);
-                        getParentFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, fragment)
-                                .addToBackStack(null)
-                                .commit();
+                        if (cadastroManager.getEtapaAtual() == 4) {
+                            cadastro_universitario_etapa fragment = cadastro_universitario_etapa.newInstance("universitario", "etapa");
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.fragment_container, fragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        } else {
+                            cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("universitario", cadastroManager);
+                            getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.fragment_container, fragment)
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
                     }
                 }
             }
         });
-
         return view;
     }
 
-    private void atualizarProgressBar(String tipo_usuario, CadastroManager cadastroManager) {
+    private void atualizarProgressBar(String tipo_usuario, int etapa) {
         // Calcular progresso como uma porcentagem do total de etapas
 
         if (tipo_usuario.equals("anunciante")) {
-            if (cadastroManager.getEtapaAtual() == 1) {
+            if (etapa == 1) {
                 progressBar.setProgress(50, true);
-            } else if (cadastroManager.getEtapaAtual() == 2) {
+            } else if (etapa == 2) {
                 progressBar.setProgress(100, true);
             }
         } else {
-            if (cadastroManager.getEtapaAtual() == 1) {
-                progressBar.setProgress(33, true);
-            } else if (cadastroManager.getEtapaAtual() == 2) {
-                progressBar.setProgress(66, true);
-            } else if (cadastroManager.getEtapaAtual() == 3) {
+            if (etapa == 1) {
+                progressBar.setProgress(25, true);
+            } else if (etapa == 2) {
+                progressBar.setProgress(50, true);
+            } else if (etapa == 3) {
+                progressBar.setProgress(75, true);
+            } else if (etapa == 4) {
                 progressBar.setProgress(100, true);
             }
         }

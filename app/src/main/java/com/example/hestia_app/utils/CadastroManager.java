@@ -6,7 +6,7 @@ import android.os.Parcelable;
 public class CadastroManager implements Parcelable {
 
     private static final int TOTAL_ETAPAS_ANUNCIANTE = 2;
-    private static final int TOTAL_ETAPAS_UNIVERSITARIO = 3;
+    private static final int TOTAL_ETAPAS_UNIVERSITARIO = 4;
     private int etapaAtual;
 
     /**
