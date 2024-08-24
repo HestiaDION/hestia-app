@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.view.swipe.PreviewScreensExplanation;
 import com.example.hestia_app.utils.ViewUtils;
 
 public class LoginActivity extends AppCompatActivity {
@@ -31,11 +32,16 @@ public class LoginActivity extends AppCompatActivity {
         eyeOpenedPassword = findViewById(R.id.openEyePassword);
 
 
+//        loginButton.setOnClickListener(v -> {
+//            // abrir main mandando os parâmetros
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            intent.putExtra("tipo_usuario", "universitario");
+//            startActivity(intent);
+//        });
+
         loginButton.setOnClickListener(v -> {
-            // abrir main mandando os parâmetros
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("tipo_usuario", "universitario");
-            startActivity(intent);
+
+            Intent intent = new Intent(LoginActivity.this, PreviewScreensExplanation.class);
         });
 
         // verificação para abrir o ícone de "olho"
