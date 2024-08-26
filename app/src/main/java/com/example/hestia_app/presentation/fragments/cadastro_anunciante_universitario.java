@@ -2,10 +2,9 @@ package com.example.hestia_app.presentation.fragments;
 
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,19 +12,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.utils.CadastroManager;
-
-import java.io.Serializable;
 
 public class cadastro_anunciante_universitario extends Fragment {
 
     private String usuario;
     private CadastroManager cadastroManager;
     private ProgressBar progressBar;
-    private View view;
 
     // construtor
     public cadastro_anunciante_universitario() {}
@@ -53,7 +48,7 @@ public class cadastro_anunciante_universitario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_cadastro, container, false);
+        View view = inflater.inflate(R.layout.fragment_cadastro, container, false);
 
         // declarando os objetos
         Button bt_acao = view.findViewById(R.id.bt_acao);
@@ -66,6 +61,7 @@ public class cadastro_anunciante_universitario extends Fragment {
         View view2 = view.findViewById(R.id.view2);
         View view3 = view.findViewById(R.id.view3);
         View view4 = view.findViewById(R.id.view4);
+        ConstraintLayout termos = view.findViewById(R.id.termos_check);
         progressBar = view.findViewById(R.id.progresso);
         int etapaAtual;
 
@@ -128,6 +124,11 @@ public class cadastro_anunciante_universitario extends Fragment {
                 if (usuario.equals("anunciante")) {
                     if (cadastroManager.hasNextEtapaAnunciante()) {
                         cadastroManager.nextEtapaAnunciante();
+
+                        if (cadastroManager.getEtapaAtual() == 2) {
+                            termos.setVisibility(View.VISIBLE);
+                        }
+
                         cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("anunciante", cadastroManager);
                         getParentFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, fragment)
@@ -139,7 +140,7 @@ public class cadastro_anunciante_universitario extends Fragment {
                         cadastroManager.nextEtapaUniversitario();
 
                         if (cadastroManager.getEtapaAtual() == 4) {
-                            cadastro_universitario_etapa fragment = cadastro_universitario_etapa.newInstance("universitario", "etapa");
+                            cadastro_universitario_etapa fragment = cadastro_universitario_etapa.newInstance();
                             getParentFragmentManager().beginTransaction()
                                     .replace(R.id.fragment_container, fragment)
                                     .addToBackStack(null)

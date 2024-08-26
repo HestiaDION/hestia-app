@@ -30,8 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         senha = findViewById(R.id.password);
         eyeOpenedPassword = findViewById(R.id.openEyePassword);
 
-
-        loginButton.setOnClickListener(v -> {
+        cadastroRedirect.setOnClickListener(v -> {
             // abrir main mandando os parâmetros
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.putExtra("tipo_usuario", "universitario");

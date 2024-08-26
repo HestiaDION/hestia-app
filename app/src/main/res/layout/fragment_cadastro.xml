@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:visibility="visible">
 
     <!-- Campo para informar qual tipo de usuário -->
     <TextView
@@ -36,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -209,6 +208,36 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/termos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <CheckBox
+            android:id="@+id/termos_check"
+            style="@style/CustomCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Eu li e concordo com os"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_regular"
+            android:text=" Termos de Serviço e Uso"
+            android:textColor="@color/vermelho" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/bt_acao"
         style="@style/Widget.AppCompat.Button"
@@ -243,14 +272,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:visibility="visible">
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="-90dp"
-            android:layout_marginBottom="-55dp"
+            android:layout_marginBottom="-20dp"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -261,11 +291,12 @@
             android:id="@+id/imageView4"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginEnd="-130dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:scaleType="fitEnd"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/red_bloob_decoration" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
