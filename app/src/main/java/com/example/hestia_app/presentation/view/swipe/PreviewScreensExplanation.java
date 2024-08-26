@@ -1,20 +1,19 @@
 package com.example.hestia_app.presentation.view.swipe;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.Button;
+
 import android.widget.LinearLayout;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.LoginActivity;
 import com.example.hestia_app.utils.OnboardingAdapter;
-import com.example.hestia_app.utils.OnboardingItem;
-import com.google.android.material.button.MaterialButton;
+import com.example.hestia_app.domain.OnboardingItem;
+import com.example.hestia_app.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class PreviewScreensExplanation extends AppCompatActivity {
 
     private OnboardingAdapter onboardingAdapter;
     private LinearLayout layoutOnboardingIndicators;
-    private MaterialButton buttonNext;
+    private Button buttonNext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +37,18 @@ public class PreviewScreensExplanation extends AppCompatActivity {
         ViewPager2 onboardingViewPager = findViewById(R.id.viewPager);
         onboardingViewPager.setAdapter(onboardingAdapter);
 
-        setupOnboardingIndicators();
-        setCurrentOnboardingIndicator(0);
-
+        // métodos de gerenciamento das bolinhas
+        ViewUtils.setupOnboardingIndicators(this, layoutOnboardingIndicators, onboardingAdapter);
+        ViewUtils.setCurrentOnboardingIndicator(this, 0, layoutOnboardingIndicators, onboardingAdapter, buttonNext);
         onboardingViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                setCurrentOnboardingIndicator(position);
+                ViewUtils.setCurrentOnboardingIndicator(PreviewScreensExplanation.this, position, layoutOnboardingIndicators, onboardingAdapter, buttonNext);
             }
         });
 
+        // botão para mudar a tela
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +63,7 @@ public class PreviewScreensExplanation extends AppCompatActivity {
         });
     }
 
+    // método para configurar os itens
     private void setupOnboardingItems(){
 
         List<OnboardingItem> onboardingItems = new ArrayList<>();
@@ -77,7 +78,7 @@ public class PreviewScreensExplanation extends AppCompatActivity {
 
         OnboardingItem explanation3 = new OnboardingItem();
         explanation3.setExplanationText("Ache as pessoas ideais com base no  nosso sistema de matching");
-        explanation3.setLottieGif(R.raw.teste);
+        explanation3.setLottieGif(R.raw.watching_animation);
 
         onboardingItems.add(explanation1);
         onboardingItems.add(explanation2);
@@ -86,51 +87,4 @@ public class PreviewScreensExplanation extends AppCompatActivity {
         onboardingAdapter = new OnboardingAdapter(onboardingItems);
     }
 
-    private void setupOnboardingIndicators(){
-        ImageView[] indicators = new ImageView[onboardingAdapter.getItemCount()];
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
-        layoutParams.setMargins(0, 0, 0, 0);
-        for(int i = 0; i < indicators.length; i++){
-            indicators[i] = new ImageView(getApplicationContext());
-            indicators[i].setImageDrawable(
-                    ContextCompat.getDrawable(
-                            getApplicationContext(),
-                            R.drawable.onboarding_indicator_inactive
-                    )
-            );
-
-            indicators[i].setLayoutParams(layoutParams);
-            layoutOnboardingIndicators.addView(indicators[i]);
-        }
-    }
-
-    private void setCurrentOnboardingIndicator(int index){
-        int childCount = layoutOnboardingIndicators.getChildCount();
-
-        for (int i = 0; i < childCount; i++){
-
-            ImageView imageView = (ImageView) layoutOnboardingIndicators.getChildAt(i);
-            if(i == index){
-                imageView.setImageDrawable(
-                      ContextCompat.getDrawable(getApplicationContext(), R.drawable.onboarding_indicate_active)
-                );
-                }
-             else{
-
-                imageView.setImageDrawable(
-                        ContextCompat.getDrawable(getApplicationContext(), R.drawable.onboarding_indicator_inactive)
-                );
-            }
-
-        }
-
-        if (index == onboardingAdapter.getItemCount() - 1){
-            buttonNext.setText("Começar");
-        }else{
-            buttonNext.setText("Próximo");
-        }
-    }
 }

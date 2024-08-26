@@ -9,8 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieDrawable;
 import com.example.hestia_app.R;
+import com.example.hestia_app.domain.OnboardingItem;
 
 import java.util.List;
 
@@ -37,8 +37,6 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
 
     @Override
     public void onBindViewHolder(@NonNull OnboardingViewHolder holder, int position) {
-        holder.lottieGif.playAnimation();
-        holder.lottieGif.setRepeatCount(LottieDrawable.INFINITE);
         holder.setOnboardingData(onboardingItems.get(position));
     }
 
@@ -47,7 +45,7 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
         return onboardingItems.size();
     }
 
-    class OnboardingViewHolder extends RecyclerView.ViewHolder{
+    static class OnboardingViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textExplanation;
         private LottieAnimationView lottieGif;

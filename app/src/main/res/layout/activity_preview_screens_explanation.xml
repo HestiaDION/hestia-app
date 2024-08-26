@@ -8,16 +8,18 @@
     tools:context=".presentation.view.swipe.PreviewScreensExplanation">
 
 
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/buttonNext"
+        android:background="@drawable/login_button"
+        android:fontFamily="@font/poppins_medium"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp"
         android:text="next"
         android:textSize="14sp"
-        app:backgroundTint="@color/vermelho_claro"
-        app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
