@@ -31,16 +31,14 @@ public class LoginActivity extends AppCompatActivity {
         senha = findViewById(R.id.password);
         eyeOpenedPassword = findViewById(R.id.openEyePassword);
 
-
-//        loginButton.setOnClickListener(v -> {
-//            // abrir main mandando os parâmetros
-//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//            intent.putExtra("tipo_usuario", "universitario");
-//            startActivity(intent);
-//        });
-
+        cadastroRedirect.setOnClickListener(v -> {
+            // abrir main mandando os parâmetros
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("tipo_usuario", "universitario");
+            startActivity(intent);
+        });
+      
         loginButton.setOnClickListener(v -> {
-
             Intent intent = new Intent(LoginActivity.this, PreviewScreensExplanation.class);
         });
 
