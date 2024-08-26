@@ -85,10 +85,6 @@ public class CadastroManager implements Parcelable {
         }
     }
 
-    public String getEtapaString() {
-        return "etapa" + etapaAtual;
-    }
-
     /**
      * Este é um construtor protegido que é usado para criar uma instância da classe CadastroManager a partir de um Parcel. Um Parcel é um contêiner para dados que pode ser usado para enviar informações entre componentes. Neste caso, ele está lendo um valor inteiro do Parcel (a etapa atual do cadastro) e atribuindo-o ao campo etapaAtual
      * @param in Parcel com os dados a serem lidos e atribuidos a este objeto

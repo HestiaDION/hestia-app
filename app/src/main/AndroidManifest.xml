@@ -32,11 +32,10 @@
             android:name=".presentation.view.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.view.UserTerms"
+            android:name=".presentation.view.swipe.PreviewScreensExplanation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
