@@ -1,5 +1,7 @@
+// MainActivity.java
 package com.example.hestia_app.presentation.view;
 
+import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -10,6 +12,11 @@ import android.os.Bundle;
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.fragments.cadastro_anunciante;
 
+import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.fragments.cadastro_anunciante_universitario;
+import com.example.hestia_app.utils.CadastroManager;
+
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Receber os parâmetros do Intent
-        Intent intent = getIntent();
-        String tipo_usuario = intent.getStringExtra("tipo_usuario");
-        String[] campos = intent.getStringArrayExtra("campos");
-        String etapa = intent.getStringExtra("etapa");
+        // pegar o tipo de usupario
+        String tipo_usuario = getIntent().getStringExtra("tipo_usuario");
 
-        // Criar uma instância do fragmento com os parâmetros recebidos
-        cadastro_anunciante fragment = cadastro_anunciante.newInstance(tipo_usuario, campos, etapa);
+        // Inicializar o CadastroManager
+        CadastroManager cadastro_manager = new CadastroManager();
+
+        // Criar a primeira instância do fragmento
+        cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance(tipo_usuario, cadastro_manager);
 
         // Adicionar o fragmento à MainActivity
         if (savedInstanceState == null) {
@@ -34,4 +41,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
     }
+
 }
+
+

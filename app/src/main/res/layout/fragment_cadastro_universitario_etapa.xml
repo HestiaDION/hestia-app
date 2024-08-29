@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Campo para informar qual tipo de usuário -->
+    <TextView
+        android:id="@+id/tipo_usuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="26dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="UNIVERSITÁRIO"
+        android:textColor="@color/vermelho"
+        android:textSize="14sp" />
+
+    <!-- Campo para falar do cadastro -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Para melhor experiência, nos"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="conte um pouco"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text=" sobre você"
+            android:textColor="@color/vermelho"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text=":"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="258dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Grupo de chips para animais de estimação -->
+            <TextView
+                android:id="@+id/textViewAnimais"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="12dp"
+                android:drawableLeft="@drawable/patinha"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Você tem animais de estimação?"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+            <!--
+                        <com.google.android.material.chip.ChipGroup
+                            android:layout_width="335dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginBottom="24dp">
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_horizontal"
+                                android:layout_marginLeft="7dp"
+                                android:layout_marginBottom="24dp">
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipCachorro"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Cachorro"
+                                    android:textColor="@color/black"
+                                    app:chipStrokeColor="@color/azul" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipGato"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Gato"
+                                    android:textColor="@color/black" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipReptil"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Réptil"
+                                    android:textColor="@color/black" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipAnfibio"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Anfíbio"
+                                    android:textColor="@color/black" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipPassaro"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Pássaro"
+                                    android:textColor="@color/black" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipNaoTenho"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Não tenho"
+                                    android:textColor="@color/black" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipGostoMuito"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Gosto muito"
+                                    android:textColor="@color/black" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipAlergia"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Alergia"
+                                    android:textColor="@color/black" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chipNaoTenhoMas"
+                                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+                                    android:text="Não tenho, mas amo"
+                                    android:textColor="@color/black" />
+                </com.google.android.material.chip.ChipGroup>
+
+            </com.google.android.material.chip.ChipGroup>
+-->
+            <!-- Grupo de chips para preferências de moradia -->
+            <!--<TextView
+                android:id="@+id/textViewMoradia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="12dp"
+                android:drawableLeft="@drawable/gender"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Gostaria de morar com?"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|left"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|left"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="0dp">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipMulheres"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Mulheres"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipHomens"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Homens"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipTantoFaz"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Tanto faz"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipOutrosGeneros"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Outros gêneros"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipNaoBinario"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Não-binário"
+                        android:textColor="@color/black" />
+                </com.google.android.material.chip.ChipGroup>
+
+            </com.google.android.material.chip.ChipGroup>
+
+            &lt;!&ndash; Grupo de chips para número máximo de pessoas &ndash;&gt;
+            <TextView
+                android:id="@+id/textViewPessoas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="12dp"
+                android:drawableLeft="@drawable/pessoas"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Número máximo de pessoas?"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="24dp">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginBottom="24dp">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip2"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="2"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip3"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="3"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip4"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="4"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip5"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="5"
+                        android:textColor="@color/black" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipTantoFazPessoas"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="Tanto faz"
+                        android:textColor="@color/black" />
+                </com.google.android.material.chip.ChipGroup>
+
+            </com.google.android.material.chip.ChipGroup>-->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/termos_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <CheckBox
+            style="@style/CustomCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Eu li e concordo com os"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/termos_check_universitario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_regular"
+            android:text=" Termos de Serviço e Uso"
+            android:textColor="@color/vermelho" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_acao"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="23dp"
+        android:background="@drawable/bt_cadastro"
+        android:fontFamily="@font/poppins_regular"
+        android:padding="10dp"
+        android:stateListAnimator="@android:anim/fade_in"
+        android:text="Finalizar cadastro"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <ProgressBar
+        android:id="@+id/progresso"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:indeterminateBehavior="repeat"
+        android:max="100"
+        android:maxHeight="20dip"
+        android:minHeight="20dip"
+        android:progress="100"
+        android:progressDrawable="@drawable/custom_progress_bar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/blue_bloob_decoration" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitEnd"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/red_bloob_decoration" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

@@ -1,6 +1,4 @@
 <resources>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
@@ -15,4 +13,29 @@
     <string name="um_oferecimento_por">Um oferecimento por</string>
     <string name="email">E-mail</string>
     <string name="senha">Senha</string>
+    <string name="user_terms">Termos de Uso</string>
+    <string name="user_terms_title1">1. Identificação de Pares</string>
+    <string name="title1_text">Este Termo de Uso é celebrado entre você, usuário do aplicativo Héstia, e a DION, empresa responsável pelo desenvolvimento e manutenção do aplicativo.</string>
+    <string name="user_terms_title2">2. Aceitação dos Termos</string>
+    <string name="title2_text">Ao criar uma conta ou utilizar o Héstia, você concorda com estes Termos de Uso e com nossa Política de Privacidade. Reservamo-nos o direito de modificar estes termos a qualquer momento, sendo que as alterações entrarão em vigor a partir de sua publicação no aplicativo. Recomendamos que revise os termos regularmente.</string>
+    <string name="user_terms_title3">3. Uso do Aplicativo</string>
+    <string name="user_terms_title3_1">3.1 Eligibilidade</string>
+    <string name="user_terms_title3_1_text">O Héstia pode ser utilizado por estudantes universitários que procuram acomodações próximas às suas universidades e por indivíduos que desejam cadastrar suas moradias para locação. Ao se cadastrar, você declara ser maior de 18 anos e garante que as informações fornecidas são verdadeiras e precisas.</string>
+    <string name="user_terms_title3_2">3.2. Cadastro de Moradias</string>
+    <string name="title3_2_text">Os usuários que desejam cadastrar moradias devem fornecer informações precisas e detalhadas sobre a propriedade. Qualquer tentativa de enganar ou fraudar outros usuários resultará no encerramento imediato da conta.</string>
+    <string name="user_terms4">4. Conteúdo Gerado pelo Usuário</string>
+    <string name="user_terms4_1">4.1. Responsabilidade</string>
+    <string name="user_terms4_1_text">Os usuários são os únicos responsáveis por qualquer conteúdo que publicarem, incluindo, mas não se limitando a, descrições de moradias e mensagens de chat.</string>
+    <string name="user_terms4_2">4.2. Direitos de Uso</string>
+    <string name="user_terms4_2_text">Ao publicar conteúdo no Héstia, você concede à DION uma licença não exclusiva, irrevogável e gratuita para utilizar, reproduzir, modificar e distribuir esse conteúdo para fins relacionados ao funcionamento e promoção do aplicativo.</string>
+    <string name="user_terms5">5. Política de Privacidade</string>
+    <string name="user_terms5_text">Nos comprometemos a proteger a sua privacidade. Coletamos dados pessoais necessários para a operação do aplicativo, como nome, e-mail, e localização aproximada. Esses dados são utilizados para facilitar a conexão entre universitários e anunciantes de moradias. Não compartilhamos suas informações pessoais com terceiros sem o seu consentimento, exceto conforme exigido por lei.</string>
+    <string name="universitario">UNIVERSITÁRIO</string>
+    <string name="primeira_vez_aqui">Primeira vez aqui?</string>
+    <string name="o_cadastro_e">O cadastro é</string>
+    <string name="simples">simples</string>
+    <string name="exclamacao">!</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="eu_li_e_concordo_com_os">Eu li e concordo com os</string>
+    <string name="termos_de_servi_o_e_uso">Termos de Serviço e Uso</string>
 </resources>
