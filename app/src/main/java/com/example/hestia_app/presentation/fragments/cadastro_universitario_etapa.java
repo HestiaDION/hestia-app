@@ -51,7 +51,8 @@ public class cadastro_universitario_etapa extends Fragment {
             startActivity(intent);
         });
 
-        // Infla o layout para esse fragmento
-        return inflater.inflate(R.layout.fragment_cadastro_universitario_etapa, container, false);
+        // Retorna o layout inflado e configurado
+        return view;
     }
+
 }

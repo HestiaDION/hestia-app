@@ -17,7 +17,6 @@ public class UserTerms extends AppCompatActivity {
         setContentView(R.layout.activity_user_terms);
 
         goBack = findViewById(R.id.goBack);
-
-        // TODO: linkar com a tela final de cadastro
+        goBack.setOnClickListener(v -> finish());
     }
 }

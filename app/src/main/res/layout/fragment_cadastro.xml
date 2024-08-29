@@ -15,7 +15,7 @@
         android:layout_marginTop="26dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/poppins_semi_bold"
-        android:text="UNIVERSITÁRIO"
+        android:text="@string/universitario"
         android:textSize="14sp" />
 
     <!-- Campo para falar do cadastro -->
@@ -27,7 +27,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Primeira vez aqui?"
+        android:text="@string/primeira_vez_aqui"
         android:textColor="@color/black"
         android:textSize="20sp" />
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/poppins_regular"
-            android:text="O cadastro é"
+            android:text="@string/o_cadastro_e"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/poppins_semi_bold"
-            android:text=" simples"
+            android:text="@string/simples"
             android:textColor="@color/vermelho"
             android:textSize="20sp" />
 
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/poppins_regular"
-            android:text="!"
+            android:text="@string/exclamacao"
             android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>
@@ -101,7 +101,7 @@
                 android:drawableLeft="@drawable/cadeado_icon"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/poppins_regular"
-                android:hint="Nome Completo"
+                android:hint="@string/nome_completo"
                 android:padding="0dp" />
 
         </LinearLayout>
@@ -223,7 +223,7 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:fontFamily="@font/poppins_regular"
-            android:text="Eu li e concordo com os"
+            android:text="@string/eu_li_e_concordo_com_os"
             android:textColor="@color/black" />
 
         <TextView
@@ -232,7 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/poppins_regular"
-            android:text=" Termos de Serviço e Uso"
+            android:text="@string/termos_de_servi_o_e_uso"
             android:textColor="@color/vermelho" />
 
     </LinearLayout>
