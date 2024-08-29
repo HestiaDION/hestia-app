@@ -1,5 +1,6 @@
 package com.example.hestia_app.presentation.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -9,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 
 public class cadastro_anunciante_universitario extends Fragment {
@@ -61,20 +65,29 @@ public class cadastro_anunciante_universitario extends Fragment {
         View view2 = view.findViewById(R.id.view2);
         View view3 = view.findViewById(R.id.view3);
         View view4 = view.findViewById(R.id.view4);
-        ConstraintLayout termos = view.findViewById(R.id.termos_check);
+        LinearLayout termos = view.findViewById(R.id.termos_linear_anunciante);
+        TextView termos_check = view.findViewById(R.id.termos_check);
+
+        termos_check.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), UserTerms.class);
+            startActivity(intent);
+        });
+
         progressBar = view.findViewById(R.id.progresso);
         int etapaAtual;
 
         // deixar todos os campos e views invisíveis
-        campo1.setVisibility(View.INVISIBLE);
-        campo2.setVisibility(View.INVISIBLE);
-        campo3.setVisibility(View.INVISIBLE);
-        campo4.setVisibility(View.INVISIBLE);
+        campo1.setVisibility(View.GONE);
+        campo2.setVisibility(View.GONE);
+        campo3.setVisibility(View.GONE);
+        campo4.setVisibility(View.GONE);
 
-        view1.setVisibility(View.INVISIBLE);
-        view2.setVisibility(View.INVISIBLE);
-        view3.setVisibility(View.INVISIBLE);
-        view4.setVisibility(View.INVISIBLE);
+        view1.setVisibility(View.GONE);
+        view2.setVisibility(View.GONE);
+        view3.setVisibility(View.GONE);
+        view4.setVisibility(View.GONE);
+
+        termos.setVisibility(View.GONE);
 
         // colocar a descrição de acordo com o tipo de usuário
         String[] campos;
