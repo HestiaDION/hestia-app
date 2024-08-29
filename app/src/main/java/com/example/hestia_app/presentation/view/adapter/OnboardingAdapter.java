@@ -1,4 +1,4 @@
-package com.example.hestia_app.utils;
+package com.example.hestia_app.presentation.view.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +21,6 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
     public OnboardingAdapter(List<OnboardingItem> onboardingItems){
         this.onboardingItems = onboardingItems;
     }
-
-
 
     @NonNull
     @Override

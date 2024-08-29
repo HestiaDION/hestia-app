@@ -17,10 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.hestia_app.R;
-import com.example.hestia_app.presentation.view.swipe.PreviewScreensExplanation;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.hestia_app.presentation.view.adapter.OnboardingAdapter;
 
 public class ViewUtils {
 
