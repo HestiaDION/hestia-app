@@ -1,6 +1,4 @@
 <resources>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome!"</string>
@@ -32,4 +30,12 @@
     <string name="user_terms4_2_text">Ao publicar conteúdo no Héstia, você concede à DION uma licença não exclusiva, irrevogável e gratuita para utilizar, reproduzir, modificar e distribuir esse conteúdo para fins relacionados ao funcionamento e promoção do aplicativo.</string>
     <string name="user_terms5">5. Política de Privacidade</string>
     <string name="user_terms5_text">Nos comprometemos a proteger a sua privacidade. Coletamos dados pessoais necessários para a operação do aplicativo, como nome, e-mail, e localização aproximada. Esses dados são utilizados para facilitar a conexão entre universitários e anunciantes de moradias. Não compartilhamos suas informações pessoais com terceiros sem o seu consentimento, exceto conforme exigido por lei.</string>
+    <string name="universitario">UNIVERSITÁRIO</string>
+    <string name="primeira_vez_aqui">Primeira vez aqui?</string>
+    <string name="o_cadastro_e">O cadastro é</string>
+    <string name="simples">simples</string>
+    <string name="exclamacao">!</string>
+    <string name="nome_completo">Nome Completo</string>
+    <string name="eu_li_e_concordo_com_os">Eu li e concordo com os</string>
+    <string name="termos_de_servi_o_e_uso">Termos de Serviço e Uso</string>
 </resources>
