@@ -6,10 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import com.example.hestia_app.R;
-
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,15 +13,12 @@ import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.swipe.PreviewScreensExplanation;
 import com.example.hestia_app.utils.ViewUtils;
 
-
 public class LoginActivity extends AppCompatActivity {
 
     Button loginButton;
     TextView cadastroRedirect;
     EditText email, senha;
-
     ImageButton eyeOpenedPassword;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
