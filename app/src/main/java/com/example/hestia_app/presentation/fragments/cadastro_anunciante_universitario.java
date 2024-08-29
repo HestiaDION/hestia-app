@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class cadastro_anunciante_universitario extends Fragment {
         View view2 = view.findViewById(R.id.view2);
         View view3 = view.findViewById(R.id.view3);
         View view4 = view.findViewById(R.id.view4);
-        ConstraintLayout termos = view.findViewById(R.id.termos_check);
+        CheckBox termos = view.findViewById(R.id.termos_check);
         progressBar = view.findViewById(R.id.progresso);
         int etapaAtual;
 
