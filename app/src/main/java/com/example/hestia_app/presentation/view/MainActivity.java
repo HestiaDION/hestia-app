@@ -6,9 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
+import android.os.Bundle;
+
+import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.fragments.cadastro_anunciante;
+
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.fragments.cadastro_anunciante_universitario;
 import com.example.hestia_app.utils.CadastroManager;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,4 +41,7 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
     }
+
 }
+
+
