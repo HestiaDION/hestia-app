@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.hestia_app"
-        minSdk = 30
+        minSdk = 27
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -26,6 +26,7 @@ android {
             )
         }
     }
+
     buildFeatures{
         viewBinding = true
     }
@@ -52,4 +53,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    implementation ("com.google.android.material:material:1.9.0")
+
 }

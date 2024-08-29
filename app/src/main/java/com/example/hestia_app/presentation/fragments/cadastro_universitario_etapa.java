@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.MainActivity;
+import com.example.hestia_app.presentation.view.MainActivity_Navbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 
 public class cadastro_universitario_etapa extends Fragment {
@@ -48,6 +49,11 @@ public class cadastro_universitario_etapa extends Fragment {
 
         termos.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), UserTerms.class);
+            startActivity(intent);
+        });
+
+        bt_acao.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MainActivity_Navbar.class);
             startActivity(intent);
         });
 

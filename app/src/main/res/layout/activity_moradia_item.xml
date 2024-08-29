@@ -41,6 +41,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/go_arrow_white" />
 
+
         <ImageView
             android:id="@+id/house_img"
             android:layout_width="214dp"

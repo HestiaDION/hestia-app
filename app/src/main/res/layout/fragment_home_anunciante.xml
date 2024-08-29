@@ -87,7 +87,7 @@
             android:layout_width="57dp"
             android:layout_height="61dp"
             android:layout_marginTop="532dp"
-            android:src="@drawable/floating_action_button"
+            android:src="@drawable/floatting_action_button"
             app:layout_constraintBottom_toBottomOf="@+id/recycler_ad"
             app:layout_constraintEnd_toEndOf="@+id/filtro"
             app:layout_constraintHorizontal_bias="1.0"

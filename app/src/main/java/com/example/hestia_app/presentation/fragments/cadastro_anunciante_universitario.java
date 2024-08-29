@@ -3,20 +3,19 @@ package com.example.hestia_app.presentation.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.view.MainActivity_Navbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 
@@ -66,7 +65,7 @@ public class cadastro_anunciante_universitario extends Fragment {
         View view3 = view.findViewById(R.id.view3);
         View view4 = view.findViewById(R.id.view4);
         LinearLayout termos = view.findViewById(R.id.termos_linear_anunciante);
-        TextView termos_check = view.findViewById(R.id.termos_check);
+        TextView termos_check = view.findViewById(R.id.termos_ler);
 
         termos_check.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), UserTerms.class);
@@ -87,7 +86,13 @@ public class cadastro_anunciante_universitario extends Fragment {
         view3.setVisibility(View.GONE);
         view4.setVisibility(View.GONE);
 
-        termos.setVisibility(View.GONE);
+        if (cadastroManager.getEtapaAtual() == 1) {
+            termos.setVisibility(View.GONE);
+        }
+
+        if (cadastroManager.getEtapaAtual() == 2) {
+            bt_acao.setText("Finalizar cadastro");
+        }
 
         // colocar a descrição de acordo com o tipo de usuário
         String[] campos;
@@ -138,8 +143,9 @@ public class cadastro_anunciante_universitario extends Fragment {
                     if (cadastroManager.hasNextEtapaAnunciante()) {
                         cadastroManager.nextEtapaAnunciante();
 
-                        if (cadastroManager.getEtapaAtual() == 2) {
-                            termos.setVisibility(View.VISIBLE);
+                        if (cadastroManager.getEtapaAtual() == 3){
+                            Intent intent = new Intent(getContext(), MainActivity_Navbar.class);
+                            startActivity(intent);
                         }
 
                         cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("anunciante", cadastroManager);

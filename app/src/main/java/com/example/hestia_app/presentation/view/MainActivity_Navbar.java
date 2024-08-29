@@ -2,15 +2,19 @@ package com.example.hestia_app.presentation.view;
 
 import android.os.Bundle;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+
 import com.example.hestia_app.R;
 import com.example.hestia_app.databinding.ActivityMainNavbarBinding;
 import com.example.hestia_app.presentation.fragments.Chat_anunciante;
 import com.example.hestia_app.presentation.fragments.Home_anunciante;
+
+
 import com.example.hestia_app.presentation.fragments.Perfil_anunciante;
 
 public class MainActivity_Navbar extends AppCompatActivity {

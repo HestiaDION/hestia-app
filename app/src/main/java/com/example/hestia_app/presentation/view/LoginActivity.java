@@ -6,6 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.example.hestia_app.R;
+
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,12 +17,15 @@ import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.swipe.PreviewScreensExplanation;
 import com.example.hestia_app.utils.ViewUtils;
 
+
 public class LoginActivity extends AppCompatActivity {
 
     Button loginButton;
     TextView cadastroRedirect;
     EditText email, senha;
+
     ImageButton eyeOpenedPassword;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         cadastroRedirect.setOnClickListener(v -> {
             // abrir main mandando os parâmetros
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("tipo_usuario", "universitario");
+            intent.putExtra("tipo_usuario", "anunciante");
             startActivity(intent);
         });
       

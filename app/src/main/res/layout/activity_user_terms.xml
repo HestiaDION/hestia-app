@@ -23,7 +23,7 @@
         app:srcCompat="@drawable/red_bloob_decoration" />
 
     <TextView
-        android:id="@+id/termos_check"
+        android:id="@+id/termos_ler"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="88dp"
@@ -43,7 +43,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/termos_check"
+        app:layout_constraintTop_toBottomOf="@+id/termos_ler"
         app:srcCompat="@drawable/hestia" />
 
     <ImageView
