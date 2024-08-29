@@ -3,14 +3,12 @@ package com.example.hestia_app.presentation.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -66,7 +64,7 @@ public class cadastro_anunciante_universitario extends Fragment {
         View view3 = view.findViewById(R.id.view3);
         View view4 = view.findViewById(R.id.view4);
         LinearLayout termos = view.findViewById(R.id.termos_linear_anunciante);
-        TextView termos_check = view.findViewById(R.id.termos_check);
+        TextView termos_check = view.findViewById(R.id.termos_ler);
 
         termos_check.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), UserTerms.class);
