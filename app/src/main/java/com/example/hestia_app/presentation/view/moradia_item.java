@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.hestia_app.R;
 
-public class Moradia_item extends AppCompatActivity {
+public class moradia_item extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
