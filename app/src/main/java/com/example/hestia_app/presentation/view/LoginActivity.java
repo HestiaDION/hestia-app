@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         cadastroRedirect.setOnClickListener(v -> {
             // abrir main mandando os parâmetros
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.putExtra("tipo_usuario", "anunciante");
+            intent.putExtra("tipo_usuario", "universitario");
             startActivity(intent);
         });
       

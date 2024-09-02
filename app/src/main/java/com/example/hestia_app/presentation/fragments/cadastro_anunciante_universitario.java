@@ -86,12 +86,16 @@ public class cadastro_anunciante_universitario extends Fragment {
         view3.setVisibility(View.GONE);
         view4.setVisibility(View.GONE);
 
-        if (cadastroManager.getEtapaAtual() == 1) {
-            termos.setVisibility(View.GONE);
-        }
+        if (usuario.equals("anunciante")) {
+            if (cadastroManager.getEtapaAtual() == 1) {
+                termos.setVisibility(View.GONE);
+            }
 
-        if (cadastroManager.getEtapaAtual() == 2) {
-            bt_acao.setText("Finalizar cadastro");
+            if (cadastroManager.getEtapaAtual() == 2) {
+                bt_acao.setText("Finalizar cadastro");
+            }
+        } else {
+            termos.setVisibility(View.GONE);
         }
 
         // colocar a descrição de acordo com o tipo de usuário
