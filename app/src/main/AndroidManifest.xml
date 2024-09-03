@@ -21,11 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Hestiaapp"
         tools:targetApi="31">
-        <activity android:name=".presentation.view.MainActivity_Navbar" android:exported="false"/>
+        <activity android:name=".presentation.view.MainActivityNavbar" android:exported="false"/>
 
 
         <activity
-            android:name=".presentation.view.moradia_item"
+            android:name=".presentation.view.MoradiaItem"
             android:exported="false" />
       
         <activity

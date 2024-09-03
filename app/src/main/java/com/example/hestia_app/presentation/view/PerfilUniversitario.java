@@ -1,4 +1,4 @@
-package com.example.hestia_app.presentation.fragments;
+package com.example.hestia_app.presentation.view;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.hestia_app.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Perfil_anunciante#newInstance} factory method to
+ * Use the {@link PerfilUniversitario#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Perfil_anunciante extends Fragment {
+public class PerfilUniversitario extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class Perfil_anunciante extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Perfil_anunciante() {
+    public PerfilUniversitario() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class Perfil_anunciante extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Perfil_anunciante.
+     * @return A new instance of fragment perfil_universitario.
      */
     // TODO: Rename and change types and number of parameters
-    public static Perfil_anunciante newInstance(String param1, String param2) {
-        Perfil_anunciante fragment = new Perfil_anunciante();
+    public static PerfilUniversitario newInstance(String param1, String param2) {
+        PerfilUniversitario fragment = new PerfilUniversitario();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class Perfil_anunciante extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil_anunciante, container, false);
+        return inflater.inflate(R.layout.fragment_perfil_universitario, container, false);
     }
 }

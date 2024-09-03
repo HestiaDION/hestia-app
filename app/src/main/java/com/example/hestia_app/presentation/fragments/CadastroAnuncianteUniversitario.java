@@ -15,22 +15,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
-import com.example.hestia_app.presentation.view.MainActivity_Navbar;
+import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 
-public class cadastro_anunciante_universitario extends Fragment {
+public class CadastroAnuncianteUniversitario extends Fragment {
 
     private String usuario;
     private CadastroManager cadastroManager;
     private ProgressBar progressBar;
 
     // construtor
-    public cadastro_anunciante_universitario() {}
+    public CadastroAnuncianteUniversitario() {}
 
     // cria um novo fragment com base nos parâmetros
-    public static cadastro_anunciante_universitario newInstance(String tipo_usuario, CadastroManager cadastroManager) {
-        cadastro_anunciante_universitario fragment = new cadastro_anunciante_universitario();
+    public static CadastroAnuncianteUniversitario newInstance(String tipo_usuario, CadastroManager cadastroManager) {
+        CadastroAnuncianteUniversitario fragment = new CadastroAnuncianteUniversitario();
         Bundle args = new Bundle();
         args.putString("tipo_usuario", tipo_usuario);
         args.putParcelable("cadastro_manager", cadastroManager);
@@ -148,11 +148,11 @@ public class cadastro_anunciante_universitario extends Fragment {
                         cadastroManager.nextEtapaAnunciante();
 
                         if (cadastroManager.getEtapaAtual() == 3){
-                            Intent intent = new Intent(getContext(), MainActivity_Navbar.class);
+                            Intent intent = new Intent(getContext(), MainActivityNavbar.class);
                             startActivity(intent);
                         }
 
-                        cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("anunciante", cadastroManager);
+                        CadastroAnuncianteUniversitario fragment = CadastroAnuncianteUniversitario.newInstance("anunciante", cadastroManager);
                         getParentFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, fragment)
                                 .addToBackStack(null)
@@ -163,13 +163,13 @@ public class cadastro_anunciante_universitario extends Fragment {
                         cadastroManager.nextEtapaUniversitario();
 
                         if (cadastroManager.getEtapaAtual() == 4) {
-                            cadastro_universitario_etapa fragment = cadastro_universitario_etapa.newInstance();
+                            CadastroUniversitarioEtapa fragment = CadastroUniversitarioEtapa.newInstance();
                             getParentFragmentManager().beginTransaction()
                                     .replace(R.id.fragment_container, fragment)
                                     .addToBackStack(null)
                                     .commit();
                         } else {
-                            cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance("universitario", cadastroManager);
+                            CadastroAnuncianteUniversitario fragment = CadastroAnuncianteUniversitario.newInstance("universitario", cadastroManager);
                             getParentFragmentManager().beginTransaction()
                                     .replace(R.id.fragment_container, fragment)
                                     .addToBackStack(null)

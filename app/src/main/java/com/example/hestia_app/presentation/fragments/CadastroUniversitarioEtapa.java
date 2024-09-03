@@ -9,17 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.hestia_app.R;
-import com.example.hestia_app.presentation.view.MainActivity;
-import com.example.hestia_app.presentation.view.MainActivity_Navbar;
+import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 
-public class cadastro_universitario_etapa extends Fragment {
+public class CadastroUniversitarioEtapa extends Fragment {
 
-    public cadastro_universitario_etapa() {
+    public CadastroUniversitarioEtapa() {
         // Required empty public constructor
     }
 
@@ -28,8 +26,8 @@ public class cadastro_universitario_etapa extends Fragment {
      * do fragmento.
      * @return A new instance of fragment cadastro_universitario_etapa.
      */
-    public static cadastro_universitario_etapa newInstance() {
-        cadastro_universitario_etapa fragment = new cadastro_universitario_etapa();
+    public static CadastroUniversitarioEtapa newInstance() {
+        CadastroUniversitarioEtapa fragment = new CadastroUniversitarioEtapa();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -53,7 +51,7 @@ public class cadastro_universitario_etapa extends Fragment {
         });
 
         bt_acao.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), MainActivity_Navbar.class);
+            Intent intent = new Intent(getContext(), MainActivityNavbar.class);
             startActivity(intent);
         });
 

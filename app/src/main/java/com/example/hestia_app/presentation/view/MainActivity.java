@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hestia_app.R;
 
-import com.example.hestia_app.presentation.fragments.cadastro_anunciante_universitario;
+import com.example.hestia_app.presentation.fragments.CadastroAnuncianteUniversitario;
 import com.example.hestia_app.utils.CadastroManager;
 
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         CadastroManager cadastro_manager = new CadastroManager();
 
         // Criar a primeira instância do fragmento
-        cadastro_anunciante_universitario fragment = cadastro_anunciante_universitario.newInstance(tipo_usuario, cadastro_manager);
+        CadastroAnuncianteUniversitario fragment = CadastroAnuncianteUniversitario.newInstance(tipo_usuario, cadastro_manager);
 
         // Adicionar o fragmento à MainActivity
         if (savedInstanceState == null) {
