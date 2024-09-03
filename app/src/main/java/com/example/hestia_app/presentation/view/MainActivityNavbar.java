@@ -11,13 +11,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.databinding.ActivityMainNavbarBinding;
-import com.example.hestia_app.presentation.fragments.Chat_anunciante;
-import com.example.hestia_app.presentation.fragments.Home_anunciante;
+import com.example.hestia_app.presentation.fragments.ChatAnunciante;
+import com.example.hestia_app.presentation.fragments.HomeAnunciante;
 
 
-import com.example.hestia_app.presentation.fragments.Perfil_anunciante;
+import com.example.hestia_app.presentation.fragments.PerfilAnunciante;
 
-public class MainActivity_Navbar extends AppCompatActivity {
+public class MainActivityNavbar extends AppCompatActivity {
 
     ActivityMainNavbarBinding binding;
 
@@ -28,7 +28,7 @@ public class MainActivity_Navbar extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         //Abrindo a home primeiro
-        replaceFragment(new Home_anunciante());
+        replaceFragment(new HomeAnunciante());
         binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_selected_icon);
 
 
@@ -46,13 +46,13 @@ public class MainActivity_Navbar extends AppCompatActivity {
                     int id = item.getItemId();
                     if (id == R.id.nav_chat) {
                         item.setIcon(R.drawable.chat_selected_icon);
-                        replaceFragment(new Chat_anunciante());
+                        replaceFragment(new ChatAnunciante());
                     } else if (id == R.id.nav_home) {
                         item.setIcon(R.drawable.home_selected_icon);
-                        replaceFragment(new Home_anunciante());
+                        replaceFragment(new HomeAnunciante());
                     } else if (id == R.id.nav_perfil) {
                         item.setIcon(R.drawable.person_selected_icon);
-                        replaceFragment(new Perfil_anunciante());
+                        replaceFragment(new PerfilAnunciante());
                     }
                     return true;
                 }
