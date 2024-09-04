@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.view.EscolherUsuario;
 import com.example.hestia_app.presentation.view.LoginActivity;
 import com.example.hestia_app.presentation.view.adapter.OnboardingAdapter;
 import com.example.hestia_app.domain.OnboardingItem;
@@ -56,7 +57,7 @@ public class PreviewScreensExplanation extends AppCompatActivity {
                     onboardingViewPager.setCurrentItem(onboardingViewPager.getCurrentItem() + 1);
 
                 } else{
-                    startActivity(new android.content.Intent(getApplicationContext(), LoginActivity.class));
+                    startActivity(new android.content.Intent(getApplicationContext(), EscolherUsuario.class));
                     finish();
                 }
             }
