@@ -38,4 +38,8 @@
     <string name="nome_completo">Nome Completo</string>
     <string name="eu_li_e_concordo_com_os">Eu li e concordo com os</string>
     <string name="termos_de_servi_o_e_uso">Termos de Serviço e Uso</string>
+    <string name="para_melhor_atendimento">Para melhor atendimento,</string>
+    <string name="qual_o_seu">qual o seu</string>
+    <string name="objetivo">objetivo</string>
+    <string name="interrogacao">?</string>
 </resources>
