@@ -81,5 +81,17 @@ dependencies {
     // Splash Screen API para a tela de splash nas versões recentes do Android
     implementation("androidx.core:core-splashscreen:1.0.0")
 
+    // Retrofit e Gson para fazer chamadas HTTP
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // câmera
+    implementation("androidx.camera:camera-core:1.2.2")
+    implementation("androidx.camera:camera-camera2:1.2.2")
+    implementation("androidx.camera:camera-lifecycle:1.2.2")
+    implementation("androidx.camera:camera-video:1.2.2")
+    implementation("androidx.camera:camera-view:1.2.2")
+    implementation("androidx.camera:camera-extensions:1.2.2")
+    implementation ("com.google.guava:guava:31.1-android")
 
 }

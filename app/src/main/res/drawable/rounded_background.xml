@@ -4,5 +4,5 @@
     <corners android:radius="8dp"/> <!-- Raio para cantos arredondados -->
     <stroke
         android:width="1dp"
-        android:color="@color/vermelho_claro"/> <!-- Borda de cor levemente rosada -->
+        android:color="@color/vermelho_cadastro"/> <!-- Borda de cor levemente rosada -->
 </shape>

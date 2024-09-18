@@ -42,4 +42,8 @@
     <string name="qual_o_seu">qual o seu</string>
     <string name="objetivo">objetivo</string>
     <string name="interrogacao">?</string>
+    <string name="adicione_uma_foto_de_perfil_aqui">Adicione uma foto de perfil aqui</string>
+    <string name="voltar">voltar</string>
+    <string name="take_photo">Tirar foto</string>
+    <string name="salvar">Salvar Foto</string>
 </resources>

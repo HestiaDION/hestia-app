@@ -11,6 +11,8 @@ import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.fragments.CadastroAnuncianteUniversitario;
 import com.example.hestia_app.utils.CadastroManager;
 
+import java.util.HashMap;
+
 
 public class MainActivity extends AppCompatActivity {
 

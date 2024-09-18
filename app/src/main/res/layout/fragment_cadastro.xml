@@ -6,13 +6,22 @@
     android:orientation="vertical"
     android:visibility="visible">
 
+    <ImageButton
+        android:id="@+id/voltar"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/voltar"
+        app:srcCompat="@drawable/go_back_arrow_dark_icon" />
+
     <!-- Campo para informar qual tipo de usuário -->
     <TextView
         android:id="@+id/tipo_usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
-        android:layout_marginTop="26dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="@string/universitario"
@@ -75,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/rounded_background"
         android:orientation="vertical"
@@ -88,9 +97,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingBottom="16dp">
+            android:paddingBottom="10dp">
 
             <!-- EditText -->
             <EditText
@@ -103,6 +113,7 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="@string/nome_completo"
+                android:inputType="text|textPersonName|textCapWords"
                 android:padding="0dp" />
 
         </LinearLayout>
@@ -114,14 +125,24 @@
             android:layout_height="1dp"
             android:background="@color/azul" />
 
+        <!-- Erro 1-->
+        <TextView
+            android:id="@+id/erro1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Erro"
+            android:textColor="@color/vermelho"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <!-- Campo 2 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp">
 
             <!-- EditText -->
             <EditText
@@ -134,7 +155,26 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="Cidade"
+                android:inputType="text|textCapWords"
                 android:padding="0dp" />
+
+            <ImageButton
+                android:id="@+id/ver_senha"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/open_eye_password_icon"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/selecionar_genero2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:srcCompat="@drawable/selecionar_genero" />
 
         </LinearLayout>
 
@@ -145,14 +185,24 @@
             android:layout_height="1dp"
             android:background="@color/azul" />
 
+        <!-- Erro 2-->
+        <TextView
+            android:id="@+id/erro2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Erro"
+            android:textColor="@color/vermelho"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <!-- Campo 3 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp">
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp">
 
             <!-- EditText -->
             <EditText
@@ -165,8 +215,25 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="CPF"
+                android:inputType="text"
                 android:padding="0dp" />
 
+            <ImageButton
+                android:id="@+id/ver_senha2"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/open_eye_password_icon"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/calendario"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                android:scaleType="centerCrop"
+                android:src="@drawable/calendar_icon"
+                android:visibility="gone" />
         </LinearLayout>
 
         <!-- Linha -->
@@ -176,14 +243,24 @@
             android:layout_height="1dp"
             android:background="@color/azul" />
 
+        <!-- Erro 3-->
+        <TextView
+            android:id="@+id/erro3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Erro"
+            android:textColor="@color/vermelho"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <!-- Campo 4 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp">
+            android:paddingTop="5dp"
+            android:paddingBottom="10dp">
 
             <!-- EditText -->
             <EditText
@@ -196,7 +273,26 @@
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/poppins_regular"
                 android:hint="Data de nascimento"
+                android:inputType="text|textEmailAddress"
                 android:padding="0dp" />
+
+            <ImageButton
+                android:id="@+id/selecionar_genero"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="5dp"
+                android:background="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:srcCompat="@drawable/selecionar_genero" />
+
+            <ImageButton
+                android:id="@+id/ver_senha3"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                android:src="@drawable/open_eye_password_icon"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -207,34 +303,15 @@
             android:layout_height="1dp"
             android:background="@color/azul" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/termos_linear_anunciante"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <CheckBox
-            style="@style/CustomCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins_regular"
-            android:text="@string/eu_li_e_concordo_com_os"
-            android:textColor="@color/black" />
-
+        <!-- Erro 4-->
         <TextView
-            android:id="@+id/termos_ler"
-            android:layout_width="wrap_content"
+            android:id="@+id/erro4"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins_regular"
-            android:text="@string/termos_de_servi_o_e_uso"
-            android:textColor="@color/vermelho" />
+            android:text="Erro"
+            android:textColor="@color/vermelho"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
@@ -244,7 +321,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_marginRight="23dp"
         android:background="@drawable/bt_cadastro"
         android:fontFamily="@font/poppins_regular"
@@ -261,7 +338,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:indeterminateBehavior="repeat"
         android:max="100"
         android:maxHeight="20dip"
@@ -273,6 +350,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:scaleX="1"
+        android:scaleY="1"
         android:visibility="visible">
 
         <ImageView
@@ -280,7 +359,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="-20dp"
-            android:scaleType="centerCrop"
+            android:scaleType="fitEnd"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

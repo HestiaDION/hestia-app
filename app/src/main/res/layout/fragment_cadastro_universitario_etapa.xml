@@ -6,13 +6,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ImageButton
+        android:id="@+id/voltar"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/voltar"
+        app:srcCompat="@drawable/go_back_arrow_dark_icon" />
+
     <!-- Campo para informar qual tipo de usuário -->
     <TextView
         android:id="@+id/tipo_usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
-        android:layout_marginTop="26dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="UNIVERSITÁRIO"
         android:textColor="@color/vermelho"
@@ -347,33 +356,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/termos_linear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <CheckBox
-            style="@style/CustomCheckBox"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins_regular"
-            android:text="Eu li e concordo com os"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/termos_check_universitario"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/poppins_regular"
-            android:text=" Termos de Serviço e Uso"
-            android:textColor="@color/vermelho" />
-
-    </LinearLayout>
-
     <Button
         android:id="@+id/bt_acao"
         style="@style/Widget.AppCompat.Button"
@@ -386,7 +368,7 @@
         android:fontFamily="@font/poppins_regular"
         android:padding="10dp"
         android:stateListAnimator="@android:anim/fade_in"
-        android:text="Finalizar cadastro"
+        android:text="Próxima etapa"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="16sp" />
@@ -403,18 +385,18 @@
         android:max="100"
         android:maxHeight="20dip"
         android:minHeight="20dip"
-        android:progress="100"
+        android:progress="80"
         android:progressDrawable="@drawable/custom_progress_bar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="150dp">
 
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitStart"
+            android:scaleType="fitEnd"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/blue_bloob_decoration" />
