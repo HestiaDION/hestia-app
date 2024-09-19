@@ -26,6 +26,9 @@
         android:theme="@style/Theme.Hestiaapp"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.view.PremiumScreenAnunciante"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.EscolherUsuario"
             android:exported="false" />
         <activity

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <!-- Campo para informar qual tipo de usuário -->
+    <TextView
+        android:id="@+id/tipo_usuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginRight="32dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="@string/universitario"
+        android:textSize="28sp" />
+
+    <!-- Campo para falar do cadastro -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="32dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="@string/primeira_vez_aqui"
+        android:textColor="@color/black"
+        android:textSize="40sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="46dp"
+        android:layout_marginRight="32dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/o_cadastro_e"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:text="@string/simples"
+            android:textColor="@color/vermelho"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/exclamacao"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    <!-- Contêiner para os campos de texto -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/rounded_background"
+        android:orientation="vertical"
+        android:paddingLeft="40dp"
+        android:paddingTop="20dp"
+        android:paddingRight="40dp"
+        android:paddingBottom="20dp">
+
+        <!-- Campo 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
+
+            <!-- EditText -->
+            <EditText
+                android:id="@+id/campo1"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/cadeado_bigger"
+                android:drawablePadding="20dp"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="@string/nome_completo"
+                android:padding="0dp"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
+        <!-- Linha -->
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/azul" />
+
+        <!-- Campo 2 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <!-- EditText -->
+            <EditText
+                android:id="@+id/campo2"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/cadeado_bigger"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Cidade"
+                android:padding="0dp"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
+        <!-- Linha -->
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/azul" />
+
+        <!-- Campo 3 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp">
+
+            <!-- EditText -->
+            <EditText
+                android:id="@+id/campo3"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/cadeado_bigger"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="CPF"
+                android:padding="0dp"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
+        <!-- Linha -->
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/azul" />
+
+        <!-- Campo 4 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp">
+
+            <!-- EditText -->
+            <EditText
+                android:id="@+id/campo4"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:drawableLeft="@drawable/cadeado_bigger"
+                android:drawablePadding="10dp"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="Data de nascimento"
+                android:padding="0dp"
+                android:textSize="36sp" />
+
+        </LinearLayout>
+
+        <!-- Linha -->
+        <View
+            android:id="@+id/view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/azul" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/termos_linear_anunciante"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <CheckBox
+            style="@style/CustomCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/eu_li_e_concordo_com_os"
+            android:textColor="@color/black"
+            android:textSize="28sp" />
+
+        <TextView
+            android:id="@+id/termos_ler"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_regular"
+            android:text="@string/termos_de_servi_o_e_uso"
+            android:textColor="@color/vermelho"
+            android:textSize="28sp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_acao"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="46dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="46dp"
+        android:background="@drawable/bt_cadastro"
+        android:fontFamily="@font/poppins_regular"
+        android:padding="10dp"
+        android:stateListAnimator="@android:anim/fade_in"
+        android:text="Próxima etapa"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="32sp" />
+
+    <ProgressBar
+        android:id="@+id/progresso"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:indeterminateBehavior="repeat"
+        android:max="100"
+        android:maxHeight="20dip"
+        android:minHeight="20dip"
+        android:progress="0"
+        android:progressDrawable="@drawable/custom_progress_bar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="-20dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/blue_bloob_decoration" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitEnd"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/red_bloob_decoration" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
