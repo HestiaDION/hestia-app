@@ -56,14 +56,28 @@ public class CadastroManager implements Parcelable {
     }
 
     /**
+     * Volta uma etapa
+     */
+    public void setEtapaAnterior() {
+        this.etapaAtual = this.etapaAtual - 1;
+    }
+
+    /**
+     * Seta um valor
+     */
+    public void setEtapaAtual(int etapa) {
+        this.etapaAtual = etapa;
+    }
+
+    /**
      * Configura os campos de cada etapa do anunciante
      */
     public String[] getCamposDaEtapaAnunciante() {
         switch (etapaAtual) {
             case 1:
-                return new String[]{"Nome Completo", "Cidade", "Data de Nascimento", "E-mail"};
+                return new String[]{"Nome Completo", "Município", "Data de Nascimento", "E-mail"};
             case 2:
-                return new String[]{"Telefone", "Senha", "Confirmação de Senha", null};
+                return new String[]{"Telefone", "Gênero",  "Senha", "Confirmação de Senha"};
             default:
                 return new String[]{};
         }
@@ -75,9 +89,9 @@ public class CadastroManager implements Parcelable {
     public String[] getCamposDaEtapaUniversitario() {
         switch (etapaAtual) {
             case 1:
-                return new String[]{"Nome Completo", "Cidade", "Data de Nascimento", null};
+                return new String[]{"Nome Completo", "Município", "Data de Nascimento", "Gênero"};
             case 2:
-                return new String[]{"E-mail", "Telefone", "Sua Universidade (opcional)", null};
+                return new String[]{"E-mail", "Telefone", "Sua Universidade", null};
             case 3:
                 return new String[]{"Documento Nacional do Estudante", "Senha", "Confirmação de Senha", null};
             default:

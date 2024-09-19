@@ -35,6 +35,9 @@
             android:name=".presentation.view.MainActivityNavbar"
             android:exported="false" />
         <activity
+            android:name=".utils.FotoActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.MoradiaItem"
             android:exported="false" />
         <activity

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ public class EscolherUsuario extends AppCompatActivity {
 
     RadioGroup opcoes;
     Button bt_acao;
+    ImageButton bt_voltar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,14 @@ public class EscolherUsuario extends AppCompatActivity {
 
         opcoes = findViewById(R.id.opcoes);
         bt_acao = findViewById(R.id.bt_acao);
+        bt_voltar = findViewById(R.id.voltar);
+
+        bt_voltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         bt_acao.setOnClickListener(view -> {
             int opcaoSelecionada = opcoes.getCheckedRadioButtonId();
