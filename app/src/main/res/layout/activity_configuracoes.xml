@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:circularflow_defaultRadius="15dp"
+    tools:context=".Estatisticas">
+
+    <TextView
+        android:id="@+id/espaco"
+        android:layout_width="352dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/gray_backgroud"
+        android:drawableLeft="@drawable/blue_bin"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="Liberar espaço"
+        android:textColor="@color/azul"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.475"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="234dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Cache &amp; celular"
+        android:textColor="@color/azul"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="411dp"
+        android:layout_height="84dp"
+        android:background="@color/azul"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Configurações"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Conta"
+        android:textColor="@color/azul"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="37dp"
+        android:layout_marginEnd="234dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Suporte &amp; sobre"
+        android:textColor="@color/azul"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:srcCompat="@drawable/go_back_arrow_icon" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="352dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="67dp"
+        android:background="@drawable/gray_backgroud"
+        android:orientation="vertical"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        app:circularflow_defaultRadius="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2">
+
+        <TextView
+            android:id="@+id/seguranca"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/blue_privacy"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Segurança"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/notificacao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/blue_notification"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Notificações"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/privacidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/blue_lock"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Privacidade"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="352dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="280dp"
+        android:background="@drawable/gray_backgroud"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2">
+
+        <TextView
+            android:id="@+id/plano"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/blue_card"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Meu plano"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/suporte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/blue_question"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Ajuda &amp; suporte"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/politicas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/tabler_circle_letter_i"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Termos e políticas"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginTop="37dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Ações"
+        android:textColor="@color/azul"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.087"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/espaco" />
+
+    <LinearLayout
+        android:layout_width="352dp"
+        android:layout_height="91dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/gray_backgroud"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <TextView
+            android:id="@+id/reportar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/blue_flag"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Reportar um problema"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/logout"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/poppins_semi_bold"
+            android:padding="10dp"
+            android:text="Logout"
+            android:textColor="@color/azul"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
