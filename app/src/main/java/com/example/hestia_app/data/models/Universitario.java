@@ -9,31 +9,32 @@ public class Universitario {
     private Date dt_nascimento;
     private String dne;
     private String bio;
-    private String login_id;
     private String cidade;
     private String universidade;
+    private String telefone;
+    // TODO: plano_id
+    private String genero;
 
     public Universitario() {}
 
-    public Universitario(UUID id, String nome, Date dt_nascimento, String dne, String bio, String login_id, String cidade, String universidade) {
+    public Universitario(UUID id, String nome, Date dt_nascimento, String dne, String bio, String genero, String cidade, String universidade, String telefone) {
         this.id = id;
         this.nome = nome;
         this.dt_nascimento = dt_nascimento;
         this.dne = dne;
         this.bio = bio;
-        this.login_id = login_id;
         this.cidade = cidade;
         this.universidade = universidade;
+        this.genero = genero;
+        this.telefone = telefone;
     }
 
-    public Universitario(String nome, Date dt_nascimento, String dne, String login_id, String cidade, String universidade) {
-        this.id = UUID.randomUUID();
-        this.nome = nome;
-        this.dt_nascimento = dt_nascimento;
-        this.dne = dne;
-        this.login_id = login_id;
-        this.cidade = cidade;
-        this.universidade = universidade;
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public UUID getId() {
@@ -76,14 +77,6 @@ public class Universitario {
         this.bio = bio;
     }
 
-    public String getLogin_id() {
-        return login_id;
-    }
-
-    public void setLogin_id(String login_id) {
-        this.login_id = login_id;
-    }
-
     public String getCidade() {
         return cidade;
     }
@@ -94,6 +87,14 @@ public class Universitario {
 
     public String getUniversidade() {
         return universidade;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 
     public void setUniversidade(String universidade) {
@@ -108,7 +109,6 @@ public class Universitario {
                 ", dt_nascimento=" + dt_nascimento +
                 ", dne='" + dne + '\'' +
                 ", bio='" + bio + '\'' +
-                ", login_id='" + login_id + '\'' +
                 ", cidade='" + cidade + '\'' +
                 ", universidade='" + universidade + '\'' +
                 '}';
