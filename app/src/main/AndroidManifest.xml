@@ -26,6 +26,21 @@
         android:theme="@style/Theme.Hestiaapp"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.view.Notificacao_item"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.view.Configuracoes"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.view.Filtros"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.view.Estatisticas"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.view.Notificacoes"
+            android:exported="false" />
+        <activity
             android:name=".presentation.view.PremiumScreenAnunciante"
             android:exported="false" />
         <activity
