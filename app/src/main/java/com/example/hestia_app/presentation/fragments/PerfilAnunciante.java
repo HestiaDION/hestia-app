@@ -44,6 +44,7 @@ public class PerfilAnunciante extends Fragment {
         FirebaseAuth autenticar = FirebaseAuth.getInstance();
         FirebaseUser user = autenticar.getCurrentUser();
 
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil_anunciante, container, false);
         CircleImageView profile_image = view.findViewById(R.id.profile_image);
@@ -74,5 +75,8 @@ public class PerfilAnunciante extends Fragment {
 
         // username
         user_name.setText(user.getDisplayName());
+
+        // informações que vem da base de dados do postgres
+        // gênero, universidade, bio, data de nascimento
     }
 }
