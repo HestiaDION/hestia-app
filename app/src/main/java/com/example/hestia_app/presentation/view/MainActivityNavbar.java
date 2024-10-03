@@ -4,16 +4,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-
 import com.example.hestia_app.R;
-import com.example.hestia_app.data.api.RetrofitPostgresClient;
-import com.example.hestia_app.data.api.UsuarioCallback;
+import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
+import com.example.hestia_app.data.api.callbacks.UsuarioCallback;
 import com.example.hestia_app.data.api.UsuarioRepository;
 import com.example.hestia_app.data.models.Usuario;
 import com.example.hestia_app.databinding.ActivityMainNavbarBinding;
@@ -31,9 +29,10 @@ import retrofit2.Call;
 public class MainActivityNavbar extends AppCompatActivity {
 
     ActivityMainNavbarBinding binding;
-    String origemUsuario = "";
+    String origemUsuario;
     private final String ANUNCIANTE = "anunciante";
     private final String UNIVERSITARIO = "universitario";
+    boolean isUserOriginFetched = false; // Para garantir que a API só seja chamada uma vez
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,101 +40,83 @@ public class MainActivityNavbar extends AppCompatActivity {
         binding = ActivityMainNavbarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //Configurando a bottom navBar
-        binding.bottomNavbar.setOnItemSelectedListener(
-                item -> {
-                    // verificar origem do usuário para assim saber a qual escopo redirecionar
-                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                    String emailUsuario = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        String emailUsuario = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
-                    fetchUserOrigin(emailUsuario, new UsuarioCallback() {
-                        @Override
-                        public void onUsuarioReceived(String origem) {
-                            origemUsuario = origem;
-                        }
-
-                        @Override
-                        public void onFailure(String errorMessage) {
-                            Log.e("Origem", "Erro ao buscar origem: " + errorMessage);
-                        }
-                    });
-
-                    if (origemUsuario.equalsIgnoreCase(ANUNCIANTE)){
-
-                        Toast.makeText(MainActivityNavbar.this, "Origem: " + origemUsuario, Toast.LENGTH_SHORT).show();
-                        //Abrindo a home primeiro
-                        replaceFragment(new HomeAnunciante());
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_selected_icon);
-
-                        // Resetar todos os ícones
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_not_selected_icon);
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_chat).setIcon(R.drawable.chat_not_selected_icon);
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_perfil).setIcon(R.drawable.person_not_selected_icon);
-
-
-                        //substituindo os fragments
-                        int id = item.getItemId();
-                        if (id == R.id.nav_chat) {
-                            item.setIcon(R.drawable.chat_selected_icon);
-                            replaceFragment(new ChatAnunciante());
-                        } else if (id == R.id.nav_home) {
-                            item.setIcon(R.drawable.home_selected_icon);
-                            replaceFragment(new HomeAnunciante());
-                        } else if (id == R.id.nav_perfil) {
-                            item.setIcon(R.drawable.person_selected_icon);
-                            replaceFragment(new PerfilAnunciante());
-                        }
-                        return true;
-
-                    } else if (origemUsuario.equalsIgnoreCase(UNIVERSITARIO)) {
-
-                        // TODO: implementar fragment do universitário
-
-                        Toast.makeText(MainActivityNavbar.this, "Origem: " + origemUsuario, Toast.LENGTH_SHORT).show();
-                        //Abrindo a home primeiro
-                        replaceFragment(new HomeAnunciante());
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_selected_icon);
-
-                        // Resetar todos os ícones
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_not_selected_icon);
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_chat).setIcon(R.drawable.chat_not_selected_icon);
-                        binding.bottomNavbar.getMenu().findItem(R.id.nav_perfil).setIcon(R.drawable.person_not_selected_icon);
-
-
-                        //substituindo os fragments
-                        int id = item.getItemId();
-                        if (id == R.id.nav_chat) {
-                            item.setIcon(R.drawable.chat_selected_icon);
-                            replaceFragment(new ChatAnunciante());
-                        } else if (id == R.id.nav_home) {
-                            item.setIcon(R.drawable.home_selected_icon);
-                            replaceFragment(new HomeAnunciante());
-                        } else if (id == R.id.nav_perfil) {
-                            item.setIcon(R.drawable.person_selected_icon);
-                            replaceFragment(new PerfilAnunciante());
-                        }
-                        return true;
-
-                    }
-                    return false;
-
+        fetchUserOrigin(emailUsuario, new UsuarioCallback() {
+            @Override
+            public void onUsuarioReceived(String origem) {
+                origemUsuario = origem;
+                isUserOriginFetched = true;
+                Log.d("Origem", "Origem do usuário: " + origemUsuario);
+                // Configurar o fragmento inicial com base na origem
+                if (origemUsuario.equals(ANUNCIANTE)) {
+                    replaceFragment(new HomeAnunciante());
+                } else if (origemUsuario.equals(UNIVERSITARIO)) {
+                    replaceFragment(new HomeAnunciante()); // Placeholder para universitário
                 }
-        );
+            }
+
+            @Override
+            public void onFailure(String errorMessage) {
+                Log.e("Origem", "Erro ao buscar origem: " + errorMessage);
+            }
+        });
+
+
+        binding.bottomNavbar.setOnItemSelectedListener(item -> {
+            if (isUserOriginFetched) {
+                handleNavigationItemSelected(item.getItemId());
+            } else {
+                Toast.makeText(MainActivityNavbar.this, "Carregando dados do usuário, por favor aguarde...", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
     }
 
-    //método para mudar o fragmento na navbar
-    public void replaceFragment(Fragment fragment){
+    // Método para lidar com a seleção de itens da navbar
+    private void handleNavigationItemSelected(int itemId) {
+        if (origemUsuario.equals(ANUNCIANTE)) {
+            if (itemId == R.id.nav_chat) {
+                replaceFragment(new ChatAnunciante());
+            } else if (itemId == R.id.nav_home) {
+                replaceFragment(new HomeAnunciante());
+            } else if (itemId == R.id.nav_perfil) {
+                replaceFragment(new PerfilAnunciante(origemUsuario));
+            }
+        } else if (origemUsuario.equals(UNIVERSITARIO)) {
+            // TODO: Implementar lógica para universitário
+            replaceFragment(new HomeAnunciante());
+        }
+        updateIcons(itemId);
+    }
+
+    // metodo para atualizar os ícones da navbar
+    private void updateIcons(int selectedItemId) {
+        binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_not_selected_icon);
+        binding.bottomNavbar.getMenu().findItem(R.id.nav_chat).setIcon(R.drawable.chat_not_selected_icon);
+        binding.bottomNavbar.getMenu().findItem(R.id.nav_perfil).setIcon(R.drawable.person_not_selected_icon);
+
+        if (selectedItemId == R.id.nav_chat) {
+            binding.bottomNavbar.getMenu().findItem(R.id.nav_chat).setIcon(R.drawable.chat_selected_icon);
+        } else if (selectedItemId == R.id.nav_home) {
+            binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_selected_icon);
+        } else if (selectedItemId == R.id.nav_perfil) {
+            binding.bottomNavbar.getMenu().findItem(R.id.nav_perfil).setIcon(R.drawable.person_selected_icon);
+        }
+    }
+
+    // Método para trocar o fragmento
+    public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragment);
         fragmentTransaction.commit();
-
     }
 
-    // chamada para verificação do tipo do usuário
+    // Chamada para verificação do tipo do usuário
     public void fetchUserOrigin(String email, UsuarioCallback callback) {
         UsuarioRepository usuarioRepository = RetrofitPostgresClient.getClient().create(UsuarioRepository.class);
-
         Call<Usuario> call = usuarioRepository.getUserOrigin(email);
 
         call.enqueue(new retrofit2.Callback<Usuario>() {
@@ -155,7 +136,4 @@ public class MainActivityNavbar extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

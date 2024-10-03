@@ -1,10 +1,10 @@
-package com.example.hestia_app.data.api;
+package com.example.hestia_app.data.api.clients;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitPostgresClient {
-    private static final String BASE_URL = "https://hestia-api-postgres-dev.onrender.com";
+public class RetrofitMongoClient {
+    private static final String BASE_URL = "https://hestia-api-mongo-dev-b1mz.onrender.com";
 
     private static Retrofit retrofit = null;
 

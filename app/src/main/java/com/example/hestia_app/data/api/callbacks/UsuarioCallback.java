@@ -1,4 +1,4 @@
-package com.example.hestia_app.data.api;
+package com.example.hestia_app.data.api.callbacks;
 
 import com.example.hestia_app.data.models.Usuario;
 
