@@ -125,6 +125,7 @@ public class CadastroAnuncianteUniversitario extends Fragment {
             // voltar para etapa de escolha do usuário
             Intent intent = new Intent(getActivity(), EscolherUsuario.class);
             startActivity(intent);
+            requireActivity().finish();
         }
 
         // colocar a descrição de acordo com o tipo de usuário
@@ -174,8 +175,8 @@ public class CadastroAnuncianteUniversitario extends Fragment {
                                 anunciante.put("email", campo4.getText().toString());
                             }
                         } else if (cadastroManager.getEtapaAtual() == 2) {
-                            erros1 = erros(campo1, "vazio", erro2, true, false, false, true, false, false, false, false, false, false, false);
-                            erros2 = erros(campo2, "vazio", erro1, true, false, false, false, false, false, false, false, false, false, true);
+                            erros1 = erros(campo1, "vazio", erro1, true, false, false, true, false, false, false, false, false, false, false);
+                            erros2 = erros(campo2, "vazio", erro2, true, false, false, false, false, false, false, false, false, false, true);
                             erros3 = erros(campo3, "vazio", erro3, true, false, false, false, true, false, false, false, false, false, false);
                             erros4 = erros(campo4, campo3.getText().toString(), erro4, true, false, false, false, true, false, false, false, false, true, false);
 
