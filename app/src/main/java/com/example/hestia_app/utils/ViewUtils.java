@@ -23,10 +23,49 @@ import androidx.core.content.ContextCompat;
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.adapter.OnboardingAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class ViewUtils {
+
+    public static int calcularIdade(String dataNascimento) {
+        LocalDate dataNasc = LocalDate.parse(dataNascimento);
+        LocalDate dataAtual = LocalDate.now();
+
+        Period periodo = Period.between(dataNasc, dataAtual);
+
+        return periodo.getYears();
+    }
+
+
+    public static String formatarData(String data) {
+        SimpleDateFormat formatoEntrada = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatoSaida = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date dataFormatada = formatoEntrada.parse(data);
+            return formatoSaida.format(dataFormatada);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return data;
+        }
+    }
+
+    public static String formatarTelefone(String telefone) {
+        String telefoneNumerico = telefone.replaceAll("[^\\d]", "");
+
+        if (telefoneNumerico.length() == 11) {
+            return telefoneNumerico;
+        } else if (telefoneNumerico.length() < 11) {
+            return String.format("%011d", Long.parseLong(telefoneNumerico));
+        } else {
+            return telefoneNumerico.substring(0, 11);
+        }
+    }
 
     /**
      * Configura um TextWatcher para mostrar ou esconder o ícone de "olhinho"

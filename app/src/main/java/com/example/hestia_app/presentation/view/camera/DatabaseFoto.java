@@ -1,4 +1,4 @@
-package com.example.hestia_app.utils;
+package com.example.hestia_app.presentation.view.camera;
 
 import android.content.Context;
 import android.graphics.Bitmap;

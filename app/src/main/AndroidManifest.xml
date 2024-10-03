@@ -50,7 +50,7 @@
             android:name=".presentation.view.MainActivityNavbar"
             android:exported="false" />
         <activity
-            android:name=".utils.FotoActivity"
+            android:name=".presentation.view.camera.FotoActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.view.MoradiaItem"

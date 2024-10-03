@@ -531,7 +531,18 @@ public class CadastroAnuncianteUniversitario extends Fragment {
 
         // é um telefone
         if (telefone) {
+            // verificar se telefone tem 11 dígitos
+
             if (!Patterns.PHONE.matcher(campo.getText().toString()).matches()) {
+
+                if (campo.getText().toString().length() != 11) {
+                    erro.setText("O telefone deve conter 11 dígitos!");
+                    erro.setVisibility(View.VISIBLE);
+                    retorno = true;
+                } else{
+                    erro.setVisibility(View.GONE);
+                }
+
                 erro.setText("Telefone inválido!");
                 erro.setVisibility(View.VISIBLE);
                 retorno = true;

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,16 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
-import com.example.hestia_app.presentation.view.LoginActivity;
+import com.example.hestia_app.data.api.AnuncianteRepository;
+import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
+import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
+import com.example.hestia_app.data.models.Anunciante;
+import com.example.hestia_app.data.services.AnuncianteService;
+import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
-import com.example.hestia_app.utils.FotoActivity;
+import com.example.hestia_app.presentation.view.camera.FotoActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -42,6 +48,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.HashMap;
 
+import retrofit2.Call;
+
 public class CadastroFotoFragment extends Fragment {
     HashMap<String, String> usuario;
     String tipo;
@@ -50,6 +58,13 @@ public class CadastroFotoFragment extends Fragment {
     ImageView foto_usuario, foto_ilustrativa;
     TextView txt_adicionar;
     CheckBox checkBox;
+
+    // service
+    AnuncianteService anuncianteService = new AnuncianteService();
+    FirebaseService firebaseService = new FirebaseService();
+
+    final String ANUNCIANTE = "ANUNCIANTE";
+    final String UNIVERSITARIO = "UNIVERSITÁRIO";
 
     public CadastroFotoFragment() {
         // Required empty public constructor
@@ -115,13 +130,60 @@ public class CadastroFotoFragment extends Fragment {
                 String email = usuario.get("email");
                 String senha = usuario.get("senha");
 
-                salvarUsuario(nome, email, senha);
+                // salvando informações no firebase
+                assert nome != null;
+                Log.d("Registro", "FIREAUTH REGISTROU UM USUÁRIO");
+                firebaseService.salvarUsuario(getContext(), nome, email, senha, uri, checkBox.isChecked());
+
+
+                // salvando informações no postgres
+                if(tipo.equals("anunciante")) {
+
+                    Log.d("Registro", "CAIU NO TIPO ANUNCIANTE");
+
+                    Anunciante anunciante = new Anunciante(
+                            nome,
+                            usuario.get("municipio"),
+                            usuario.get("telefone"),
+                            usuario.get("genero"),
+                            usuario.get("dt_nascimento"),
+                            email
+                    );
+
+                    Log.d("ANUNCIANTE BODY", anunciante.toString());
+
+                  anuncianteService.registrarAnunciante(anunciante, new RegistroAnuncianteCallback() {
+                      @Override
+                      public void onRegistroSuccess(boolean isRegistered) {
+                          if (isRegistered) {
+                              Log.d("Registro", "Anunciante registrado com sucesso!");
+                          } else {
+                              Log.d("Registro", "Falha ao registrar o anunciante.");
+                          }
+                      }
+
+                      @Override
+                      public void onRegistroFailure(boolean isRegistered) {
+                          if (isRegistered) {
+                              Log.d("Registro", "Anunciante registrado com sucesso!");
+                          } else {
+                              Log.d("Registro", "Falha ao registrar o anunciante.");
+                          }
+                      }
+
+
+                  });
+
+                } else{
+                    Log.d("Registro", "NÃO CAIU NO REGISTRO");
+
+                }
             }
         });
 
         if (tipo.equals("anunciante")) {
             tipo_usuario.setTextColor(getResources().getColor(R.color.azul));
-            tipo_usuario.setText("ANUNCIANTE");
+            tipo_usuario.setText(ANUNCIANTE);
             bt_voltar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -135,7 +197,7 @@ public class CadastroFotoFragment extends Fragment {
             });
         } else {
             tipo_usuario.setTextColor(getResources().getColor(R.color.vermelho));
-            tipo_usuario.setText("UNIVERSITÁRIO");
+            tipo_usuario.setText(UNIVERSITARIO);
             bt_voltar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -229,70 +291,6 @@ public class CadastroFotoFragment extends Fragment {
             }
     );
 
-    private void salvarUsuario(String txtNome, String txtEmail, String txtSenha) {
-        String nome = txtNome.split(" ")[0] + " " + txtNome.split(" ")[txtNome.split(" ").length - 1];
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        if (foto_usuario.getVisibility() == View.GONE) {
-            Toast.makeText(getContext(), "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        if (!checkBox.isChecked()) {
-            Toast.makeText(getContext(), "É necessário aceitar os termos de uso!", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
-        firebaseAuth.createUserWithEmailAndPassword(txtEmail, txtSenha)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // atualizar profile
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                            UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(nome)
-                                    .setPhotoUri(uri)
-                                    .build();
-
-                            user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        usuario.clear();
-                                        Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getContext(), MainActivityNavbar.class);
-                                        startActivity(intent);
-                                    } else {
-                                        // mostrar erro
-                                        String msg = "Erro ao atualizar profile: ";
-                                        try {
-                                            throw task.getException();
-                                        } catch (FirebaseAuthInvalidUserException e) {
-                                            msg += "Usuário inválido!";
-                                        } catch (FirebaseAuthInvalidCredentialsException e) {
-                                            msg += "Email inválido!";
-                                        } catch (Exception e) {
-                                            msg += e.getMessage();
-                                        }
-                                        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            // mostrar erro
-                            String msg = "Erro ao efetuar o cadastro: ";
-                            try {
-                                throw task.getException();
-                            } catch (FirebaseAuthInvalidUserException e) {
-                                msg += "Usuário inválido!";
-                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                msg += "Email inválido!";
-                            } catch (Exception e) {
-                                msg += e.getMessage();
-                            }
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
 }
