@@ -94,4 +94,6 @@ dependencies {
     implementation("androidx.camera:camera-extensions:1.2.2")
     implementation ("com.google.guava:guava:31.1-android")
 
+    // Material 3
+    implementation("com.google.android.material:material:1.8.0")
 }

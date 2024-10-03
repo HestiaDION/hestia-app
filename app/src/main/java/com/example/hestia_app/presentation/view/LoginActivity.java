@@ -51,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         if (user != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
             startActivity(intent);
+            finish();
         }
 
         cadastroRedirect.setOnClickListener(v -> {

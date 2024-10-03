@@ -230,7 +230,12 @@ public class CadastroFotoFragment extends Fragment {
     );
 
     private void salvarUsuario(String txtNome, String txtEmail, String txtSenha) {
-        String nome = txtNome.split(" ")[0] + " " + txtNome.split(" ")[txtNome.split(" ").length - 1];
+        String nome;
+        if (txtNome.split(" ").length >= 2) {
+            nome = txtNome.split(" ")[0] + " " + txtNome.split(" ")[txtNome.split(" ").length - 1];
+        } else {
+            nome = txtNome;
+        }
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         if (foto_usuario.getVisibility() == View.GONE) {
             Toast.makeText(getContext(), "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
@@ -262,6 +267,8 @@ public class CadastroFotoFragment extends Fragment {
                                         Toast.makeText(getContext(), "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getContext(), MainActivityNavbar.class);
                                         startActivity(intent);
+                                        requireActivity().finish();
+
                                     } else {
                                         // mostrar erro
                                         String msg = "Erro ao atualizar profile: ";

@@ -60,6 +60,7 @@ public class PerfilAnunciante extends Fragment {
                 autenticar.signOut();
                 Intent intent = new Intent(getContext(), LoginActivity.class);
                 startActivity(intent);
+                requireActivity().finish();
             }
         });
         return view;
