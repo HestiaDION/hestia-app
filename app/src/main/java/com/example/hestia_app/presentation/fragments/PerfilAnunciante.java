@@ -122,6 +122,11 @@ public class PerfilAnunciante extends Fragment {
                     // Exibir o modal
                     alertDialog.show();
                 }
+                autenticar.signOut();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+                requireActivity().finish();
+
             }
         });
 

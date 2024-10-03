@@ -290,7 +290,4 @@ public class CadastroFotoFragment extends Fragment {
                 }
             }
     );
-
-
-
 }
