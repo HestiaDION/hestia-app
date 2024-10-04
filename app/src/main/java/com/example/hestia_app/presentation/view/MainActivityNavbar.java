@@ -16,10 +16,13 @@ import com.example.hestia_app.data.api.UsuarioRepository;
 import com.example.hestia_app.data.models.Usuario;
 import com.example.hestia_app.databinding.ActivityMainNavbarBinding;
 import com.example.hestia_app.presentation.fragments.ChatAnunciante;
+import com.example.hestia_app.presentation.fragments.ChatUniversitario;
 import com.example.hestia_app.presentation.fragments.HomeAnunciante;
 
 
+import com.example.hestia_app.presentation.fragments.HomeUniversitario;
 import com.example.hestia_app.presentation.fragments.PerfilAnunciante;
+import com.example.hestia_app.presentation.fragments.PerfilUniversitario;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
@@ -85,8 +88,14 @@ public class MainActivityNavbar extends AppCompatActivity {
                 replaceFragment(new PerfilAnunciante(origemUsuario));
             }
         } else if (origemUsuario.equals(UNIVERSITARIO)) {
-            // TODO: Implementar lógica para universitário
-            replaceFragment(new HomeAnunciante());
+            replaceFragment(new HomeUniversitario());
+            if (itemId == R.id.nav_chat) {
+                replaceFragment(new ChatUniversitario());
+            } else if (itemId == R.id.nav_home) {
+                replaceFragment(new HomeUniversitario());
+            } else if (itemId == R.id.nav_perfil) {
+                replaceFragment(new PerfilUniversitario());
+            }
         }
         updateIcons(itemId);
     }
