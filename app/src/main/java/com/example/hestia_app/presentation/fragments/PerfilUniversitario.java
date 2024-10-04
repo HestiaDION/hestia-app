@@ -1,4 +1,4 @@
-package com.example.hestia_app.presentation.view;
+package com.example.hestia_app.presentation.fragments;
 
 import android.os.Bundle;
 

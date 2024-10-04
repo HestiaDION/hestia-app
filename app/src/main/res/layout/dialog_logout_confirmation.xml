@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@drawable/rounded_dialog_background">
+
+    <TextView
+        android:id="@+id/logout_confirmation_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deseja mesmo sair?"
+        android:fontFamily="@font/poppins_regular"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_confirm_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sim"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_regular"
+            android:backgroundTint="@color/vermelho"
+            android:layout_marginEnd="20dp" />
+
+        <Button
+            android:id="@+id/btn_cancel_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Não"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/azul" />
+
+    </LinearLayout>
+</LinearLayout>

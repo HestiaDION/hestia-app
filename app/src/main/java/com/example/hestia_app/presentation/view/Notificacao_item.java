@@ -1,16 +1,16 @@
 package com.example.hestia_app.presentation.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hestia_app.R;
 
-public class HomeAnunciante extends AppCompatActivity {
+public class Notificacao_item extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_home_anunciante);
+        setContentView(R.layout.activity_notificacao_item);
     }
 }

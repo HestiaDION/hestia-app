@@ -10,6 +10,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class DataUtils {
 
+
+
     /**
      * Verifica se algum usuário já está logado
      */

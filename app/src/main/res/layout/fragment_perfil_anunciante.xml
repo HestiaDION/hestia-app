@@ -4,7 +4,164 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Perfil_anunciante">
+    tools:context=".presentation.fragments.PerfilAnunciante">
+
+    <!-- Topo fixo -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="148dp"
+                android:layout_height="164dp"
+                android:src="@drawable/perfil_anunciante"
+                app:civ_border_color="#FF000000"
+                app:civ_border_width="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_regular"
+                android:text="Name"
+                android:textColor="@color/azul"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
+            <TextView
+                android:id="@+id/user_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Gender"
+                android:textColor="@color/azul"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/view"
+                app:layout_constraintHorizontal_bias="0.871"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="40dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/gradient_backgroud"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+            <TextView
+                android:id="@+id/user_age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="00"
+                android:textColor="@color/azul"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/view"
+                app:layout_constraintTop_toBottomOf="@+id/user_name" />
+
+            <TextView
+                android:id="@+id/titleSobreMim"
+                android:layout_width="88dp"
+                android:layout_height="18dp"
+                android:background="#F9F9F9"
+                android:backgroundTint="#FFFFFF"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Sobre mim"
+                android:textColor="@color/azul"
+                app:layout_constraintStart_toStartOf="@+id/user_bio"
+                app:layout_constraintTop_toBottomOf="@+id/bt_editar" />
+
+            <TextView
+                android:id="@+id/user_bio"
+                android:layout_width="308dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="72dp"
+                android:background="@drawable/rounded_background"
+                android:fontFamily="@font/poppins_regular"
+                android:padding="20dp"
+                android:text="Bio"
+                android:textColor="@color/cinza"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <Button
+                android:id="@+id/bt_editar"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="93dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bt_cadastro"
+                android:fontFamily="@font/poppins_regular"
+                android:stateListAnimator="@android:anim/fade_in"
+                android:text="Editar"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="309dp"
+                android:layout_height="294dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/rounded_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_bio">
+
+                <WebView
+                    android:layout_width="298dp"
+                    android:layout_height="282dp"
+                    android:layout_marginTop="4dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.454"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="88dp"
+                android:layout_height="18dp"
+                android:layout_marginTop="10dp"
+                android:background="#F9F9F9"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Estatísticas"
+                android:textColor="@color/azul"
+                app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayout"
+                app:layout_constraintTop_toBottomOf="@+id/user_bio" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <ImageView
         android:id="@+id/imageView"
@@ -15,165 +172,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/blue_decoration" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="148dp"
-        android:layout_height="164dp"
-        android:src="@drawable/perfil_anunciante"
-        app:civ_border_color="#FF000000"
-        app:civ_border_width="2dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <TextView
-        android:id="@+id/user_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/poppins_semi_bold"
-        android:text="Gender"
-        android:textColor="@color/azul"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toStartOf="@+id/view"
-        app:layout_constraintHorizontal_bias="0.871"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_name" />
-
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/poppins_regular"
-        android:text="Name"
-        android:textColor="@color/azul"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="40dp"
-        android:layout_height="2dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/gradient_backgroud"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_name" />
-
-    <LinearLayout
-        android:layout_width="70dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.13"
-        app:layout_constraintStart_toEndOf="@+id/view"
-        app:layout_constraintTop_toBottomOf="@+id/user_name">
-
-        <TextView
-            android:id="@+id/user_age"
-            android:layout_width="20dp"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:text="00"
-            android:textColor="@color/azul"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:text="anos"
-            android:textColor="@color/azul"
-            android:textSize="12sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/user_bio"
-        android:layout_width="308dp"
-        android:layout_height="109dp"
-        android:layout_marginTop="72dp"
-        android:background="@drawable/rounded_background"
-        android:fontFamily="@font/poppins_regular"
-        android:padding="20dp"
-        android:text="Bio"
-        android:textColor="@color/cinza"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="86dp"
-        android:layout_height="22dp"
-        android:background="#F9F9F9"
-        android:fontFamily="@font/poppins_semi_bold"
-        android:text="Sobre mim"
-        android:textColor="@color/azul"
-        app:layout_constraintEnd_toEndOf="@+id/user_bio"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/user_bio"
-        app:layout_constraintTop_toBottomOf="@+id/bt_editar" />
-
-    <Button
-        android:id="@+id/bt_editar"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="93dp"
-        android:layout_height="37dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/bt_cadastro"
-        android:fontFamily="@font/poppins_regular"
-        android:stateListAnimator="@android:anim/fade_in"
-        android:text="Editar"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="11sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="309dp"
-        android:layout_height="294dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/rounded_background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio">
-
-        <WebView
-            android:layout_width="298dp"
-            android:layout_height="282dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.454"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="88dp"
-        android:layout_height="18dp"
-        android:layout_marginTop="10dp"
-        android:background="#F9F9F9"
-        android:fontFamily="@font/poppins_semi_bold"
-        android:text="Estatísticas"
-        android:textColor="@color/azul"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout"
-        app:layout_constraintTop_toBottomOf="@+id/user_bio" />
 
     <ImageView
         android:id="@+id/btn_config"
@@ -201,5 +199,7 @@
         app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Conteúdo rolável -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

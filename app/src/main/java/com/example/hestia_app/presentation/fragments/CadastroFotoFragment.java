@@ -5,19 +5,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
 import android.view.KeyEvent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +30,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
+import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
+import com.example.hestia_app.data.models.Anunciante;
+import com.example.hestia_app.data.services.AnuncianteService;
+import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
-import com.example.hestia_app.utils.FotoActivity;
+import com.example.hestia_app.presentation.view.camera.FotoActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -68,6 +71,13 @@ public class CadastroFotoFragment extends Fragment {
         requiredPermissions.add("android.permission.READ_EXTERNAL_STORAGE");
         REQUIRED_PERMISSIONS = requiredPermissions.toArray(new String[0]);
     }
+
+    // service
+    AnuncianteService anuncianteService = new AnuncianteService();
+    FirebaseService firebaseService = new FirebaseService();
+
+    final String ANUNCIANTE = "ANUNCIANTE";
+    final String UNIVERSITARIO = "UNIVERSITÁRIO";
 
     public CadastroFotoFragment() {
         // Required empty public constructor
@@ -133,13 +143,60 @@ public class CadastroFotoFragment extends Fragment {
                 String email = usuario.get("email");
                 String senha = usuario.get("senha");
 
-                salvarUsuario(nome, email, senha);
+                // salvando informações no firebase
+                assert nome != null;
+                Log.d("Registro", "FIREAUTH REGISTROU UM USUÁRIO");
+                firebaseService.salvarUsuario(getContext(), nome, email, senha, uri, checkBox.isChecked());
+
+
+                // salvando informações no postgres
+                if(tipo.equals("anunciante")) {
+
+                    Log.d("Registro", "CAIU NO TIPO ANUNCIANTE");
+
+                    Anunciante anunciante = new Anunciante(
+                            nome,
+                            usuario.get("municipio"),
+                            usuario.get("telefone"),
+                            usuario.get("genero"),
+                            usuario.get("dt_nascimento"),
+                            email
+                    );
+
+                    Log.d("ANUNCIANTE BODY", anunciante.toString());
+
+                  anuncianteService.registrarAnunciante(anunciante, new RegistroAnuncianteCallback() {
+                      @Override
+                      public void onRegistroSuccess(boolean isRegistered) {
+                          if (isRegistered) {
+                              Log.d("Registro", "Anunciante registrado com sucesso!");
+                          } else {
+                              Log.d("Registro", "Falha ao registrar o anunciante.");
+                          }
+                      }
+
+                      @Override
+                      public void onRegistroFailure(boolean isRegistered) {
+                          if (isRegistered) {
+                              Log.d("Registro", "Anunciante registrado com sucesso!");
+                          } else {
+                              Log.d("Registro", "Falha ao registrar o anunciante.");
+                          }
+                      }
+
+
+                  });
+
+                } else{
+                    Log.d("Registro", "NÃO CAIU NO REGISTRO");
+
+                }
             }
         });
 
         if (tipo.equals("anunciante")) {
             tipo_usuario.setTextColor(getResources().getColor(R.color.azul));
-            tipo_usuario.setText("ANUNCIANTE");
+            tipo_usuario.setText(ANUNCIANTE);
             bt_voltar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -153,7 +210,7 @@ public class CadastroFotoFragment extends Fragment {
             });
         } else {
             tipo_usuario.setTextColor(getResources().getColor(R.color.vermelho));
-            tipo_usuario.setText("UNIVERSITÁRIO");
+            tipo_usuario.setText(UNIVERSITARIO);
             bt_voltar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

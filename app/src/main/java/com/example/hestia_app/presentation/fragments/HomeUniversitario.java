@@ -1,4 +1,4 @@
-package com.example.hestia_app.presentation.view;
+package com.example.hestia_app.presentation.fragments;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.hestia_app.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PerfilAnunciante#newInstance} factory method to
+ * Use the {@link HomeUniversitario#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PerfilAnunciante extends Fragment {
+public class HomeUniversitario extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class PerfilAnunciante extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PerfilAnunciante() {
+    public HomeUniversitario() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class PerfilAnunciante extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment perfil_anunciant.
+     * @return A new instance of fragment home_universitario.
      */
     // TODO: Rename and change types and number of parameters
-    public static PerfilAnunciante newInstance(String param1, String param2) {
-        PerfilAnunciante fragment = new PerfilAnunciante();
+    public static HomeUniversitario newInstance(String param1, String param2) {
+        HomeUniversitario fragment = new HomeUniversitario();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class PerfilAnunciante extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil_anunciante, container, false);
+        return inflater.inflate(R.layout.fragment_home_universitario, container, false);
     }
 }
