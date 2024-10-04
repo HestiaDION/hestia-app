@@ -109,6 +109,94 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Grupo de chips para animais de estimação -->
+            <TextView
+                android:id="@+id/textViewMorar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="12dp"
+                android:drawableLeft="@drawable/gender"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Gostaria de morar com?"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Grupo de chips para animais de estimação -->
+            <TextView
+                android:id="@+id/textViewPessoas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="12dp"
+                android:drawableLeft="@drawable/pessoas"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Número máximo de pessoas"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Grupo de chips para animais de estimação -->
+            <TextView
+                android:id="@+id/textViewFuma"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="12dp"
+                android:drawableLeft="@drawable/fumo"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Com que frequência você fuma?"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp" />
+
+            <!-- Grupo de chips para animais de estimação -->
+            <TextView
+                android:id="@+id/textViewBebe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="12dp"
+                android:drawableLeft="@drawable/bebida"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Com que frequência você bebe?"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp" />
         </LinearLayout>
     </ScrollView>

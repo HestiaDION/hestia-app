@@ -3,16 +3,21 @@ package com.example.hestia_app.presentation.fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +31,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
-import com.example.hestia_app.presentation.view.LoginActivity;
 import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
@@ -40,7 +44,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CadastroFotoFragment extends Fragment {
     HashMap<String, String> usuario;
@@ -50,6 +58,16 @@ public class CadastroFotoFragment extends Fragment {
     ImageView foto_usuario, foto_ilustrativa;
     TextView txt_adicionar;
     CheckBox checkBox;
+    // lista de permissões
+    private static final String[] REQUIRED_PERMISSIONS;
+
+    static {
+        List<String> requiredPermissions = new ArrayList<>();
+        requiredPermissions.add("android.permission.WRITE_EXTERNAL_STORAGE");
+        requiredPermissions.add("android.permission.READ_MEDIA_IMAGES");
+        requiredPermissions.add("android.permission.READ_EXTERNAL_STORAGE");
+        REQUIRED_PERMISSIONS = requiredPermissions.toArray(new String[0]);
+    }
 
     public CadastroFotoFragment() {
         // Required empty public constructor
@@ -147,6 +165,18 @@ public class CadastroFotoFragment extends Fragment {
                 }
             });
         }
+
+        // bloquear botão de voltar
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
         return view;
     }
 
@@ -164,8 +194,16 @@ public class CadastroFotoFragment extends Fragment {
                         break;
                     case 1:
                         // acessar a galeria
-                        Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        resultLauncherGaleria.launch(intent2);
+
+                        // Request de permissão
+                        if (allPermissionsGranted()) {
+                            // permitir galeria
+                            Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            resultLauncherGaleria.launch(intent2);
+                        } else {
+                            // pedir permissão
+                            requestPermissions();
+                        }
                         break;
                 }
             }
@@ -302,4 +340,36 @@ public class CadastroFotoFragment extends Fragment {
                     }
                 });
     }
+
+    public boolean allPermissionsGranted() {
+        // verificar permissões
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void requestPermissions() {
+        activityResultLauncher.launch(REQUIRED_PERMISSIONS);
+    }
+    private ActivityResultLauncher<String[]> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.RequestMultiplePermissions(),
+            permissions -> {
+                // Handle Permission granted/rejected
+                boolean permissionGranted = true;
+                for (Map.Entry<String, Boolean> entry : permissions.entrySet()) {
+                    if (Arrays.asList(REQUIRED_PERMISSIONS).contains(entry.getKey()) && !entry.getValue()) {
+                        permissionGranted = false;
+                        break;
+                    }
+                }
+                if (!permissionGranted) {
+                    Toast.makeText(requireContext(),"Permissão NEGADA. Tente novamente.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    resultLauncherGaleria.launch(intent2);
+                }
+            });
 }

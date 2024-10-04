@@ -3,5 +3,5 @@
     <!-- Estado clicado (texto branco) -->
     <item android:state_checked="true" android:color="@color/white" />
     <!-- Estado padrão (texto azul) -->
-    <item android:color="@color/azul" />
+    <item android:color="@color/azul"/>
 </selector>
