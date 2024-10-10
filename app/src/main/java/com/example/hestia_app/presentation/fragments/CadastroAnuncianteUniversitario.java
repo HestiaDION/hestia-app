@@ -32,6 +32,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class CadastroAnuncianteUniversitario extends Fragment {
 
@@ -700,7 +701,6 @@ public class CadastroAnuncianteUniversitario extends Fragment {
                     campo2.setText(universitario.get("telefone"));
                     campo3.setText(universitario.get("universidade"));
                 }
-
 
             }
         } else if (etapa == 3) {

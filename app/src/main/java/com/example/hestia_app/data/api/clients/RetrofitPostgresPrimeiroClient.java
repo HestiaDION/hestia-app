@@ -5,8 +5,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitMongoClient {
-    private static final String BASE_URL = "https://hestia-api-mongo-dev-b1mz.onrender.com";
+public class RetrofitPostgresPrimeiroClient {
+    private static final String BASE_URL = "https://hestia-api-filtros.onrender.com";
 
     private static Retrofit retrofit = null;
 
@@ -26,4 +26,5 @@ public class RetrofitMongoClient {
         }
         return retrofit;
     }
+
 }
