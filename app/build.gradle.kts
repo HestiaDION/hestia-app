@@ -96,4 +96,12 @@ dependencies {
 
     // Material 3
     implementation("com.google.android.material:material:1.8.0")
+
+    // viewModel e liveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-livedata:2.5.1")
+
+    // debug
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+
 }

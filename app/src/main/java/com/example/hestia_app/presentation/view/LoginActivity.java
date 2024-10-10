@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = autenticar.getCurrentUser();
 
         if (user != null) {
+            autenticar.signOut();
             Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
             startActivity(intent);
             finish();
