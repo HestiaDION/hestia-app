@@ -3,6 +3,7 @@ package com.example.hestia_app.data.services;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -115,9 +116,9 @@ public class FirebaseService {
             user.updateProfile(profileUpdates)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(context, "Nome atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                            Log.d("Update Nome", "Name updated successfully!");
                         } else {
-                            Toast.makeText(context, "Erro ao atualizar o nome", Toast.LENGTH_SHORT).show();
+                            Log.e("Update Nome", "Name update failed", task.getException());
                         }
                     });
         } else {
