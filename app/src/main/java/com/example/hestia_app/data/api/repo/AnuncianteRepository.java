@@ -1,6 +1,6 @@
-package com.example.hestia_app.data.api;
+package com.example.hestia_app.data.api.repo;
 
-import com.example.hestia_app.data.models.Anunciante;
+import com.example.hestia_app.domain.models.Anunciante;
 
 
 import retrofit2.Call;
@@ -18,7 +18,7 @@ public interface AnuncianteRepository {
     @POST("/advertiser/register")
     Call<Anunciante> registerAnunciante(@Body Anunciante anunciante); // <Anunciante>
 
-    @PATCH("/advertiser/profile/{email}")
+    @PATCH("/advertiser/updateProfile/{email}")
     Call<Anunciante> updateAnuncianteProfile(@Path("email") String email, @Body Anunciante anunciante);
 
 }

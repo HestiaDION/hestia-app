@@ -9,7 +9,6 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -30,36 +29,30 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
-import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
+
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
-import com.example.hestia_app.data.models.Anunciante;
+import com.example.hestia_app.domain.models.Anunciante;
+
+import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
+
 import com.example.hestia_app.data.models.FiltrosTags;
+
 import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.FirebaseService;
-import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.api.LaunchStage;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 
 public class CadastroFotoFragment extends Fragment {
     HashMap<String, String> usuario;

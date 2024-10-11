@@ -15,7 +15,7 @@
         app:srcCompat="@drawable/blue_bloob_decoration" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/goBackArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

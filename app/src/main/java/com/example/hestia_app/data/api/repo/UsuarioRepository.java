@@ -1,6 +1,6 @@
-package com.example.hestia_app.data.api;
+package com.example.hestia_app.data.api.repo;
 
-import com.example.hestia_app.data.models.Usuario;
+import com.example.hestia_app.domain.models.Usuario;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

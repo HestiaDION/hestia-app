@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".notificacoes">
+    tools:context=".presentation.view.Notificacoes">
 
     <View
         android:id="@+id/view2"
@@ -26,11 +26,11 @@
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toStartOf="@+id/goBackArrow"
+        app:layout_constraintTop_toBottomOf="@+id/goBackArrow" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/goBackArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="31dp"

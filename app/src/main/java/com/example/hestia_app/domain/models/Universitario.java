@@ -1,4 +1,4 @@
-package com.example.hestia_app.data.models;
+package com.example.hestia_app.domain.models;
 
 import java.util.Date;
 import java.util.UUID;
