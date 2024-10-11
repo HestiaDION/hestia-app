@@ -96,4 +96,7 @@ dependencies {
 
     // Material 3
     implementation("com.google.android.material:material:1.8.0")
+
+    // debug
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 }

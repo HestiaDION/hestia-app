@@ -1,4 +1,4 @@
-package com.example.hestia_app.data.models;
+package com.example.hestia_app.domain.models;
 
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.gson.annotations.SerializedName;
@@ -16,7 +16,8 @@ public class Anunciante {
     @SerializedName("cidade")
     private String cidade;
 
-    @SerializedName("telefone")
+    @SerializedName("tele" +
+            "fone")
     private String telefone;
 
     @SerializedName("genero")
@@ -40,11 +41,11 @@ public class Anunciante {
         this.email = email;
     }
 
-    public Anunciante(String genero, String dt_nascimento, String bio) {
-        this.genero = genero;
-        this.dt_nascimento = dt_nascimento;
+   public Anunciante(String nome, String bio){
+        this.nome = nome;
         this.bio = bio;
-    }
+   }
+
 
     public String getNome() {
         return nome;
