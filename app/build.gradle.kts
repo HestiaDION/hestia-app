@@ -13,7 +13,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
+        multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -65,6 +65,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation("com.google.firebase:firebase-firestore:25.1.0")
+    implementation("com.google.firebase:firebase-messaging:24.0.2")
 
     // JUnit para testes unitários
     testImplementation("junit:junit:4.13.2")
@@ -103,5 +104,8 @@ dependencies {
 
     // debug
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
+
+    // MultiDex
+    implementation("androidx.multidex:multidex:2.0.1")
 
 }

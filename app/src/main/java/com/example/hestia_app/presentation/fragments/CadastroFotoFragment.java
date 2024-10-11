@@ -41,6 +41,7 @@ import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
+import com.example.hestia_app.utils.FirestoreUtil;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.api.LaunchStage;
@@ -178,6 +179,14 @@ public class CadastroFotoFragment extends Fragment {
                       public void onRegistroSuccess(boolean isRegistered) {
                           if (isRegistered) {
                               Log.d("Registro", "Anunciante registrado com sucesso!");
+
+                              // cadastrar no firestore também
+                              if (FirestoreUtil.registerUser(email, usuario)) {
+                                  Log.d("Registro", "Usuário registrado com sucesso no firestore!");
+                              } else {
+                                  Log.d("Registro", "Falha ao registrar o usuário no firestore.");
+                              }
+
                           } else {
                               Log.d("Registro", "Falha ao registrar o anunciante.");
                           }
