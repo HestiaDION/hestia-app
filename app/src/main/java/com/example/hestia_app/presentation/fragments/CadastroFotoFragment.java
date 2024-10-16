@@ -31,6 +31,8 @@ import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
 
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
+import com.example.hestia_app.data.api.callbacks.RegistroUniversitarioCallback;
+import com.example.hestia_app.data.services.UniversitarioService;
 import com.example.hestia_app.domain.models.Anunciante;
 
 import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
@@ -40,9 +42,11 @@ import com.example.hestia_app.data.models.FiltrosTags;
 import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.FirebaseService;
+import com.example.hestia_app.domain.models.Universitario;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
+import com.example.hestia_app.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,6 +79,7 @@ public class CadastroFotoFragment extends Fragment {
 
     // service
     AnuncianteService anuncianteService = new AnuncianteService();
+    UniversitarioService universitarioService = new UniversitarioService();
     FirebaseService firebaseService = new FirebaseService();
     FiltrosTagsService filtrosTagsService = new FiltrosTagsService();
 
@@ -164,7 +169,13 @@ public class CadastroFotoFragment extends Fragment {
                             email
                     );
 
-                    Log.d("ANUNCIANTE BODY", anunciante.toString());
+                    Log.d("BODY", anunciante.toString());
+
+                // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
+                    // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
+                        // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
+                            // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
+                                // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
 
                   anuncianteService.registrarAnunciante(anunciante, new RegistroAnuncianteCallback() {
                       @Override
@@ -189,9 +200,44 @@ public class CadastroFotoFragment extends Fragment {
                   });
 
                 } else if (tipo.equals("universitario")) {
-                    // salvar os filtros no mongo
                     Log.d("Registro", "CAIU NO TIPO UNIVERSITÁRIO");
 
+                    // salvando o universitário no banco
+                    Universitario universitario = new Universitario(
+                            nome,
+                            email,
+                            usuario.get("dne"),
+                            usuario.get("municipio"),
+                            usuario.get("universidade"),
+                            usuario.get("genero"),
+                            usuario.get("telefone"),
+                            usuario.get("dt_nascimento")
+                            );
+
+                    Log.d("BODY", universitario.toString());
+
+
+
+                    universitarioService.registrarUniversitario(universitario, new RegistroUniversitarioCallback() {
+
+                        @Override
+                        public void onRegistroSuccess(boolean isRegistered) {
+
+                            if (isRegistered) {
+                                Log.d("Registro", "Universitário registrado com sucesso!");
+                            } else {
+                                Log.d("Registro", "Falha ao registrar o universitário.");
+                            }
+                        }
+
+                        @Override
+                        public void onRegistroFailure(boolean isRegistered) {
+                            Log.e("Registro", "Falha ao registrar o universitário.");
+                        }
+                    });
+
+
+                    // salvar os filtros no mongo
                     // recuperar as informções
 
                     List<String> categoria1 = transformarLista(usuario.get("categoria1"));
@@ -200,6 +246,7 @@ public class CadastroFotoFragment extends Fragment {
                     List<String> categoria4 = transformarLista(usuario.get("categoria4"));
                     List<String> categoria5 = transformarLista(usuario.get("categoria5"));
 
+                    // informações de filtros
                     FiltrosTags filtrosTags = new FiltrosTags(
                             UUID.randomUUID(), // TODO: trocar pelo id do universitario
                             tipo,
