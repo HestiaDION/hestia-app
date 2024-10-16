@@ -41,6 +41,11 @@ public class Splashscreen extends AppCompatActivity {
             Toast.makeText(this, "Sem conexão com a internet", Toast.LENGTH_LONG).show();
         } else {
             wakeUpApiWithRetries();
+            new Handler().postDelayed(() -> {
+                Intent intent = new Intent(Splashscreen.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }, 3000);  // 3 segundos
         }
     }
 
@@ -78,11 +83,7 @@ public class Splashscreen extends AppCompatActivity {
             public void onApiServiceSuccess(Map<String, String> message) {
                 Log.d("WakeUpApi", "onApiServiceSuccess: " + message);
                 // Navegar para MainActivity após 3 segundos
-                new Handler().postDelayed(() -> {
-                    Intent intent = new Intent(Splashscreen.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                }, 3000);  // 3 segundos
+
             }
 
             @Override

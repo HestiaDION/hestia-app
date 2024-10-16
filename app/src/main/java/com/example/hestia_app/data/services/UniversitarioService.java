@@ -20,7 +20,7 @@ public class UniversitarioService {
     UniversitarioRepository universitarioRepository = RetrofitPostgresClient.getClient().create(UniversitarioRepository.class);
 
 
-    public void registrarUniversitario(Universitario universitario, RegistroAnuncianteCallback callback) {
+    public void registrarUniversitario(Universitario universitario, RegistroUniversitarioCallback callback) {
         Call<Universitario> call = universitarioRepository.registerUniversitario(universitario);
 
         call.enqueue(new Callback<Universitario>() {
