@@ -11,6 +11,7 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class CadastroAnuncianteUniversitario extends Fragment {
 
@@ -267,6 +269,18 @@ public class CadastroAnuncianteUniversitario extends Fragment {
                 }
             }
         });
+
+        // bloquear botão de voltar
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
         return view;
     }
 
@@ -687,7 +701,6 @@ public class CadastroAnuncianteUniversitario extends Fragment {
                     campo2.setText(universitario.get("telefone"));
                     campo3.setText(universitario.get("universidade"));
                 }
-
 
             }
         } else if (etapa == 3) {

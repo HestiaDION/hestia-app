@@ -20,6 +20,7 @@ import com.example.hestia_app.presentation.view.OnSwipeTouchListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.hestia_app.R;
 
 public class HomeUniversitario extends Fragment {
 
@@ -29,15 +30,18 @@ public class HomeUniversitario extends Fragment {
 
     TextView txt_card;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        anuncioCasaList = getMoradia(); // Obtém a lista de usuários
+        anuncioCasaList = getMoradia(); // Obtém a lista de usuários//
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Infla o layout do fragmento
         View view = inflater.inflate(R.layout.fragment_home_universitario, container, false);
 
@@ -142,4 +146,6 @@ public class HomeUniversitario extends Fragment {
 
         return anuncio;
     }
+
 }
+

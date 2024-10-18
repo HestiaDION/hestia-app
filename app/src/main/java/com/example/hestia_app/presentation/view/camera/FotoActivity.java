@@ -57,7 +57,7 @@ public class FotoActivity extends AppCompatActivity {
 
     // config camera
     private ImageCapture imageCapture;
-    private CameraSelector cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA;
+    private CameraSelector cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA;
 
     // log
     private static final String TAG = "CameraXBasic";

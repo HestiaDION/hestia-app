@@ -15,12 +15,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.hestia_app.EditarPerfilAnunciante;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
-import com.example.hestia_app.data.models.Anunciante;
+import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.presentation.view.LoginActivity;
-import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +31,7 @@ public class PerfilAnunciante extends Fragment {
     String tipo_usuario;
     String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
     AnuncianteService anuncianteService = new AnuncianteService();
+    Button editarPerfil;
 
     public PerfilAnunciante(String tipo_usuario) {
         this.tipo_usuario = tipo_usuario;
@@ -56,14 +57,25 @@ public class PerfilAnunciante extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_perfil_anunciante, container, false);
+
+
+        // edição de perfil
+        editarPerfil = view.findViewById(R.id.bt_editar);
+        editarPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), EditarPerfilAnunciante.class);
+            startActivity(intent);
+
+        });
+
+
 
         FirebaseAuth autenticar = FirebaseAuth.getInstance();
         FirebaseUser user = autenticar.getCurrentUser();
-
-
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_perfil_anunciante, container, false);
         ImageButton logout= view.findViewById(R.id.logout);
+
+
+
 
         // campos do perfil
         CircleImageView profile_image = view.findViewById(R.id.profile_image);
@@ -71,7 +83,6 @@ public class PerfilAnunciante extends Fragment {
         TextView user_gender = view.findViewById(R.id.user_gender);
         TextView user_age = view.findViewById(R.id.user_age);
         TextView user_bio = view.findViewById(R.id.user_bio);
-
 
         assert user != null;
         popularCampos(profile_image, user_name, user_gender, user_age, user_bio, user);
@@ -103,11 +114,14 @@ public class PerfilAnunciante extends Fragment {
                             Intent intent = new Intent(getActivity(), LoginActivity.class);
                             startActivity(intent);
 
+
                             // Fechar o modal
                             alertDialog.dismiss();
 
                             // Fechar a Activity atual
                             getActivity().finish();
+                            autenticar.signOut();
+
                         }
                     });
 
@@ -122,10 +136,8 @@ public class PerfilAnunciante extends Fragment {
                     // Exibir o modal
                     alertDialog.show();
                 }
-                autenticar.signOut();
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivity(intent);
-                requireActivity().finish();
+
+
 
             }
         });

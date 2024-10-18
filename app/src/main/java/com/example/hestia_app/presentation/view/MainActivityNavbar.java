@@ -12,8 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.data.api.callbacks.UsuarioCallback;
-import com.example.hestia_app.data.api.UsuarioRepository;
-import com.example.hestia_app.data.models.Usuario;
+import com.example.hestia_app.data.api.repo.UsuarioRepository;
+import com.example.hestia_app.domain.models.Usuario;
 import com.example.hestia_app.databinding.ActivityMainNavbarBinding;
 import com.example.hestia_app.presentation.fragments.ChatAnunciante;
 import com.example.hestia_app.presentation.fragments.ChatUniversitario;
@@ -101,7 +101,10 @@ public class MainActivityNavbar extends AppCompatActivity {
             } else if (itemId == R.id.nav_perfil) {
                 replaceFragment(new PerfilUniversitario());
                 binding.bottomNavbar.getMenu().findItem(R.id.nav_perfil).setIcon(R.drawable.person_selected_icon);
-
+            } else if (itemId == R.id.nav_home) {
+                replaceFragment(new HomeUniversitario());
+            } else if (itemId == R.id.nav_perfil) {
+                replaceFragment(new PerfilUniversitario());
             }
         }
         updateIcons(itemId);
