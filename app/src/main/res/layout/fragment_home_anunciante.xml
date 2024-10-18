@@ -83,7 +83,7 @@
             tools:listitem="@layout/activity_moradia_item" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/btAdicionarMoradia"
             android:layout_width="57dp"
             android:layout_height="61dp"
             android:layout_marginTop="532dp"
