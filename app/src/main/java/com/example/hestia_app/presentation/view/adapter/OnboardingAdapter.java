@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.hestia_app.R;
-import com.example.hestia_app.domain.OnboardingItem;
+import com.example.hestia_app.domain.models.OnboardingItem;
 
 import java.util.List;
 

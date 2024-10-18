@@ -57,7 +57,7 @@ public class MainActivityNavbar extends AppCompatActivity {
                     replaceFragment(new HomeAnunciante());
                     updateIcons(binding.bottomNavbar.getMenu().findItem(R.id.nav_home).getItemId());
                 } else if (origemUsuario.equals(UNIVERSITARIO)) {
-                    replaceFragment(new HomeUniversitario());// Placeholder para universitário
+                    replaceFragment(new HomeAnunciante());
                     updateIcons(binding.bottomNavbar.getMenu().findItem(R.id.nav_home).getItemId());
 
                 }
@@ -90,6 +90,7 @@ public class MainActivityNavbar extends AppCompatActivity {
             } else if (itemId == R.id.nav_perfil) {
                 replaceFragment(new PerfilAnunciante(origemUsuario));
             }
+
         } else if (origemUsuario.equals(UNIVERSITARIO)) {
             replaceFragment(new HomeUniversitario());
             if (itemId == R.id.nav_chat) {
@@ -99,12 +100,8 @@ public class MainActivityNavbar extends AppCompatActivity {
                 replaceFragment(new HomeUniversitario());
                 binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_selected_icon);
             } else if (itemId == R.id.nav_perfil) {
-                replaceFragment(new PerfilUniversitario());
+                replaceFragment(new PerfilUniversitario(origemUsuario));
                 binding.bottomNavbar.getMenu().findItem(R.id.nav_perfil).setIcon(R.drawable.person_selected_icon);
-            } else if (itemId == R.id.nav_home) {
-                replaceFragment(new HomeUniversitario());
-            } else if (itemId == R.id.nav_perfil) {
-                replaceFragment(new PerfilUniversitario());
             }
         }
         updateIcons(itemId);

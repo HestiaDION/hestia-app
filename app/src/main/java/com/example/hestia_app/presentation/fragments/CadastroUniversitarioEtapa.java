@@ -14,8 +14,8 @@ import android.widget.ImageButton;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
-import com.example.hestia_app.data.models.FiltroCadastro;
 import com.example.hestia_app.data.services.FiltroCadastroService;
+import com.example.hestia_app.domain.models.FiltroCadastro;
 import com.example.hestia_app.utils.CadastroManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -121,6 +121,7 @@ public class CadastroUniversitarioEtapa extends Fragment {
                     Log.d("API Response", "A lista de filtros veio vazia.");
                 }
             }
+
 
             @Override
             public void onFiltroCadastroFailure(String errorMessage) {
