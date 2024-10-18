@@ -35,7 +35,6 @@ public class PerfilAnunciante extends Fragment {
 
     public PerfilAnunciante(String tipo_usuario) {
         this.tipo_usuario = tipo_usuario;
-        // Required empty public constructor
     }
 
     public static PerfilAnunciante newInstance(String tipo_usuario) {
@@ -72,9 +71,7 @@ public class PerfilAnunciante extends Fragment {
 
         FirebaseAuth autenticar = FirebaseAuth.getInstance();
         FirebaseUser user = autenticar.getCurrentUser();
-        ImageButton logout= view.findViewById(R.id.logout);
-
-
+        ImageButton logout = view.findViewById(R.id.logout);
 
 
         // campos do perfil
@@ -90,35 +87,28 @@ public class PerfilAnunciante extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Verifica se o contexto não é nulo, importante em Fragments
                 if (getContext() != null && getActivity() != null) {
-                    // Criar o modal de confirmação de logout
+
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     LayoutInflater inflater = getLayoutInflater();
                     View dialogView = inflater.inflate(R.layout.dialog_logout_confirmation, null);
                     builder.setView(dialogView);
                     AlertDialog alertDialog = builder.create();
 
-                    // Pegando os botões do layout do modal
                     Button btnConfirmLogout = dialogView.findViewById(R.id.btn_confirm_logout);
                     Button btnCancelLogout = dialogView.findViewById(R.id.btn_cancel_logout);
 
-                    // Quando o usuário confirmar o logout
                     btnConfirmLogout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            // Logout do Firebase
                             FirebaseAuth.getInstance().signOut();
 
-                            // Redirecionar para a tela de login
                             Intent intent = new Intent(getActivity(), LoginActivity.class);
                             startActivity(intent);
 
 
-                            // Fechar o modal
                             alertDialog.dismiss();
 
-                            // Fechar a Activity atual
                             getActivity().finish();
                             autenticar.signOut();
 
@@ -156,7 +146,6 @@ public class PerfilAnunciante extends Fragment {
 
 
         // informações guardadas no postgres (necessário fazer chamada)
-        // gênero, universidade, bio, data de nascimento;
         anuncianteService.listarPerfilAnunciante(user.getEmail(), new PerfilAnuncianteCallback() {
             @Override
             public void onPerfilAnuncianteSuccess(Anunciante anunciante) {
@@ -188,10 +177,7 @@ public class PerfilAnunciante extends Fragment {
     }
 
     public boolean isBioNullOrEmpty(String user_bio) {
-        if (user_bio == null || user_bio.isEmpty()) {
-            return true;
-        }
-        return false;
+        return user_bio == null || user_bio.isEmpty();
     }
 
 

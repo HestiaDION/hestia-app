@@ -56,7 +56,7 @@ public class MainActivityNavbar extends AppCompatActivity {
                 if (origemUsuario.equals(ANUNCIANTE)) {
                     replaceFragment(new HomeAnunciante());
                 } else if (origemUsuario.equals(UNIVERSITARIO)) {
-                    replaceFragment(new HomeAnunciante()); // Placeholder para universitário
+                    replaceFragment(new HomeAnunciante());
                 }
             }
 
@@ -94,7 +94,7 @@ public class MainActivityNavbar extends AppCompatActivity {
             } else if (itemId == R.id.nav_home) {
                 replaceFragment(new HomeUniversitario());
             } else if (itemId == R.id.nav_perfil) {
-                replaceFragment(new PerfilUniversitario());
+                replaceFragment(new PerfilUniversitario(origemUsuario));
             }
         }
         updateIcons(itemId);

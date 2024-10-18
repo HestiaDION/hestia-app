@@ -5,6 +5,6 @@ import com.example.hestia_app.domain.models.Universitario;
 
 public interface PerfilUniversitarioCallback {
 
-    void onPerfilAnuncianteSuccess(Universitario universitario);
-    void onPerfilAnuncianteFailure(String errorMessage);
+    void onPerfilUniversitarioSuccess(Universitario universitario);
+    void onPerfilUniversitarioFailure(String errorMessage);
 }

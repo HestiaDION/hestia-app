@@ -54,11 +54,8 @@ public class Universitario {
 //    }
 
     // construtor para registro
-
-
     public Universitario(String nome, String email, String dne, String municipio,
                          String universidade, String genero, String telefone, String dtNascimento) {
-
       this.nome = nome;
       this.email = email;
         this.dne = dne;
@@ -70,6 +67,12 @@ public class Universitario {
 
 
     }
+
+    public Universitario(String nome, String bio){
+        this.nome = nome;
+        this.bio = bio;
+    }
+
 
     public String getTelefone() {
         return telefone;

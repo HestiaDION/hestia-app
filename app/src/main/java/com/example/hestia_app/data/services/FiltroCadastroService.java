@@ -10,7 +10,7 @@ import retrofit2.Response;
 import com.example.hestia_app.data.api.FiltroCadastroRepository;
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresPrimeiroClient;
-import com.example.hestia_app.data.models.FiltroCadastro;
+import com.example.hestia_app.domain.models.FiltroCadastro;
 
 import java.util.List;
 

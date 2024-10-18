@@ -11,9 +11,8 @@ import android.widget.LinearLayout;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.EscolherUsuario;
-import com.example.hestia_app.presentation.view.LoginActivity;
 import com.example.hestia_app.presentation.view.adapter.OnboardingAdapter;
-import com.example.hestia_app.domain.OnboardingItem;
+import com.example.hestia_app.domain.models.OnboardingItem;
 import com.example.hestia_app.utils.ViewUtils;
 
 import java.util.ArrayList;
