@@ -1,5 +1,6 @@
 package com.example.hestia_app.presentation.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,9 @@ import android.widget.ImageButton;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.domain.models.Moradia;
+import com.example.hestia_app.presentation.fragments.cadastroMoradia.CadastroMoradiaDois;
+import com.example.hestia_app.presentation.fragments.cadastroMoradia.CadastroMoradiaUm;
+import com.example.hestia_app.presentation.view.AdicionarMoradia;
 import com.example.hestia_app.presentation.view.adapter.MoradiaHomeAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -49,8 +53,8 @@ public class HomeAnunciante extends Fragment {
         List<Moradia> moradiaList = new ArrayList<>();
 
         // Adicionar exemplos de moradias
-        moradiaList.add(new Moradia("Moradia do Sol", "10/03/2021", 2, Arrays.asList(String.valueOf(R.drawable.bebida), String.valueOf(R.drawable.tabler_circle_letter_i))));
-        moradiaList.add(new Moradia("Moradia da Lua", "20/03/2021", 4, Arrays.asList(String.valueOf(R.drawable.bebida), String.valueOf(R.drawable.tabler_circle_letter_i))));
+        moradiaList.add(new Moradia("Moradia do Sol", "10/03/2021", 2, Arrays.asList("https://i.pinimg.com/736x/e8/a1/52/e8a15286aec46a1ac01c9c4091c3d793.jpg", "https://wallpapers.com/images/featured/kawaii-fofo-8qk5ge09amecxnln.jpg")));
+        moradiaList.add(new Moradia("Moradia da Lua", "20/03/2021", 4, Arrays.asList("https://i.pinimg.com/736x/e8/a1/52/e8a15286aec46a1ac01c9c4091c3d793.jpg", "https://wallpapers.com/images/featured/kawaii-fofo-8qk5ge09amecxnln.jpg")));
 
         // Criar o adapter e setar no RecyclerView
         MoradiaHomeAdapter adapter = new MoradiaHomeAdapter(getContext(), moradiaList);
@@ -60,7 +64,8 @@ public class HomeAnunciante extends Fragment {
         btAdicionarMoradia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getContext(), AdicionarMoradia.class);
+                startActivity(intent);
             }
         });
         return view;

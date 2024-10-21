@@ -45,7 +45,7 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/house_img"
             android:layout_width="214dp"
-            android:layout_height="103dp"
+            android:layout_height="200dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/input_group_background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -89,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/people_quantity_icon"
+                android:drawablePadding="10dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="2 pessoas"
                 android:textColor="@color/azul"

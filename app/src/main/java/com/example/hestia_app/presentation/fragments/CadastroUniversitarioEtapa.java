@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
-import com.example.hestia_app.data.models.FiltroCadastro;
+import com.example.hestia_app.domain.models.FiltroCadastro;
 import com.example.hestia_app.data.services.FiltroCadastroService;
 import com.example.hestia_app.utils.CadastroManager;
 import com.google.android.material.chip.Chip;

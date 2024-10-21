@@ -37,7 +37,7 @@ import com.example.hestia_app.domain.models.Anunciante;
 
 import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
 
-import com.example.hestia_app.data.models.FiltrosTags;
+import com.example.hestia_app.domain.models.FiltrosTags;
 
 import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
