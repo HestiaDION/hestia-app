@@ -30,17 +30,18 @@ public class UniversitarioService {
                 if (response.isSuccessful() && response.body() != null) {
                     Universitario universitarioResponse = response.body();
                     Log.d("Registro", "Universitário registrado com sucesso: " + universitarioResponse.getNome());
-                    callback.onRegistroSuccess(true);
+                    Log.d("Registro", "ID do universitário registrado: " + universitarioResponse.getId());
+                    callback.onRegistroSuccess(true, universitarioResponse.getId());
                 } else {
                     Log.e("Registro", "Erro ao registrar universitário: " + response.message());
-                    callback.onRegistroSuccess(false);
+                    callback.onRegistroFailure(false);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Universitario> call, @NonNull Throwable t) {
                 Log.e("Registro", "Falha na chamada da API: " + t.getMessage());
-                callback.onRegistroSuccess(false);
+                callback.onRegistroFailure(false);
             }
         });
     }

@@ -30,6 +30,18 @@
         app:layout_constraintStart_toStartOf="@+id/goBackArrow"
         app:layout_constraintTop_toBottomOf="@+id/goBackArrow" />
 
+    <ImageView
+        android:id="@+id/goBackArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/view2"
+        app:srcCompat="@drawable/go_back_arrow_icon" />
+
     <TextView
         android:id="@+id/espaco"
         android:layout_width="352dp"
@@ -94,18 +106,6 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <ImageView
-        android:id="@+id/goBackArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="13dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view2"
-        app:srcCompat="@drawable/go_back_arrow_icon" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -184,14 +184,14 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/suporte"
+            android:id="@+id/sobre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/blue_question"
             android:drawablePadding="5dp"
             android:fontFamily="@font/poppins_semi_bold"
             android:padding="10dp"
-            android:text="Ajuda &amp; suporte"
+            android:text="Sobre o Aplicativo"
             android:textColor="@color/azul"
             android:textSize="15sp" />
 

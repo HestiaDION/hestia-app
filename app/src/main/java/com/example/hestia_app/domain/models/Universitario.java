@@ -41,17 +41,7 @@ public class Universitario {
 
     public Universitario() {}
 //
-//    public Universitario(UUID id, String nome, String dt_nascimento, String dne, String bio, String genero, String cidade, String universidade, String telefone) {
-//        this.id = id;
-//        this.nome = nome;
-//        this.dt_nascimento = dt_nascimento;
-//        this.dne = dne;
-//        this.bio = bio;
-//        this.cidade = cidade;
-//        this.universidade = universidade;
-//        this.genero = genero;
-//        this.telefone = telefone;
-//    }
+
 
     // construtor para registro
     public Universitario(String nome, String email, String dne, String municipio,
