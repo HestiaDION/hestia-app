@@ -28,6 +28,9 @@
         android:theme="@style/Theme.Hestiaapp"
         tools:targetApi="31">
         <activity
+            android:name=".MoradiaMaisInformacoes"
+            android:exported="false" />
+        <activity
             android:name=".DashboardInformacoes"
             android:exported="false" />
         <activity
@@ -67,7 +70,7 @@
             android:name=".presentation.view.MoradiaItem"
             android:exported="false" />
         <activity
-            android:name=".presentation.view.LoginActivity"
+            android:name=".presentation.view.Splashscreen"
             android:exported="false" />
         <activity
             android:name=".presentation.view.MainActivity"
@@ -79,7 +82,7 @@
             android:name=".presentation.view.swipe.PreviewScreensExplanation"
             android:exported="false" />
         <activity
-            android:name=".presentation.view.Splashscreen"
+            android:name=".presentation.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

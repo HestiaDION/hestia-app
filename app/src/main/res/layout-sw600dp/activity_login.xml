@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,16 +9,14 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="511dp"
-        android:layout_height="104dp"
-        android:layout_marginTop="552dp"
+        android:layout_width="492dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="160dp"
         android:background="@drawable/login_button"
         android:fontFamily="@font/poppins_semi_bold"
-
         android:text="@string/login"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView10" />
@@ -27,10 +26,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/poppins_regular"
-
         android:text="@string/um_oferecimento_por"
         android:textColor="@color/vermelho_claro"
-        android:textSize="24sp"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -45,10 +43,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_regular"
-
         android:text="@string/cadastre_se_aqui"
         android:textColor="@color/vermelho_claro"
-        android:textSize="34sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView"
@@ -58,14 +55,13 @@
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="23dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_regular"
-
         android:paddingEnd="8dp"
         android:text="@string/primeira_vez"
         android:textColor="@color/azul"
-        android:textSize="34sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@+id/cadastroRedirect"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -75,9 +71,8 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="627dp"
-        android:layout_height="329dp"
-        android:scaleType="fitEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/blue_bloob_decoration" />
@@ -85,11 +80,12 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="50dp"
+        android:layout_height="120dp"
+        android:layout_margin="16dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/input_group_background"
         android:orientation="vertical"
-        android:padding="20dp"
+        android:padding="8dp"
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,23 +94,22 @@
         <EditText
             android:id="@+id/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_height="48dp"
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:background="@null"
+            android:drawableLeft="@drawable/cadeado_icon"
             android:drawablePadding="10dp"
             android:ems="10"
             android:fontFamily="@font/poppins_regular"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textColor="@color/cinza"
-            android:textSize="48sp"
             tools:ignore="MissingConstraints" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="1dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:background="@color/azul" />
@@ -126,23 +121,21 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-
             <EditText
                 android:id="@+id/password"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:background="@null"
+                android:drawableLeft="@drawable/cadeado_icon"
                 android:drawablePadding="10dp"
                 android:ems="10"
-
                 android:fontFamily="@font/poppins_regular"
                 android:hint="@string/senha"
-                android:inputType="textVisiblePassword"
+                android:inputType="text|textPassword"
+                android:password="false"
                 android:textColor="@color/cinza"
-                android:textSize="48sp"
                 tools:ignore="MissingConstraints,NestedWeights" />
 
             <ImageButton
@@ -153,23 +146,22 @@
                 android:backgroundTint="#00FFFFFF"
                 android:src="@drawable/open_eye_password_icon"
                 android:visibility="invisible" />
-        </LinearLayout>
 
+        </LinearLayout>
     </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="637dp"
-        android:layout_height="288dp"
-        android:scaleType="fitEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/red_bloob_decoration" />
 
     <ImageView
         android:id="@+id/imageView10"
-        android:layout_width="428dp"
-        android:layout_height="271dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="104dp"
         android:src="@drawable/hestia"
         app:layout_constraintEnd_toEndOf="parent"
@@ -178,10 +170,10 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="152dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="94dp"
+        android:layout_height="82dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2"
         app:srcCompat="@drawable/dion_logo" />
