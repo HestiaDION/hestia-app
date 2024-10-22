@@ -68,7 +68,6 @@ public class Splashscreen extends AppCompatActivity {
         } else {
             // Após o número máximo de tentativas, exibe uma mensagem e continua
             Log.e("SplashScreen", "Número máximo de tentativas atingido.");
-            Toast.makeText(this, "Não foi possível conectar à API. Tente novamente mais tarde.", Toast.LENGTH_LONG).show();
 
             // fechar aplicativo
             finish();

@@ -69,6 +69,16 @@ public class CadastroMoradiaDois extends Fragment {
         Button btProximo = view.findViewById(R.id.bt_acao);
         ImageButton btVoltar = view.findViewById(R.id.voltar);
 
+        if (moradia.get("imagens") != null) {
+            imagePaths = Arrays.asList(moradia.get("imagens").split(","));
+            imageAdapter = new FotosCadastroAdapter(getContext(), imagePaths);
+            imagens.setAdapter(imageAdapter);
+            imagens.setCurrentItem(imagePaths.size() - 1);
+            imagens.setUserInputEnabled(false);
+        } else {
+            imagePaths = new ArrayList<>();
+        }
+
         btFechar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,7 +97,6 @@ public class CadastroMoradiaDois extends Fragment {
         escolher_foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imagePaths = new ArrayList<>();
                 imageAdapter = new FotosCadastroAdapter(getContext(), imagePaths);
                 imagens.setAdapter(imageAdapter);
 
@@ -126,10 +135,12 @@ public class CadastroMoradiaDois extends Fragment {
                             Uri imageUri = result.getData().getClipData().getItemAt(i).getUri();
                             imagePaths.add(imageUri.toString());
                         }
+                        moradia.put("imagens", imagePaths.toString());
                     } else if (result.getData().getData() != null) {
                         // Selecionou uma única imagem
                         Uri imageUri = result.getData().getData();
                         imagePaths.add(imageUri.toString());
+                        moradia.put("imagens", imagePaths.toString());
                     }
                     imageAdapter.notifyDataSetChanged();
                 } else {
