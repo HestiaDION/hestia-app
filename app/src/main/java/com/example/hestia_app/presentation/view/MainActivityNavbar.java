@@ -55,8 +55,11 @@ public class MainActivityNavbar extends AppCompatActivity {
                 // Configurar o fragmento inicial com base na origem
                 if (origemUsuario.equals(ANUNCIANTE)) {
                     replaceFragment(new HomeAnunciante());
+                    updateIcons(binding.bottomNavbar.getMenu().findItem(R.id.nav_home).getItemId());
                 } else if (origemUsuario.equals(UNIVERSITARIO)) {
-                    replaceFragment(new HomeAnunciante()); // Placeholder para universitário
+                    replaceFragment(new HomeAnunciante());
+                    updateIcons(binding.bottomNavbar.getMenu().findItem(R.id.nav_home).getItemId());
+
                 }
             }
 
@@ -87,14 +90,18 @@ public class MainActivityNavbar extends AppCompatActivity {
             } else if (itemId == R.id.nav_perfil) {
                 replaceFragment(new PerfilAnunciante(origemUsuario));
             }
+
         } else if (origemUsuario.equals(UNIVERSITARIO)) {
             replaceFragment(new HomeUniversitario());
             if (itemId == R.id.nav_chat) {
                 replaceFragment(new ChatUniversitario());
+                binding.bottomNavbar.getMenu().findItem(R.id.nav_chat).setIcon(R.drawable.chat_selected_icon);
             } else if (itemId == R.id.nav_home) {
                 replaceFragment(new HomeUniversitario());
+                binding.bottomNavbar.getMenu().findItem(R.id.nav_home).setIcon(R.drawable.home_selected_icon);
             } else if (itemId == R.id.nav_perfil) {
-                replaceFragment(new PerfilUniversitario());
+                replaceFragment(new PerfilUniversitario(origemUsuario));
+                binding.bottomNavbar.getMenu().findItem(R.id.nav_perfil).setIcon(R.drawable.person_selected_icon);
             }
         }
         updateIcons(itemId);

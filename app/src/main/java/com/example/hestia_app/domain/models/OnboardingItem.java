@@ -1,4 +1,4 @@
-package com.example.hestia_app.domain;
+package com.example.hestia_app.domain.models;
 
 public class OnboardingItem {
 

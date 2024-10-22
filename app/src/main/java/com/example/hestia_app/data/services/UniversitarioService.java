@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.hestia_app.data.api.callbacks.RegistroUniversitarioCallback;
+import com.example.hestia_app.data.api.callbacks.UpdatePerfilUniversitarioCallback;
 import com.example.hestia_app.data.api.repo.UniversitarioRepository;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
@@ -29,22 +30,23 @@ public class UniversitarioService {
                 if (response.isSuccessful() && response.body() != null) {
                     Universitario universitarioResponse = response.body();
                     Log.d("Registro", "Universitário registrado com sucesso: " + universitarioResponse.getNome());
-                    callback.onRegistroSuccess(true);
+                    Log.d("Registro", "ID do universitário registrado: " + universitarioResponse.getId());
+                    callback.onRegistroSuccess(true, universitarioResponse.getId());
                 } else {
                     Log.e("Registro", "Erro ao registrar universitário: " + response.message());
-                    callback.onRegistroSuccess(false);
+                    callback.onRegistroFailure(false);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Universitario> call, @NonNull Throwable t) {
                 Log.e("Registro", "Falha na chamada da API: " + t.getMessage());
-                callback.onRegistroSuccess(false);
+                callback.onRegistroFailure(false);
             }
         });
     }
 
-    public void atualizarUniversitarioProfile(String email, Universitario universitario, RegistroUniversitarioCallback callback){
+    public void atualizarUniversitarioProfile(String email, Universitario universitario, UpdatePerfilUniversitarioCallback callback){
         Call<Universitario> call = universitarioRepository.updateUniversitarioProfile(email, universitario);
 
         call.enqueue(new Callback<Universitario>() {
@@ -74,15 +76,15 @@ public class UniversitarioService {
             public void onResponse(@NonNull Call<Universitario> call, @NonNull Response<Universitario> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Universitario universitarioResponse = response.body();
-                    callback.onPerfilAnuncianteSuccess(universitarioResponse);
+                    callback.onPerfilUniversitarioSuccess(universitarioResponse);
                 } else {
-                    callback.onPerfilAnuncianteFailure("Erro ao buscar perfil");
+                    callback.onPerfilUniversitarioFailure("Erro ao buscar perfil");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<Universitario> call, @NonNull Throwable t) {
-                callback.onPerfilAnuncianteFailure(t.getMessage());
+                callback.onPerfilUniversitarioFailure(t.getMessage());
             }
         });
     }

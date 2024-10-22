@@ -135,10 +135,6 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
 
     private ActivityResultLauncher<Intent> resultLauncherGaleria = registerForActivityResult(

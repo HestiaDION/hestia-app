@@ -11,13 +11,13 @@ import retrofit2.http.Path;
 
 public interface UniversitarioRepository {
 
-    @GET("/university/profile/{id}")
+    @GET("/university/profile/{email}")
     Call<Universitario> getUniversityProfile(@Path("email") String email);
 
     @POST("/university/register")
     Call<Universitario> registerUniversitario(@Body Universitario universitario); // <Universitario>
 
-    @PATCH("/advertiser/updateProfile/{email}")
+    @PATCH("/university/updateProfile/{email}")
     Call<Universitario> updateUniversitarioProfile(@Path("email") String email, @Body Universitario universitario);
 
 }

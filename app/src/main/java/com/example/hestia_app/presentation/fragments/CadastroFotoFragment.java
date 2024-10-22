@@ -221,10 +221,55 @@ public class CadastroFotoFragment extends Fragment {
                     universitarioService.registrarUniversitario(universitario, new RegistroUniversitarioCallback() {
 
                         @Override
-                        public void onRegistroSuccess(boolean isRegistered) {
+                        public void onRegistroSuccess(boolean isRegistered, UUID universitarioId) {
 
                             if (isRegistered) {
                                 Log.d("Registro", "Universitário registrado com sucesso!");
+
+                                // salvar os filtros no mongo
+                                // recuperar as informções
+
+                                List<String> categoria1 = transformarLista(usuario.get("categoria1"));
+                                List<String> categoria2 = transformarLista(usuario.get("categoria2"));
+                                List<String> categoria3 = transformarLista(usuario.get("categoria3"));
+                                List<String> categoria4 = transformarLista(usuario.get("categoria4"));
+                                List<String> categoria5 = transformarLista(usuario.get("categoria5"));
+
+                                // informações de filtros
+                                FiltrosTags filtrosTags = new FiltrosTags(
+                                        universitarioId,
+                                        tipo,
+                                        categoria1,
+                                        categoria2.get(0),
+                                        categoria3.get(0),
+                                        categoria4.get(0),
+                                        categoria5.get(0)
+                                );
+
+                                Log.d("FILTROS", "BODY FILTROS: " + filtrosTags);
+
+                                filtrosTagsService.addFiltrosTag(filtrosTags, new FiltrosTagsCallback() {
+                                    @Override
+                                    public void onFiltroCadastroSuccess(boolean IsRegistered) {
+                                        if (IsRegistered) {
+                                            Log.d("Registro", "Filtros salvos com sucesso!");
+                                        } else {
+                                            Log.d("Registro", "Falha ao salvar os filtros.");
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFiltroCadastroFailure(boolean IsRegistered) {
+                                        if (IsRegistered) {
+                                            Log.d("Registro", "Filtros salvos com sucesso!");
+                                        } else {
+                                            Log.d("Registro", "Falha ao salvar os filtros.");
+                                        }
+                                    }
+                                });
+
+
+
                             } else {
                                 Log.d("Registro", "Falha ao registrar o universitário.");
                             }
@@ -237,47 +282,7 @@ public class CadastroFotoFragment extends Fragment {
                     });
 
 
-                    // salvar os filtros no mongo
-                    // recuperar as informções
 
-                    List<String> categoria1 = transformarLista(usuario.get("categoria1"));
-                    List<String> categoria2 = transformarLista(usuario.get("categoria2"));
-                    List<String> categoria3 = transformarLista(usuario.get("categoria3"));
-                    List<String> categoria4 = transformarLista(usuario.get("categoria4"));
-                    List<String> categoria5 = transformarLista(usuario.get("categoria5"));
-
-                    // informações de filtros
-                    FiltrosTags filtrosTags = new FiltrosTags(
-                            UUID.randomUUID(), // TODO: trocar pelo id do universitario
-                            tipo,
-                            categoria1,
-                            categoria2.get(0),
-                            categoria3.get(0),
-                            categoria4.get(0),
-                            categoria5.get(0)
-                    );
-
-                    Log.d("FILTROS", "BODY FILTROS: " + filtrosTags);
-
-                    filtrosTagsService.addFiltrosTag(filtrosTags, new FiltrosTagsCallback() {
-                        @Override
-                        public void onFiltroCadastroSuccess(boolean IsRegistered) {
-                            if (IsRegistered) {
-                                Log.d("Registro", "Filtros salvos com sucesso!");
-                            } else {
-                                Log.d("Registro", "Falha ao salvar os filtros.");
-                            }
-                        }
-
-                        @Override
-                        public void onFiltroCadastroFailure(boolean IsRegistered) {
-                            if (IsRegistered) {
-                                Log.d("Registro", "Filtros salvos com sucesso!");
-                            } else {
-                                Log.d("Registro", "Falha ao salvar os filtros.");
-                            }
-                        }
-                    });
 
                 } else{
                     Log.d("Registro", "NÃO CAIU NO REGISTRO");
