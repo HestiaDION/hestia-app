@@ -19,6 +19,6 @@ public class PremiumScreenAnunciante extends AppCompatActivity {
 
         // TODO: implementar tela de pagamento e botão de volta
         assinar.setOnClickListener(v -> {});
-        goBack.setOnClickListener(v -> {});
+        goBack.setOnClickListener(v -> finish());
     }
 }

@@ -30,8 +30,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
 
+import com.example.hestia_app.data.api.InfoUserRepository;
+import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroUniversitarioCallback;
+import com.example.hestia_app.data.services.InfosUserService;
 import com.example.hestia_app.data.services.UniversitarioService;
 import com.example.hestia_app.domain.models.Anunciante;
 
@@ -42,6 +45,7 @@ import com.example.hestia_app.data.models.FiltrosTags;
 import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.FirebaseService;
+import com.example.hestia_app.domain.models.InfosUser;
 import com.example.hestia_app.domain.models.Universitario;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
@@ -77,11 +81,13 @@ public class CadastroFotoFragment extends Fragment {
         REQUIRED_PERMISSIONS = requiredPermissions.toArray(new String[0]);
     }
 
-    // service
+    // services
     AnuncianteService anuncianteService = new AnuncianteService();
     UniversitarioService universitarioService = new UniversitarioService();
     FirebaseService firebaseService = new FirebaseService();
     FiltrosTagsService filtrosTagsService = new FiltrosTagsService();
+    InfosUserService infosUserService = new InfosUserService();
+
 
     final String ANUNCIANTE = "ANUNCIANTE";
     final String UNIVERSITARIO = "UNIVERSITÁRIO";
@@ -152,14 +158,32 @@ public class CadastroFotoFragment extends Fragment {
 
                 // salvando informações no firebase
                 assert nome != null;
-                Log.d("Registro", "FIREAUTH REGISTROU UM USUÁRIO");
+                Log.d("Registro", "FIREBASE: USUÁRIO REGISTRADO: " + nome);
                 firebaseService.salvarUsuario(getContext(), nome, email, senha, uri, checkBox.isChecked());
 
-                // salvando informações no postgres
+                // enviando informações para a collection InfosUser no MongoDB
+                InfosUser infosUser = new InfosUser(
+                        email,
+                        senha,
+                        uri.toString()
+                );
+
+                infosUserService.addInfosUser(infosUser, new InfosUserCallback() {
+
+                    @Override
+                    public void onSuccess(InfoUserRepository response) {
+                        Log.d("InfosUser", "Sucesso ao enviar objeto InfosUser ao MongoDB:" + response.toString());
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.d("InfosUser", "Falha ao enviar objeto InfosUser ao MongoDB: " + t.toString());
+                    }
+                });
+
                 if(tipo.equals("anunciante")) {
 
                     Log.d("Registro", "CAIU NO TIPO ANUNCIANTE");
-
                     Anunciante anunciante = new Anunciante(
                             nome,
                             usuario.get("municipio"),
@@ -171,11 +195,6 @@ public class CadastroFotoFragment extends Fragment {
 
                     Log.d("BODY", anunciante.toString());
 
-                // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
-                    // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
-                        // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
-                            // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
-                                // 🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄🦄
 
                   anuncianteService.registrarAnunciante(anunciante, new RegistroAnuncianteCallback() {
                       @Override

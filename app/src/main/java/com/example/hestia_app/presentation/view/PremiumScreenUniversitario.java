@@ -10,7 +10,6 @@ import com.example.hestia_app.R;
 
 public class PremiumScreenUniversitario extends AppCompatActivity {
 
-
     Button assinar;
     ImageView goBack;
     @Override
@@ -21,8 +20,7 @@ public class PremiumScreenUniversitario extends AppCompatActivity {
         // TODO: implementar tela de pagamento
         assinar.setOnClickListener(v -> {});
 
-        // TODO: implementar botão de voltar
-        goBack.setOnClickListener(v -> {});
+        goBack.setOnClickListener(v -> finish());
     }
 
 
