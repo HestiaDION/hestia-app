@@ -13,7 +13,7 @@ public class Anunciante {
     @SerializedName("nome")
     private String nome;
 
-    @SerializedName("cidade")
+    @SerializedName("municipio")
     private String cidade;
 
     @SerializedName("tele" +

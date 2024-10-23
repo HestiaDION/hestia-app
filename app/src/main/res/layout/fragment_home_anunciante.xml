@@ -28,13 +28,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/estatistics_button"
+            android:id="@+id/premiumButton"
             android:layout_width="40dp"
             android:layout_height="34dp"
             android:layout_marginStart="123dp"
             android:layout_marginTop="32dp"
-            android:contentDescription="statistics_home_buttom"
-            android:src="@drawable/statistic_icon"
+            android:contentDescription="premium_button"
+            android:src="@drawable/rocket"
             app:layout_constraintEnd_toStartOf="@+id/notification_button"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/textView5"
