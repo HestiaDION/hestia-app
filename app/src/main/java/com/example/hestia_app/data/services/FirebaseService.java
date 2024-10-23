@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.hestia_app.EditarPerfilAnunciante;
 import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

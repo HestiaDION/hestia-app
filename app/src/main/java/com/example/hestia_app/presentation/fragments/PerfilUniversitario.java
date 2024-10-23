@@ -15,13 +15,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.hestia_app.EditarPerfilAnunciante;
-import com.example.hestia_app.EditarPerfilUniversitario;
+import com.example.hestia_app.presentation.view.EditarPerfilUniversitario;
 import com.example.hestia_app.R;
-import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
 import com.example.hestia_app.data.services.UniversitarioService;
-import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.domain.models.Universitario;
 import com.example.hestia_app.presentation.view.LoginActivity;
 import com.example.hestia_app.utils.ViewUtils;

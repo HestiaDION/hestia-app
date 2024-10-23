@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.cadastroMoradia.CadastroMoradiaDois"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".presentation.fragments.cadastroMoradia.CadastroMoradiaTres">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,60 +68,84 @@
         android:layout_marginLeft="23dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Agora, vamos adicionar fotos do anúncio! Escolha entre 3 a 10 fotos."
+        android:text="Hora de inserir informações adicionais sobre o local. Cada informação será apresentada por um tópico."
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/escolher_foto"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:id="@+id/informacoesAdicionais"
+            android:layout_width="317dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/card_borda"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/fotosMoradiaCadastro"
+
+            <EditText
+                android:id="@+id/info1"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/input_group_background"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:ems="10"
+                android:hint="Ex: 3 banheiros"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/info2"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="Ex: 3 banheiros"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/info3"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="Ex: 3 banheiros"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/info4"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="Ex: 3 banheiros"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/info5"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:ems="10"
+                android:hint="Ex: 3 banheiros"
+                android:inputType="text" />
 
             <TextView
-                android:id="@+id/txt_adicionar"
-                android:layout_width="180dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="Suas mídias aparecerão aqui"
-                android:textAlignment="center"
-                android:textColor="#001A72"
-                android:textSize="16sp"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/foto_ilustrativa"
-                android:layout_width="200dp"
-                android:layout_height="100dp"
-                android:src="@drawable/imagens"
-                android:visibility="visible" />
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="*No mínimo 3 informações e no máximo 5"
+                android:textColor="@color/azul_mediano"
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -132,7 +156,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="23dp"
         android:background="@drawable/bt_cadastro"
         android:fontFamily="@font/poppins_regular"
@@ -149,12 +173,12 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:indeterminateBehavior="repeat"
         android:max="100"
         android:maxHeight="20dip"
         android:minHeight="20dip"
-        android:progress="16"
+        android:progress="32"
         android:progressDrawable="@drawable/custom_progress_bar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

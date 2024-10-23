@@ -1,9 +1,11 @@
-package com.example.hestia_app;
+package com.example.hestia_app.presentation.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.webkit.WebView;
+
+import com.example.hestia_app.R;
 
 public class DashboardInformacoes extends AppCompatActivity {
 

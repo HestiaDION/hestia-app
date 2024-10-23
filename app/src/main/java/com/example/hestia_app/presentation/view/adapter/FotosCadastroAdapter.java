@@ -31,7 +31,10 @@ public class FotosCadastroAdapter extends RecyclerView.Adapter<FotosCadastroAdap
 
     @Override
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
-        Glide.with(context).load(imagePaths.get(position)).into(holder.imageView);
+        Glide.with(context)
+                .load(imagePaths.get(position))
+                .fitCenter()
+                .into(holder.imageView);
     }
 
     @Override

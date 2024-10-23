@@ -31,13 +31,13 @@
             android:name=".presentation.view.AdicionarMoradia"
             android:exported="false"/>
         <activity
-            android:name=".DashboardInformacoes"
+            android:name=".presentation.view.DashboardInformacoes"
             android:exported="false" />
         <activity
-            android:name=".EditarPerfilUniversitario"
+            android:name=".presentation.view.EditarPerfilUniversitario"
             android:exported="false" />
         <activity
-            android:name=".EditarPerfilAnunciante"
+            android:name=".presentation.view.EditarPerfilAnunciante"
             android:exported="false" />
         <activity
             android:name=".presentation.view.Notificacao_item"

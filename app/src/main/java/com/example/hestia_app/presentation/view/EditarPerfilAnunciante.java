@@ -1,6 +1,4 @@
-package com.example.hestia_app;
-
-import static java.security.AccessController.getContext;
+package com.example.hestia_app.presentation.view;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -18,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilAnuncianteCallback;
 import com.example.hestia_app.data.services.AnuncianteService;
@@ -28,7 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 public class EditarPerfilAnunciante extends AppCompatActivity {
 
@@ -40,7 +38,6 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
     Button salvar;
     ImageView editarImagem, imagem, goBack;
     Uri uri;
-    HashMap<String, String> usuarioAcessoGaleria;
 
 
     @Override
@@ -101,18 +98,12 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 firebaseService.updateDisplayName(this, user, nomeFormatado);
             }
 
-
-            // TODO: abrir a galeria para acessar nova foto de perfil
-//            // abrindo a galeria
-//            editarImagem.setOnClickListener(v2 -> {
-//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                resultLauncherGaleria.launch(intent);
-//                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
-//            });
-
-
-
-
+            // abrindo a galeria
+            editarImagem.setOnClickListener(v2 -> {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                resultLauncherGaleria.launch(intent);
+                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
+            });
 
             Anunciante anuncianteAtualizado = new Anunciante(nome.getText().toString(), bio.getText().toString());
             anuncianteService.atualizarAnuncianteProfile(user.getEmail(), anuncianteAtualizado, new UpdatePerfilAnuncianteCallback() {
@@ -145,26 +136,18 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                     // imagem selecionada
                     uri = imageUri;
 
-                    // salvar no map
-                    usuarioAcessoGaleria.put("imagem", uri.toString());
+                    FirebaseService firebaseService = new FirebaseService();
+                    firebaseService.updateProfilePicture(this, user, uri);
 
                     // Exibe a imagem selecionada
                     Glide.with(this).load(imageUri)
                             .centerCrop()
                             .into(imagem);
 
-                    // desaparecer a imagem padrão
-                    imagem.setVisibility(View.GONE);
-
-                    // aparecer a imagem selecionada
-                    imagem.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(this, "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
                 }
             }
     );
-
-
-
 
 }

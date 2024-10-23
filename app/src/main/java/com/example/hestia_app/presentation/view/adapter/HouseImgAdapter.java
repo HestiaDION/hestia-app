@@ -37,6 +37,7 @@ public class HouseImgAdapter extends RecyclerView.Adapter<HouseImgAdapter.ImageV
         String imageUrl = imageList.get(position);
         Glide.with(holder.imageView.getContext())
                 .load(imageUrl) // Carregue a imagem a partir da URL
+                .fitCenter()
                 .into(holder.imageView);
     }
 

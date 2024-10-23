@@ -1,15 +1,12 @@
 package com.example.hestia_app.presentation.view;
 
-import android.app.admin.DelegatedAdminReceiver;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hestia_app.DashboardInformacoes;
 import com.example.hestia_app.R;
 
 public class Configuracoes extends AppCompatActivity {

@@ -67,7 +67,7 @@ public class CadastroFotoFragment extends Fragment {
     TextView txt_adicionar;
     CheckBox checkBox;
     // lista de permissões
-    private static final String[] REQUIRED_PERMISSIONS;
+    public static final String[] REQUIRED_PERMISSIONS;
 
     static {
         List<String> requiredPermissions = new ArrayList<>();

@@ -15,7 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.hestia_app.EditarPerfilAnunciante;
+import com.example.hestia_app.presentation.view.EditarPerfilAnunciante;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.domain.models.Anunciante;

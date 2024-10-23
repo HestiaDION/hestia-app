@@ -1,9 +1,13 @@
-package com.example.hestia_app;
+package com.example.hestia_app.presentation.view;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,15 +15,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
-import com.example.hestia_app.data.api.callbacks.UpdatePerfilAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilUniversitarioCallback;
 import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.data.services.UniversitarioService;
-import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.domain.models.Universitario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.HashMap;
 
@@ -33,7 +37,6 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
     Button salvar;
     ImageView editarImagem, imagem, goBack;
     Uri uri;
-    HashMap<String, String> usuarioAcessoGaleria;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +96,12 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
             }
 
 
-            // TODO: abrir a galeria para acessar nova foto de perfil
-//            // abrindo a galeria
-//            editarImagem.setOnClickListener(v2 -> {
-//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                resultLauncherGaleria.launch(intent);
-//                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
-//            });
+            // abrindo a galeria
+            editarImagem.setOnClickListener(v2 -> {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                resultLauncherGaleria.launch(intent);
+                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
+            });
 
             Log.d("Email", user.getEmail());
             Universitario universitarioAtualizado = new Universitario(nome.getText().toString(), bio.getText().toString());
@@ -124,4 +126,26 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
         });
 
     }
+
+    private ActivityResultLauncher<Intent> resultLauncherGaleria = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                Uri imageUri = result.getData().getData();
+                if (imageUri != null) {
+                    // imagem selecionada
+                    uri = imageUri;
+
+                    FirebaseService firebaseService = new FirebaseService();
+                    firebaseService.updateProfilePicture(this, user, uri);
+
+                    // Exibe a imagem selecionada
+                    Glide.with(this).load(imageUri)
+                            .centerCrop()
+                            .into(imagem);
+
+                } else {
+                    Toast.makeText(this, "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
+                }
+            }
+    );
 }
