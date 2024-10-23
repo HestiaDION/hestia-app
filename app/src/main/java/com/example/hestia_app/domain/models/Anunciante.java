@@ -11,8 +11,7 @@ public class Anunciante {
     @SerializedName("municipio")
     private String municipio;
 
-    @SerializedName("tele" +
-            "fone")
+    @SerializedName("telefone")
     private String telefone;
 
     @SerializedName("genero")

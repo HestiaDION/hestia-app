@@ -1,5 +1,6 @@
 package com.example.hestia_app.presentation.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -21,12 +22,14 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.view.PremiumScreenUniversitario;
 
 public class HomeUniversitario extends Fragment {
 
     private FrameLayout frameLayout; // Contêiner para os cartões
     private List<AnuncioCasa> anuncioCasaList; // Lista de usuários para o swipe
     private int currentIndex = 0; // Índice do usuário atual
+    ImageView premiumButton;
 
     TextView txt_card;
 
@@ -42,17 +45,21 @@ public class HomeUniversitario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Infla o layout do fragmento
         View view = inflater.inflate(R.layout.fragment_home_universitario, container, false);
+        premiumButton = view.findViewById(R.id.premiumButtonUniversity);
 
-        // Inicializa os componentes da UI
-        frameLayout = view.findViewById(R.id.frame_cards); // Use 'view' para acessar os elementos
+        premiumButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), PremiumScreenUniversitario.class);
+            startActivity(intent);
+        });
+
+
+        frameLayout = view.findViewById(R.id.frame_cards);
         txt_card = view.findViewById(R.id.txt_card);
-
         txt_card.setVisibility(View.INVISIBLE);
 
         if (!anuncioCasaList.isEmpty()) {
-            addNextCard(); // Adiciona o primeiro cartão
+            addNextCard();
         }
 
         return view;
@@ -76,19 +83,15 @@ public class HomeUniversitario extends Fragment {
         TextView qntPessoasMax = card.findViewById(R.id.iQntPessoasMax);
         TextView valor = card.findViewById(R.id.nValor);
 
-        // Carrega a imagem do perfil usando Glide
         String imgUrl = anuncioCasa.getHouseImg();
         Glide.with(getActivity())
                 .load(imgUrl)
                 .into(houseImg);
 
-        // Carregando o nome da moradia
         nmMoradia.setText(anuncioCasa.getcNmMoradia());
 
-        // Carregando o número de quartos
         qntQuartos.setText(anuncioCasa.getiQntQuartos() + " quartos");
 
-        // Carregando o número máximo de pessoas
         qntPessoasMax.setText("Capacidade de " + anuncioCasa.getiQntPessoasMax() + " pessoas");
 
         // Carregando o valor do imóvel

@@ -23,10 +23,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import android.widget.ImageView;
+import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.view.PremiumScreenAnunciante;
 
 public class HomeAnunciante extends Fragment {
 
     ImageButton btAdicionarMoradia;
+    ImageView premiumButton;
 
     public HomeAnunciante() {
         // Required empty public constructor
@@ -35,6 +39,7 @@ public class HomeAnunciante extends Fragment {
     public static HomeAnunciante newInstance() {
         HomeAnunciante fragment = new HomeAnunciante();
         Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -46,6 +51,7 @@ public class HomeAnunciante extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_home_anunciante, container, false);
         btAdicionarMoradia = view.findViewById(R.id.btAdicionarMoradia);
 
@@ -68,6 +74,14 @@ public class HomeAnunciante extends Fragment {
                 startActivity(intent);
             }
         });
+
+        premiumButton = view.findViewById(R.id.premiumButton);
+
+        premiumButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), PremiumScreenAnunciante.class);
+            startActivity(intent);
+        });
+
         return view;
     }
 }
