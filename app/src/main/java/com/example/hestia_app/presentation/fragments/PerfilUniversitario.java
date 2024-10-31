@@ -30,11 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PerfilUniversitario#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class PerfilUniversitario extends Fragment {
     String tipo_usuario;
     Button editarPerfil;
