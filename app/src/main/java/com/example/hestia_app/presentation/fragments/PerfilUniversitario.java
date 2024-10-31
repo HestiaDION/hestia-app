@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.hestia_app.presentation.view.Configuracoes;
 import com.example.hestia_app.presentation.view.EditarPerfilUniversitario;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
@@ -27,17 +29,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PerfilUniversitario#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class PerfilUniversitario extends Fragment {
     String tipo_usuario;
     Button editarPerfil;
     UniversitarioService universitarioService = new UniversitarioService();
     String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
-
+    ImageView configuracoes;
 
     public PerfilUniversitario(String tipoUsuario) {
         this.tipo_usuario = tipoUsuario;
@@ -65,6 +62,16 @@ public class PerfilUniversitario extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil_universitario, container, false);
+
+        // configurações
+        configuracoes = view.findViewById(R.id.btn_config);
+        configuracoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Configuracoes.class);
+                startActivity(intent);
+            }
+        });
 
         // edição de perfil
         editarPerfil = view.findViewById(R.id.bt_editar);

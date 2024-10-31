@@ -16,10 +16,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
+import com.example.hestia_app.data.api.InfoUserRepository;
+import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilUniversitarioCallback;
 import com.example.hestia_app.data.services.FirebaseService;
+import com.example.hestia_app.data.services.InfosUserService;
 import com.example.hestia_app.data.services.UniversitarioService;
+import com.example.hestia_app.domain.models.InfosUser;
 import com.example.hestia_app.domain.models.Universitario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -79,6 +83,13 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
                     .into(imagem);
         }
 
+        // abrindo a galeria
+        editarImagem.setOnClickListener(v2 -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            resultLauncherGaleria.launch(intent);
+            Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
+        });
+
         salvar.setOnClickListener(v -> {
 
             if(nome.getText().toString().isEmpty() ){
@@ -95,13 +106,6 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
                 firebaseService.updateDisplayName(this, user, nomeFormatado);
             }
 
-
-            // abrindo a galeria
-            editarImagem.setOnClickListener(v2 -> {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                resultLauncherGaleria.launch(intent);
-                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
-            });
 
             Log.d("Email", user.getEmail());
             Universitario universitarioAtualizado = new Universitario(nome.getText().toString(), bio.getText().toString());
@@ -137,6 +141,20 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
 
                     FirebaseService firebaseService = new FirebaseService();
                     firebaseService.updateProfilePicture(this, user, uri);
+
+                    InfosUserService infosUserService = new InfosUserService();
+                    InfosUser infosUser = new InfosUser(uri.toString());
+                    infosUserService.updateProfilePhotoUrlMongoCollection(user.getEmail(), infosUser, new InfosUserCallback() {
+                        @Override
+                        public void onSuccess(InfosUser response) {
+                            Log.d("updateFotoMongo", "onSuccess: " + response);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Log.d("updateFotoMongo", "onFailure: " + t.getMessage());
+                        }
+                    });
 
                     // Exibe a imagem selecionada
                     Glide.with(this).load(imageUri)

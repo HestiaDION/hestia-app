@@ -39,6 +39,14 @@ public class Splashscreen extends AppCompatActivity {
         // verificando se tem acesso à internet
         if (!NetworkUtil.isConnected(this)) {
             Toast.makeText(this, "Sem conexão com a internet", Toast.LENGTH_LONG).show();
+            Bundle bundle = new Bundle();
+            bundle.putString("textExplanation", "Héstia requer acesso à internet para se conectar ao servidor. Por favor, verifique se está conectado a rede e tente novamente.");
+            bundle.putInt("lottieAnimation", R.raw.no_internet);
+            bundle.putString("tipo", "no_internet");
+            Intent intent = new Intent(Splashscreen.this, TelaAviso.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
         } else {
             wakeUpApiWithRetries();
             new Handler().postDelayed(() -> {

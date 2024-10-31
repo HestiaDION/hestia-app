@@ -164,22 +164,39 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/bt_acao"
-        style="@style/Widget.AppCompat.Button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="23dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="23dp"
-        android:background="@drawable/bt_cadastro"
-        android:fontFamily="@font/poppins_regular"
-        android:padding="10dp"
-        android:stateListAnimator="@android:anim/fade_in"
-        android:text="Finalizar Cadastro"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:indeterminateTint="@color/azul_claro"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/bt_acao"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="23dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="23dp"
+            android:background="@drawable/bt_cadastro"
+            android:fontFamily="@font/poppins_regular"
+            android:padding="10dp"
+            android:stateListAnimator="@android:anim/fade_in"
+            android:text="Finalizar Cadastro"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progresso"

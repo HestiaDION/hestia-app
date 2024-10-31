@@ -33,7 +33,7 @@ public class FotosCadastroAdapter extends RecyclerView.Adapter<FotosCadastroAdap
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Glide.with(context)
                 .load(imagePaths.get(position))
-                .fitCenter()
+                .centerInside()
                 .into(holder.imageView);
     }
 

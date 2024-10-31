@@ -17,11 +17,11 @@ public class InfosUserService {
     private final InfoUserRepository infoUserRepository = RetrofitMongoClient.getClient().create(InfoUserRepository.class);
 
     public void addInfosUser(InfosUser infosUser, InfosUserCallback callback) {
-        Call<InfoUserRepository> call = infoUserRepository.addFiltrosTag(infosUser);
+        Call<InfosUser> call = infoUserRepository.addFiltrosTag(infosUser);
 
-        call.enqueue(new Callback<InfoUserRepository>() {
+        call.enqueue(new Callback<InfosUser>() {
             @Override
-            public void onResponse(@NonNull Call<InfoUserRepository> call, @NonNull Response<InfoUserRepository> response) {
+            public void onResponse(@NonNull Call<InfosUser> call, @NonNull Response<InfosUser> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else {
@@ -30,7 +30,7 @@ public class InfosUserService {
             }
 
             @Override
-            public void onFailure(@NonNull Call<InfoUserRepository> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<InfosUser> call, @NonNull Throwable t) {
                 callback.onFailure(t);
             }
         });
@@ -38,11 +38,11 @@ public class InfosUserService {
 
 
     public void updateProfilePhotoUrlMongoCollection(String email, InfosUser infosUser, InfosUserCallback callback) {
-        Call<InfoUserRepository> call = infoUserRepository.updateProfilePhotoUrlMongoCollection(email, infosUser);
+        Call<InfosUser> call = infoUserRepository.updateProfilePhotoUrlMongoCollection(email, infosUser);
 
-        call.enqueue(new Callback<InfoUserRepository>() {
+        call.enqueue(new Callback<InfosUser>() {
             @Override
-            public void onResponse(Call<InfoUserRepository> call, Response<InfoUserRepository> response) {
+            public void onResponse(Call<InfosUser> call, Response<InfosUser> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else {
@@ -51,7 +51,7 @@ public class InfosUserService {
             }
 
             @Override
-            public void onFailure(Call<InfoUserRepository> call, Throwable t) {
+            public void onFailure(Call<InfosUser> call, Throwable t) {
                 callback.onFailure(t);
             }
         });

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.fragments.cadastroMoradia.CadastroMoradiaDois"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".presentation.fragments.cadastroMoradia.CadastroMoradiaQuatro">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,61 +68,70 @@
         android:layout_marginLeft="23dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Agora, vamos adicionar fotos do anúncio! Escolha entre 3 a 10 fotos."
+        android:text="Vamos para a parte das TAG’s do ambiente! Selecione as opções que mais se encaixarem com as regras e especificidades do local."
         android:textColor="@color/black"
         android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal"
+        android:layout_height="226dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/escolher_foto"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
+            android:id="@+id/categoriasMoradia"
+            android:layout_width="317dp"
+            android:layout_height="match_parent"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/card_borda"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp"
             app:cardCornerRadius="8dp"
             app:cardElevation="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/fotosMoradiaCadastro"
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_semi_bold"
+                android:text="Categorias selecionadas:"
+                android:textColor="@color/azul_claro"
+                android:textSize="20sp" />
+
+            <ScrollView
+                android:id="@+id/filtrosScroll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/input_group_background"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/filtros"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:visibility="visible">
+
+                </LinearLayout>
+            </ScrollView>
 
             <TextView
-                android:id="@+id/txt_adicionar"
-                android:layout_width="180dp"
+                android:id="@+id/txtComplementar"
+                android:layout_width="214dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:text="Suas mídias aparecerão aqui"
-                android:textAlignment="center"
-                android:textColor="#001A72"
-                android:textSize="16sp"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/foto_ilustrativa"
-                android:layout_width="200dp"
-                android:layout_height="100dp"
-                android:src="@drawable/imagens"
-                android:visibility="visible" />
-
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:text="Clique para selecionar as TAG's da sua moradia"
+                android:textColor="@color/azul_claro"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -132,7 +141,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="23dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="23dp"
         android:background="@drawable/bt_cadastro"
         android:fontFamily="@font/poppins_regular"
@@ -149,12 +158,12 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:indeterminateBehavior="repeat"
         android:max="100"
         android:maxHeight="20dip"
         android:minHeight="20dip"
-        android:progress="20"
+        android:progress="60"
         android:progressDrawable="@drawable/custom_progress_bar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

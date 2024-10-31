@@ -24,6 +24,9 @@ public class InfosUser {
         this.email = email;
         this.urlFoto = urlFoto;
     }
+    public InfosUser(String urlFoto){
+        this.urlFoto = urlFoto;
+    }
 
     public String getEmail() {
         return email;

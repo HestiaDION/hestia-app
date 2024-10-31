@@ -4,23 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".presentation.fragments.cadastroMoradia.CadastroMoradiaUm">
+    tools:context=".presentation.fragments.cadastroMoradia.CadastroMoradiaCinco"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="23dp"
-        android:gravity="end"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/voltar"
+            android:layout_width="47dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/voltar"
+            android:src="@drawable/go_back_arrow_dark_icon" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/fechar"
             android:layout_width="47dp"
             android:layout_height="48dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@string/voltar"
             android:src="@drawable/close" />
@@ -55,7 +68,7 @@
         android:layout_marginLeft="23dp"
         android:layout_marginRight="16dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Vamos começar descrevendo o lugar que você vai anunciar!"
+        android:text="Adicione a localização da moradia"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
@@ -89,13 +102,24 @@
 
                 <!-- EditText -->
                 <EditText
-                    android:id="@+id/nomeMoradia"
+                    android:id="@+id/cep"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/poppins_regular"
-                    android:hint="Nome"
+                    android:hint="CEP"
+                    android:inputType="number"
+                    android:padding="0dp" />
+
+                <EditText
+                    android:id="@+id/municipio"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1.5"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Município"
                     android:inputType="text|textPersonName|textCapWords"
                     android:padding="0dp" />
 
@@ -119,16 +143,6 @@
                 android:visibility="gone" />
 
             <!-- Campo 2 -->
-            <TextView
-                android:id="@+id/textView38"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Descrição do local"
-                android:textColor="@color/azul"
-                android:textSize="18sp" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -138,16 +152,16 @@
                 android:paddingBottom="10dp">
 
                 <!-- EditText -->
-
                 <EditText
-                    android:id="@+id/descricaoMoradia"
+                    android:id="@+id/bairro"
                     android:layout_width="0dp"
-                    android:layout_height="69dp"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
-                    android:background="@drawable/input_group_background"
+                    android:background="@android:color/transparent"
                     android:fontFamily="@font/poppins_regular"
-                    android:inputType="text"
-                    android:padding="10dp" />
+                    android:hint="Bairro"
+                    android:inputType="text|textPersonName|textCapWords"
+                    android:padding="0dp" />
             </LinearLayout>
 
             <!-- Linha -->
@@ -171,44 +185,33 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingTop="5dp"
                 android:paddingBottom="10dp">
 
                 <!-- EditText -->
                 <EditText
-                    android:id="@+id/quantMaximaMoradia"
+                    android:id="@+id/rua"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/poppins_regular"
-                    android:gravity="center"
-                    android:hint="Máx. Pessoas"
-                    android:inputType="number"
+                    android:hint="Rua"
+                    android:inputType="text|textPersonName"
                     android:padding="0dp" />
 
-                <View
-                    android:id="@+id/view7"
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@color/azul" />
-
                 <EditText
-                    android:id="@+id/quantQuartos"
+                    android:id="@+id/num"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/poppins_regular"
-                    android:gravity="center"
-                    android:hint="Máx. Quartos"
-                    android:inputType="number" />
+                    android:hint="Núm."
+                    android:inputType="number"
+                    android:padding="0dp" />
             </LinearLayout>
 
             <!-- Linha -->
@@ -228,14 +231,56 @@
                 android:textSize="12sp"
                 android:visibility="gone" />
 
+            <!-- Campo 4 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="5dp"
+                android:paddingBottom="10dp">
+
+                <!-- EditText -->
+                <EditText
+                    android:id="@+id/universidade"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:drawablePadding="10dp"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Universidade mais próxima"
+                    android:inputType="text|textEmailAddress"
+                    android:padding="0dp" />
+
+            </LinearLayout>
+
+            <!-- Linha -->
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/azul" />
+
+            <!-- Erro 4-->
             <TextView
-                android:id="@+id/textView39"
+                android:id="@+id/erro4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Erro"
+                android:textColor="@color/vermelho"
+                android:textSize="12sp"
+                android:visibility="gone" />
+
+            <!-- Campo 5 -->
+            <TextView
+                android:id="@+id/textView38"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Regras do local"
-                android:textColor="@color/azul"
+                android:text="Descrição do local"
+                android:textColor="#000000"
                 android:textSize="18sp" />
 
             <LinearLayout
@@ -249,18 +294,26 @@
                 <!-- EditText -->
 
                 <EditText
-                    android:id="@+id/regras"
+                    android:id="@+id/descricaoLocal"
                     android:layout_width="0dp"
                     android:layout_height="69dp"
                     android:layout_weight="1"
                     android:background="@drawable/input_group_background"
                     android:fontFamily="@font/poppins_regular"
-                    android:inputType="text"
+                    android:inputType="text|textCapWords"
                     android:padding="10dp" />
             </LinearLayout>
 
+            <!-- Linha -->
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/azul" />
+
+            <!-- Erro 5-->
             <TextView
-                android:id="@+id/erro4"
+                android:id="@+id/erro5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Erro"
@@ -269,6 +322,7 @@
                 android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
+
 
     <Button
         android:id="@+id/bt_acao"
@@ -298,7 +352,7 @@
         android:max="100"
         android:maxHeight="20dip"
         android:minHeight="20dip"
-        android:progress="0"
+        android:progress="80"
         android:progressDrawable="@drawable/custom_progress_bar" />
 
     <androidx.constraintlayout.widget.ConstraintLayout

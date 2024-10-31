@@ -11,4 +11,7 @@ import retrofit2.http.Path;
 public interface FiltroCadastroRepository {
     @GET("/filtros/categoria/{categoria}")
     Call<List<FiltroCadastro>> getFiltrosPorCategoria(@Path("categoria") String categoria);
+
+    @GET("/filtros/")
+    Call<List<String>> getCategorias();
 }

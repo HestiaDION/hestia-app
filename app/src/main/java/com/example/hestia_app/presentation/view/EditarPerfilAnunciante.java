@@ -17,11 +17,15 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
+import com.example.hestia_app.data.api.InfoUserRepository;
+import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilAnuncianteCallback;
 import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FirebaseService;
+import com.example.hestia_app.data.services.InfosUserService;
 import com.example.hestia_app.domain.models.Anunciante;
+import com.example.hestia_app.domain.models.InfosUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -66,7 +70,6 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
 
             @Override
             public void onPerfilAnuncianteFailure(String errorMessage) {
-
                 Log.e("Hint", "Erro ao preencher os hints dos campos com as informações da API: " + errorMessage);
             }
         });
@@ -80,6 +83,12 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
 //                    .error(R.drawable.error_image)
                     .into(imagem);
         }
+
+        // abrindo a galeria
+        editarImagem.setOnClickListener(v2 -> {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            resultLauncherGaleria.launch(intent);
+        });
 
         // salvando as novas informações dos campos
         salvar.setOnClickListener(v -> {
@@ -98,13 +107,6 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 firebaseService.updateDisplayName(this, user, nomeFormatado);
             }
 
-            // abrindo a galeria
-            editarImagem.setOnClickListener(v2 -> {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                resultLauncherGaleria.launch(intent);
-                Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
-            });
-
             Anunciante anuncianteAtualizado = new Anunciante(nome.getText().toString(), bio.getText().toString());
             anuncianteService.atualizarAnuncianteProfile(user.getEmail(), anuncianteAtualizado, new UpdatePerfilAnuncianteCallback() {
 
@@ -117,8 +119,6 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 @Override
                 public void onUpdateFailure(String errorMessage) {
                     Log.d("Update Anunciante", "Erro ao atualizar anunciante: " + errorMessage);
-                    Toast.makeText(EditarPerfilAnunciante.this, "Erro ao atualizar anunciante: " + errorMessage, Toast.LENGTH_SHORT).show();
-
                 }
             });
             finish();
@@ -139,13 +139,25 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                     FirebaseService firebaseService = new FirebaseService();
                     firebaseService.updateProfilePicture(this, user, uri);
 
+                    InfosUserService infosUserService = new InfosUserService();
+                    InfosUser infosUser = new InfosUser(uri.toString());
+                    infosUserService.updateProfilePhotoUrlMongoCollection(user.getEmail(), infosUser, new InfosUserCallback() {
+                        @Override
+                        public void onSuccess(InfosUser response) {
+                            Log.d("updateFotoMongo", "onSuccess: " + response);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Log.d("updateFotoMongo", "onFailure: " + t.getMessage());
+                        }
+                    });
+
                     // Exibe a imagem selecionada
                     Glide.with(this).load(imageUri)
                             .centerCrop()
                             .into(imagem);
 
-                } else {
-                    Toast.makeText(this, "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
                 }
             }
     );

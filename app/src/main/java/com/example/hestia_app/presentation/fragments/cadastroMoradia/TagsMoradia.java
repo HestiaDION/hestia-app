@@ -1,90 +1,92 @@
-package com.example.hestia_app.presentation.fragments;
+package com.example.hestia_app.presentation.fragments.cadastroMoradia;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
-import com.example.hestia_app.domain.models.FiltroCadastro;
 import com.example.hestia_app.data.services.FiltroCadastroService;
-import com.example.hestia_app.utils.CadastroManager;
+import com.example.hestia_app.domain.models.FiltroCadastro;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.protobuf.Internal;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class CadastroUniversitarioEtapa extends Fragment {
-    HashMap<String, String> usuario;
-    CadastroManager cadastroManager = new CadastroManager();
+public class TagsMoradia extends Fragment {
     Boolean unico;
 
     // Novo mapa para armazenar seleções por categoria
     HashMap<String, List<String>> selecoesPorCategoria = new HashMap<>();
 
-    public CadastroUniversitarioEtapa() {
+    public TagsMoradia() {
         // Required empty public constructor
     }
 
-    public static CadastroUniversitarioEtapa newInstance(HashMap<String, String> usuario) {
-        CadastroUniversitarioEtapa fragment = new CadastroUniversitarioEtapa();
+    public static TagsMoradia newInstance() {
+        TagsMoradia fragment = new TagsMoradia();
         Bundle args = new Bundle();
-        args.putSerializable("usuario", usuario);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            usuario = (HashMap<String, String>) getArguments().getSerializable("usuario");
-        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cadastro_universitario_etapa, container, false);
-
-        // Inicializar views
-        Button bt_acao = view.findViewById(R.id.bt_acao);
-        ImageButton bt_voltar = view.findViewById(R.id.voltar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_tags_moradia, container, false);
         LinearLayout filtros = view.findViewById(R.id.filtros);
+        Button bt_acao = view.findViewById(R.id.bt_acao);
+        ImageButton voltar = view.findViewById(R.id.voltar);
 
-        // Carregar os filtros e adicionar chips após a resposta
         carregarCategorias(filtros);
 
         bt_acao.setOnClickListener(v -> {
-            // Salva as seleções no mapa 'usuario'
-            for (String categoria : selecoesPorCategoria.keySet()) {
-                usuario.put("categoria " + categoria, selecoesPorCategoria.get(categoria).toString());
+            // Verificar se pelo menos uma categoria foi selecionada
+            boolean selecionadas = false;
+            for (List<String> selecao : selecoesPorCategoria.values()) {
+                if (!selecao.isEmpty()) {
+                    selecionadas = true;
+                    break;
+                }
             }
-            CadastroFotoFragment fragment = CadastroFotoFragment.newInstance(usuario, "universitario");
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            if (!selecionadas) {
+                // Se não houver nenhuma categoria selecionada, mostrar uma mensagem de erro
+                Log.d("TAGS_MORADIA", "Nenhuma categoria selecionada");
+                Toast.makeText(getContext(), "Selecione pelo menos uma categoria", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Bundle result = new Bundle();
+            result.putSerializable("filtrosSelecionadosKey", selecoesPorCategoria);
+            getParentFragmentManager().setFragmentResult("filtrosSelecionadosKey", result);
+
+            // Voltar para o fragmento anterior
+            getParentFragmentManager().popBackStack();
         });
 
-        bt_voltar.setOnClickListener(v -> {
-            cadastroManager.setEtapaAtual(3);
-            CadastroAnuncianteUniversitario fragment = CadastroAnuncianteUniversitario.newInstance("universitario", cadastroManager);
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit();
+        voltar.setOnClickListener(v -> {
+            // Limpar as seleções
+            selecoesPorCategoria.clear();
+            getParentFragmentManager().popBackStack();
         });
 
         return view;
@@ -113,41 +115,33 @@ public class CadastroUniversitarioEtapa extends Fragment {
                         // Define o texto e ícone da categoria
                         String texto;
                         int imagem;
-                        switch (categoria) {
-                            case "animal":
-                                texto = "Você tem animais de estimação?";
-                                imagem = R.drawable.patinha;
-                                unico = false;
-                                break;
-                            case "genero":
-                                texto = "Gostaria de morar com?";
-                                imagem = R.drawable.gender;
-                                unico = true;
-                                break;
-                            case "pessoa":
-                                texto = "Número máximo de pessoas";
-                                imagem = R.drawable.pessoas;
-                                unico = true;
-                                break;
-                            case "fumo":
-                                texto = "Com que frequência você fuma?";
-                                imagem = R.drawable.fumo;
-                                unico = true;
-                                break;
-                            case "bebida":
-                                texto = "Com que frequência você bebe?";
-                                imagem = R.drawable.bebida;
-                                unico = true;
-                                break;
-                            case "casa":
-                                texto = "Móveis & Outros";
-                                imagem = R.drawable.bed;
-                                unico = false;
-                                break;
-                            default:
-                                texto = "";
-                                imagem = 0;
-                                break;
+                        if (categoria.equals("animal")) {
+                            texto = "Animais de estimação permitidos";
+                            imagem = R.drawable.patinha;
+                            unico = false;
+                        } else if (categoria.equals("genero")) {
+                            texto = "Preferência de moradores";
+                            imagem = R.drawable.gender;
+                            unico = true;
+                        } else if (categoria.equals("pessoa")) {
+                            texto = "Número máximo de pessoas";
+                            imagem = R.drawable.pessoas;
+                            unico = true;
+                        } else if (categoria.equals("fumo")) {
+                            texto = "Frequência de fumo permitida";
+                            imagem = R.drawable.fumo;
+                            unico = true;
+                        } else if (categoria.equals("bebida")) {
+                            texto = "Frequência de bebida permitida";
+                            imagem = R.drawable.bebida;
+                            unico = true;
+                        } else if (categoria.equals("casa")) {
+                            texto = "Móveis & Outros";
+                            imagem = R.drawable.bed;
+                            unico = false;
+                        } else {
+                            texto = "";
+                            imagem = 0;
                         }
 
                         if (imagem != 0) {

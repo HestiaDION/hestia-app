@@ -1,10 +1,11 @@
-package com.example.hestia_app.presentation.fragments;
+package com.example.hestia_app.presentation.fragments.cadastroMoradia;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,36 +13,35 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.airbnb.lottie.L;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
-import com.example.hestia_app.domain.models.FiltroCadastro;
 import com.example.hestia_app.data.services.FiltroCadastroService;
-import com.example.hestia_app.utils.CadastroManager;
+import com.example.hestia_app.domain.models.FiltroCadastro;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import com.google.protobuf.Internal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-public class CadastroUniversitarioEtapa extends Fragment {
-    HashMap<String, String> usuario;
-    CadastroManager cadastroManager = new CadastroManager();
-    Boolean unico;
+public class CadastroMoradiaQuatro extends Fragment {
 
-    // Novo mapa para armazenar seleções por categoria
-    HashMap<String, List<String>> selecoesPorCategoria = new HashMap<>();
+    private HashMap<String, String> moradia;
+    private HashMap<String, List<String>> filtrosSelecionados;
 
-    public CadastroUniversitarioEtapa() {
+    public CadastroMoradiaQuatro() {
         // Required empty public constructor
     }
 
-    public static CadastroUniversitarioEtapa newInstance(HashMap<String, String> usuario) {
-        CadastroUniversitarioEtapa fragment = new CadastroUniversitarioEtapa();
+    public static CadastroMoradiaQuatro newInstance(HashMap<String, String> moradia) {
+        CadastroMoradiaQuatro fragment = new CadastroMoradiaQuatro();
         Bundle args = new Bundle();
-        args.putSerializable("usuario", usuario);
+        args.putSerializable("moradia", moradia);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,37 +50,75 @@ public class CadastroUniversitarioEtapa extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            usuario = (HashMap<String, String>) getArguments().getSerializable("usuario");
+            moradia = (HashMap<String, String>) getArguments().getSerializable("moradia");
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cadastro_universitario_etapa, container, false);
-
-        // Inicializar views
-        Button bt_acao = view.findViewById(R.id.bt_acao);
-        ImageButton bt_voltar = view.findViewById(R.id.voltar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cadastro_moradia_quatro, container, false);
         LinearLayout filtros = view.findViewById(R.id.filtros);
+        ScrollView filtrosScroll = view.findViewById(R.id.filtrosScroll);
+        TextView complementar = view.findViewById(R.id.txtComplementar);
+        LinearLayout categoriasMoradia = view.findViewById(R.id.categoriasMoradia);
+        ImageButton btFechar = view.findViewById(R.id.fechar);
+        ImageButton btVoltar = view.findViewById(R.id.voltar);
+        Button btProximo = view.findViewById(R.id.bt_acao);
 
-        // Carregar os filtros e adicionar chips após a resposta
-        carregarCategorias(filtros);
+        // Ouvir o resultado da seleção de filtros
+        getParentFragmentManager().setFragmentResultListener("filtrosSelecionadosKey", this, (requestKey, bundle) -> {
+            filtrosSelecionados = (HashMap<String, List<String>>) bundle.getSerializable("filtrosSelecionadosKey");
 
-        bt_acao.setOnClickListener(v -> {
-            // Salva as seleções no mapa 'usuario'
-            for (String categoria : selecoesPorCategoria.keySet()) {
-                usuario.put("categoria " + categoria, selecoesPorCategoria.get(categoria).toString());
+            if (filtrosSelecionados != null && !filtrosSelecionados.isEmpty()) {
+                Log.d("filtros_resultado", "onCreateView: " + filtrosSelecionados);
+                complementar.setVisibility(View.GONE);
+                filtrosScroll.setVisibility(View.VISIBLE);
+                carregarCategorias(filtros, filtrosSelecionados);
+                categoriasMoradia.setClickable(false);
+            } else {
+                complementar.setVisibility(View.VISIBLE);
+                filtrosScroll.setVisibility(View.GONE);
+                categoriasMoradia.setClickable(true);
             }
-            CadastroFotoFragment fragment = CadastroFotoFragment.newInstance(usuario, "universitario");
-            getParentFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(null)
-                    .commit();
         });
 
-        bt_voltar.setOnClickListener(v -> {
-            cadastroManager.setEtapaAtual(3);
-            CadastroAnuncianteUniversitario fragment = CadastroAnuncianteUniversitario.newInstance("universitario", cadastroManager);
+
+        btFechar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requireActivity().finish();
+                moradia.clear();
+            }
+        });
+
+        btVoltar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager().popBackStack();
+            }
+        });
+
+        btProximo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moradia.put("animal", filtrosSelecionados.get("animal").toString());
+                moradia.put("genero", filtrosSelecionados.get("genero").toString());
+                moradia.put("pessoa", filtrosSelecionados.get("pessoa").toString());
+                moradia.put("fumo", filtrosSelecionados.get("fumo").toString());
+                moradia.put("bebida", filtrosSelecionados.get("bebida").toString());
+                moradia.put("casa", filtrosSelecionados.get("casa").toString());
+
+                CadastroMoradiaCinco fragment = CadastroMoradiaCinco.newInstance(moradia);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+        categoriasMoradia.setOnClickListener(v -> {
+            TagsMoradia fragment = TagsMoradia.newInstance();
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
@@ -90,19 +128,16 @@ public class CadastroUniversitarioEtapa extends Fragment {
         return view;
     }
 
-    private void carregarCategorias(LinearLayout filtrosLinearLayout) {
+    private void carregarCategorias(LinearLayout filtrosLinearLayout, HashMap<String, List<String>> filtrosSelecionados) {
         FiltroCadastroService service = new FiltroCadastroService();
         service.getCategorias(new FiltroCadastroCallback() {
             @Override
             public void onFiltroCadastroSuccess(List<FiltroCadastro> filtros, List<String> categorias) {
                 if (!categorias.isEmpty()) {
                     for (String categoria : categorias) {
-                        // Inicializa a lista de seleções para essa categoria no mapa
-                        selecoesPorCategoria.put(categoria, new ArrayList<>());
-
                         // Criar um TextView para a categoria
                         TextView categoriaTextView = new TextView(getContext());
-                        categoriaTextView.setTextSize(16);
+                        categoriaTextView.setTextSize(12);
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -115,34 +150,28 @@ public class CadastroUniversitarioEtapa extends Fragment {
                         int imagem;
                         switch (categoria) {
                             case "animal":
-                                texto = "Você tem animais de estimação?";
+                                texto = "Animais de estimação permitidos";
                                 imagem = R.drawable.patinha;
-                                unico = false;
                                 break;
                             case "genero":
-                                texto = "Gostaria de morar com?";
+                                texto = "Preferência de moradores";
                                 imagem = R.drawable.gender;
-                                unico = true;
                                 break;
                             case "pessoa":
                                 texto = "Número máximo de pessoas";
                                 imagem = R.drawable.pessoas;
-                                unico = true;
                                 break;
                             case "fumo":
-                                texto = "Com que frequência você fuma?";
+                                texto = "Frequência de fumo permitida";
                                 imagem = R.drawable.fumo;
-                                unico = true;
                                 break;
                             case "bebida":
-                                texto = "Com que frequência você bebe?";
+                                texto = "Frequência de bebida permitida";
                                 imagem = R.drawable.bebida;
-                                unico = true;
                                 break;
                             case "casa":
                                 texto = "Móveis & Outros";
                                 imagem = R.drawable.bed;
-                                unico = false;
                                 break;
                             default:
                                 texto = "";
@@ -153,7 +182,7 @@ public class CadastroUniversitarioEtapa extends Fragment {
                         if (imagem != 0) {
                             categoriaTextView.setText(texto);
                             categoriaTextView.setCompoundDrawablesWithIntrinsicBounds(imagem, 0, 0, 0);
-                            categoriaTextView.setCompoundDrawablePadding(10);
+                            categoriaTextView.setCompoundDrawablePadding(5);
                         }
 
                         Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.poppins_semi_bold);
@@ -171,23 +200,14 @@ public class CadastroUniversitarioEtapa extends Fragment {
                         );
                         layoutParamsChip.setMargins(10, 0, 10, 10);
                         chipGroup.setLayoutParams(layoutParamsChip);
-                        chipGroup.setSingleSelection(unico);
                         filtrosLinearLayout.addView(chipGroup);
 
-                        // Adicionar chips ao ChipGroup
-                        service.getFiltrosPorCategoria(categoria, new FiltroCadastroCallback() {
-                            @Override
-                            public void onFiltroCadastroSuccess(List<FiltroCadastro> filtros, List<String> categorias) {
-                                for (FiltroCadastro filtro : filtros) {
-                                    adicionarChips(filtro.getNome(), chipGroup, selecoesPorCategoria.get(categoria));
-                                }
-                            }
+                        Log.d("filtrosSelecionados", "onFiltroCadastroSuccess: " + filtrosSelecionados);
 
-                            @Override
-                            public void onFiltroCadastroFailure(String errorMessage) {
-                                Log.d("API response", "onFiltroCadastroFailure: " + errorMessage);
-                            }
-                        });
+                        for (int i = 0; i < filtrosSelecionados.get(categoria).size(); i++) {
+                            Log.d("filtrosSelecionados", "onFiltroCadastroSuccess: " + filtrosSelecionados.get(categoria));
+                            adicionarChips(filtrosSelecionados.get(categoria).get(i), chipGroup);
+                        }
                     }
                 } else {
                     Log.d("API Response", "A lista de categorias veio vazia.");
@@ -201,21 +221,14 @@ public class CadastroUniversitarioEtapa extends Fragment {
         });
     }
 
-    public void adicionarChips(String chipText, ChipGroup chipGroup, List<String> selecionados) {
+    public void adicionarChips(String chipText, ChipGroup chipGroup) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         Chip chip = (Chip) inflater.inflate(R.layout.chip_layout, chipGroup, false);
         chip.setText(chipText);
         chip.setId(View.generateViewId());
+        chip.setCheckable(false);
+        chip.setChecked(true);
 
         chipGroup.addView(chip);
-
-        chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                selecionados.add(chip.getText().toString());
-            } else {
-                selecionados.remove(chip.getText().toString());
-            }
-            Log.d("Chip", "Selecionados para categoria: " + selecionados.toString());
-        });
     }
 }

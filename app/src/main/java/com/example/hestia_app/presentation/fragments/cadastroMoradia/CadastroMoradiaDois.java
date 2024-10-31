@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +45,9 @@ public class CadastroMoradiaDois extends Fragment {
     public HashMap<String, String> moradia;
     private List<String> imagePaths;
     private FotosCadastroAdapter imageAdapter;
+    ViewPager2 imagens;
+    TextView txt_adicionar;
+    ImageView foto_ilustrativa;
 
     public CadastroMoradiaDois() {
         // Required empty public constructor
@@ -70,14 +74,17 @@ public class CadastroMoradiaDois extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cadastro_moradia_dois, container, false);
         ImageButton btFechar = view.findViewById(R.id.fechar);
-        ViewPager2 imagens = view.findViewById(R.id.fotosMoradiaCadastro);
+        imagens = view.findViewById(R.id.fotosMoradiaCadastro);
         LinearLayout escolher_foto = view.findViewById(R.id.escolher_foto);
         Button btProximo = view.findViewById(R.id.bt_acao);
         ImageButton btVoltar = view.findViewById(R.id.voltar);
-        TextView txt_adicionar = view.findViewById(R.id.txt_adicionar);
-        ImageView foto_ilustrativa = view.findViewById(R.id.foto_ilustrativa);
+        txt_adicionar = view.findViewById(R.id.txt_adicionar);
+        foto_ilustrativa = view.findViewById(R.id.foto_ilustrativa);
+        Handler handler;
+        Runnable runnable;
 
         if (moradia.get("imagens") != null) {
+            Log.d("imagensMoradia", "onCreateView: " + moradia.get("imagens"));
             imagePaths = transformarLista(moradia.get("imagens"));
             txt_adicionar.setVisibility(View.GONE);
             foto_ilustrativa.setVisibility(View.GONE);
@@ -88,6 +95,24 @@ public class CadastroMoradiaDois extends Fragment {
 
         imageAdapter = new FotosCadastroAdapter(getContext(), imagePaths);
         imagens.setAdapter(imageAdapter);
+
+        // Inicializa o Handler e o Runnable para mudar as imagens automaticamente
+        handler = new Handler();
+        runnable = new Runnable() {
+            int currentIndex = 0;
+
+            @Override
+            public void run() {
+                if (currentIndex < imagePaths.size()) {
+                    imagens.setCurrentItem(currentIndex++, true);
+                } else {
+                    currentIndex = 0; // Reinicia para o primeiro item
+                }
+                handler.postDelayed(this, 5000); // Altera a imagem a cada 3 segundos
+            }
+        };
+        handler.post(runnable); // Inicia o processo
+
 
         btFechar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +125,7 @@ public class CadastroMoradiaDois extends Fragment {
         btVoltar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                moradia.remove("imagens");
                 getParentFragmentManager().popBackStack();
             }
         });
@@ -114,21 +140,20 @@ public class CadastroMoradiaDois extends Fragment {
             }
         });
 
-        imagens.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                txt_adicionar.setVisibility(View.GONE);
-                foto_ilustrativa.setVisibility(View.GONE);
-                imagens.setVisibility(View.VISIBLE);
-                openGallery();
-                return true;
-            }
-        });
-
         btProximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moradia.put("imagem", imagePaths.toString());
+
+                if(imagePaths.isEmpty() || imagePaths.size() < 3 || imagePaths.size() > 10) {
+                    Toast.makeText(getContext(), "Selecione entre 3 e 10 images!", Toast.LENGTH_SHORT).show();
+                    imagePaths.clear();
+                    imagens.setVisibility(View.GONE);
+                    txt_adicionar.setVisibility(View.VISIBLE);
+                    foto_ilustrativa.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                moradia.put("imagens", imagePaths.toString());
                 CadastroMoradiaTres fragment = CadastroMoradiaTres.newInstance(moradia);
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, fragment)
@@ -150,21 +175,23 @@ public class CadastroMoradiaDois extends Fragment {
                         int count = result.getData().getClipData().getItemCount();
                         if (count > 10 || count < 3) {
                             Toast.makeText(getContext(), "Selecione entre 3 e 10 images!", Toast.LENGTH_SHORT).show();
-                            openGallery();
+                            imagePaths.clear();
+                            imagens.setVisibility(View.GONE);
+                            txt_adicionar.setVisibility(View.VISIBLE);
+                            foto_ilustrativa.setVisibility(View.VISIBLE);
+                        } else {
+                            for (int i = 0; i < count; i++) {
+                                Uri imageUri = result.getData().getClipData().getItemAt(i).getUri();
+                                imagePaths.add(imageUri.toString());
+                            }
                         }
-                        for (int i = 0; i < count; i++) {
-                            Uri imageUri = result.getData().getClipData().getItemAt(i).getUri();
-                            imagePaths.add(imageUri.toString());
-                        }
-                        moradia.put("imagens", imagePaths.toString());
-                    } else if (result.getData().getData() != null) {
-                        // Selecionou uma única imagem
-                        Uri imageUri = result.getData().getData();
-                        imagePaths.add(imageUri.toString());
-                        moradia.put("imagens", imagePaths.toString());
                     }
                     imageAdapter.notifyDataSetChanged();
                 } else {
+                    imagePaths.clear();
+                    imagens.setVisibility(View.GONE);
+                    txt_adicionar.setVisibility(View.VISIBLE);
+                    foto_ilustrativa.setVisibility(View.VISIBLE);
                     Toast.makeText(getContext(), "Selecione entre 3 e 10 images!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -210,8 +237,9 @@ public class CadastroMoradiaDois extends Fragment {
                 if (!permissionGranted) {
                     Toast.makeText(requireContext(),"Permissão NEGADA. Tente novamente.",Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    resultLauncherGaleria.launch(intent2);
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                    resultLauncherGaleria.launch(intent);
                 }
             });
 

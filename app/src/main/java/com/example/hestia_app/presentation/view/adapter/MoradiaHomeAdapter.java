@@ -2,6 +2,7 @@ package com.example.hestia_app.presentation.view.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,8 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
     @Override
     public void onBindViewHolder(@NonNull MoradiaViewHolder holder, int position) {
         Moradia moradia = moradiaList.get(position);
+        Handler handler;
+        Runnable runnable;
 
         holder.nomeMoradia.setText(moradia.getNome());
         holder.dataDesde.setText(moradia.getDataDesde());
@@ -58,6 +61,23 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
         holder.setaDetalhes.setOnClickListener(v -> {
             // Lógica para abrir os detalhes da moradia, se necessário
         });
+
+        // Inicializa o Handler e o Runnable para mudar as imagens automaticamente
+        handler = new Handler();
+        runnable = new Runnable() {
+            int currentIndex = 0;
+
+            @Override
+            public void run() {
+                if (currentIndex < imageList.size()) {
+                    holder.imagensMoradia.setCurrentItem(currentIndex++, true);
+                } else {
+                    currentIndex = 0; // Reinicia para o primeiro item
+                }
+                handler.postDelayed(this, 5000); // Altera a imagem a cada 3 segundos
+            }
+        };
+        handler.post(runnable); // Inicia o processo
     }
 
     @Override

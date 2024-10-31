@@ -11,9 +11,9 @@ import retrofit2.http.Path;
 public interface InfoUserRepository {
 
     @POST("/infosUser/addInfosUser")
-    Call<InfoUserRepository> addFiltrosTag(@Body InfosUser infosUser);
+    Call<InfosUser> addFiltrosTag(@Body InfosUser infosUser);
 
 
-    @PATCH("/infosUser/updateInfosUser")
-    Call<InfoUserRepository> updateProfilePhotoUrlMongoCollection(@Path("email") String email, @Body InfosUser urlPhoto);
+    @PATCH("/infosUser/updateInfosUser/{email}")
+    Call<InfosUser> updateProfilePhotoUrlMongoCollection(@Path("email") String email, @Body InfosUser urlPhoto);
 }
