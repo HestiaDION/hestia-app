@@ -31,6 +31,9 @@
             android:name=".DashboardInformacoes"
             android:exported="false" />
         <activity
+            android:name=".presentation.view.FormularioUniversitarioActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditarPerfilUniversitario"
             android:exported="false" />
         <activity
