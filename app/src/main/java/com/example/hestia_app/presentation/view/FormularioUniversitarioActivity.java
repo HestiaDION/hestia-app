@@ -25,7 +25,6 @@ public class FormularioUniversitarioActivity extends AppCompatActivity {
     private EditText etIdade;
     private Button btnEnviar;
 
-    // Service
     FormularioUniversitarioService formularioUniversitarioService = new FormularioUniversitarioService();
 
     @Override
@@ -105,12 +104,10 @@ public class FormularioUniversitarioActivity extends AppCompatActivity {
         loadingDialog.setContentView(R.layout.dialog_probabilidade);
         loadingDialog.setCancelable(false);
 
-        // Obter referências aos elementos do layout
         ProgressBar progressBar = loadingDialog.findViewById(R.id.progressBar);
         TextView tvProbabilidade = loadingDialog.findViewById(R.id.tvProbabilidade);
         Button btnOk = loadingDialog.findViewById(R.id.btnOk);
 
-        // Configura a visibilidade dos elementos
         tvProbabilidade.setVisibility(View.GONE);
         btnOk.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
@@ -123,12 +120,12 @@ public class FormularioUniversitarioActivity extends AppCompatActivity {
             TextView tvProbabilidade = loadingDialog.findViewById(R.id.tvProbabilidade);
             Button btnOk = loadingDialog.findViewById(R.id.btnOk);
 
-            // Aqui você deve adaptar para o método correto de ProbabilityResponse
+
             tvProbabilidade.setText(String.valueOf(response.getProbability()));
             tvProbabilidade.setVisibility(View.VISIBLE);
             btnOk.setVisibility(View.VISIBLE);
 
-            // Configurar o botão "OK" para fechar o dialog
+
             btnOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
