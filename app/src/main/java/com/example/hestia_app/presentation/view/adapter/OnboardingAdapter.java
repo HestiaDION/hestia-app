@@ -51,7 +51,7 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.On
         OnboardingViewHolder(@NonNull View itemView) {
             super(itemView);
             textExplanation = itemView.findViewById(R.id.textExplanation);
-            lottieGif= itemView.findViewById(R.id.lottieAnimation);
+            lottieGif = itemView.findViewById(R.id.lottieAnimation);
 
 
         }

@@ -36,7 +36,7 @@ public class MainActivityNavbar extends AppCompatActivity {
     String origemUsuario;
     private final String ANUNCIANTE = "anunciante";
     private final String UNIVERSITARIO = "universitario";
-    boolean isUserOriginFetched = false; // Para garantir que a API só seja chamada uma vez
+    boolean isUserOriginFetched = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

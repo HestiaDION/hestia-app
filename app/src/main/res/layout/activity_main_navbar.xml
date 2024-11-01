@@ -35,7 +35,7 @@
     <!-- Barra de navegação inferior -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navbar"
-        android:layout_width="412dp"
+        android:layout_width="0dp"
         android:layout_height="59dp"
         android:background="?android:attr/windowBackground"
         android:paddingTop="10dp"

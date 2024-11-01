@@ -33,11 +33,13 @@
         <activity
             android:name=".presentation.view.AdicionarMoradia"
             android:exported="false" />
-        <activity
-            android:name=".presentation.view.DashboardInformacoes"
+        <activity android:name=".presentation.view.FormularioUniversitarioActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.view.EditarPerfilUniversitario"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.view.DashboardInformacoes"
             android:exported="false" />
         <activity
             android:name=".presentation.view.EditarPerfilAnunciante"
