@@ -10,10 +10,10 @@
     <Button
         android:id="@+id/loginButton"
         android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="160dp"
-        android:layout_marginEnd="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/login_button"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="@string/login"
@@ -21,7 +21,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView10" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <TextView
         android:id="@+id/textView2"
@@ -35,15 +35,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.697"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton"
+        app:layout_constraintVertical_bias="0.3"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/cadastroRedirect"
-        android:layout_width="125dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="50dp"
         android:fontFamily="@font/poppins_regular"
         android:text="@string/cadastre_se_aqui"
         android:textColor="@color/vermelho_claro"
@@ -56,8 +57,9 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="103dp"
-        android:layout_height="23dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_regular"
         android:paddingEnd="8dp"
@@ -73,7 +75,7 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +86,9 @@
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_margin="16dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/input_group_background"
         android:orientation="vertical"
         android:padding="8dp"
@@ -111,10 +115,10 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.1dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/azul" />
+            android:background="@color/azul_claro" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,7 +158,7 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -162,9 +166,11 @@
 
     <ImageView
         android:id="@+id/imageView10"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="104dp"
+        android:layout_marginEnd="50dp"
         android:src="@drawable/hestia"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -172,12 +178,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="94dp"
-        android:layout_height="82dp"
+        android:layout_width="90dp"
+        android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:srcCompat="@drawable/dion_logo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

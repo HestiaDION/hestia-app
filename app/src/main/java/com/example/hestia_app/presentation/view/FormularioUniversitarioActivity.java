@@ -1,6 +1,7 @@
 package com.example.hestia_app.presentation.view;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +11,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.TextView;
 import android.widget.ProgressBar;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,7 +45,6 @@ public class FormularioUniversitarioActivity extends AppCompatActivity {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Coletar dados
                 String idade = etIdade.getText().toString();
 
                 String possuiDNE = getSelectedRadioText(radioDNE);
@@ -76,7 +75,7 @@ public class FormularioUniversitarioActivity extends AppCompatActivity {
                                         dismissLoadingDialog(result); // Chamar dismissLoadingDialog com o resultado
                                     } else {
                                         Toast.makeText(FormularioUniversitarioActivity.this, "Erro ao obter a resposta.", Toast.LENGTH_SHORT).show();
-                                        dismissLoadingDialog(null); // Passar null se houver erro
+                                        dismissLoadingDialog(null);
                                     }
                                 }
                             });
@@ -118,20 +117,28 @@ public class FormularioUniversitarioActivity extends AppCompatActivity {
     private void dismissLoadingDialog(ProbabilityResponse response) {
         if (loadingDialog != null && loadingDialog.isShowing()) {
             TextView tvProbabilidade = loadingDialog.findViewById(R.id.tvProbabilidade);
+            ProgressBar progressBar = loadingDialog.findViewById(R.id.progressBar);
             Button btnOk = loadingDialog.findViewById(R.id.btnOk);
 
+            if (response != null) {
+                tvProbabilidade.setText(String.format("%.2f%%", response.getProbability() * 100));
+                tvProbabilidade.setVisibility(View.VISIBLE);
 
-            tvProbabilidade.setText(String.valueOf(response.getProbability()));
-            tvProbabilidade.setVisibility(View.VISIBLE);
-            btnOk.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                btnOk.setVisibility(View.VISIBLE);
 
-
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    loadingDialog.dismiss();
-                }
-            });
+                btnOk.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        loadingDialog.dismiss();
+                        Intent intent = new Intent(FormularioUniversitarioActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            } else {
+                loadingDialog.dismiss();
+            }
         }
     }
 }
