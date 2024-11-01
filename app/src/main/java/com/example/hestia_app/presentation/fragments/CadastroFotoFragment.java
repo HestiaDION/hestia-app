@@ -276,7 +276,7 @@ public class CadastroFotoFragment extends Fragment {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("textExplanation", "Anunciante registrado com sucesso!");
-                bundle.putInt("lottieAnimation", R.raw.house);
+                bundle.putInt("lottieAnimation", R.raw.contract);
                 bundle.putString("tipo", "anunciante");
                 bundle.putString("tela", "MainActivityNavbar");
                 Intent intent = new Intent(getContext(), TelaAviso.class);

@@ -113,7 +113,7 @@ public class CadastroUniversitarioEtapa extends Fragment {
                         // Define o texto e ícone da categoria
                         String texto;
                         int imagem;
-                        switch (categoria) {
+                        switch (categoria.toLowerCase()) {
                             case "animal":
                                 texto = "Você tem animais de estimação?";
                                 imagem = R.drawable.patinha;
@@ -147,6 +147,7 @@ public class CadastroUniversitarioEtapa extends Fragment {
                             default:
                                 texto = "";
                                 imagem = 0;
+                                unico = false;
                                 break;
                         }
 

@@ -51,6 +51,7 @@ public class EscolherUsuario extends AppCompatActivity {
                 }
                 intent.putExtra("tipo_usuario", tipo_usuario);
                 startActivity(intent);
+                finish();
             }
         });
     }

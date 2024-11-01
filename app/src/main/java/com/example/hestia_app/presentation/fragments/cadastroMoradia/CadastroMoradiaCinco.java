@@ -1,9 +1,11 @@
 package com.example.hestia_app.presentation.fragments.cadastroMoradia;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,33 +52,39 @@ public class CadastroMoradiaCinco extends Fragment {
         EditText bairro = view.findViewById(R.id.bairro);
         EditText rua = view.findViewById(R.id.rua);
         EditText numero = view.findViewById(R.id.num);
+        EditText complemento = view.findViewById(R.id.complemento);
         EditText univProxima = view.findViewById(R.id.universidade);
         EditText descricao = view.findViewById(R.id.descricaoLocal);
         ImageButton btFechar = view.findViewById(R.id.fechar);
         ImageButton btVoltar = view.findViewById(R.id.voltar);
         TextView erro1 = view.findViewById(R.id.erro1);
+        TextView erro12 = view.findViewById(R.id.erro12);
         TextView erro2 = view.findViewById(R.id.erro2);
         TextView erro3 = view.findViewById(R.id.erro3);
+        TextView erro32 = view.findViewById(R.id.erro32);
         TextView erro4 = view.findViewById(R.id.erro4);
         TextView erro5 = view.findViewById(R.id.erro5);
+        TextView erro6 = view.findViewById(R.id.erro6);
 
         // proximo fragment
         Button btnProximo = view.findViewById(R.id.bt_acao);
         btnProximo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean erros1, erros2, erros3, erros4, erros5, erros6, erros7;
+                boolean erros1, erros2, erros3, erros4, erros5, erros6, erros7, erros8;
 
                 erros1 = erros(cep, erro1, true, false);
-                erros2 = erros(municipio, erro1, true, false);
+                erros2 = erros(municipio, erro12, true, false);
                 erros3 = erros(bairro, erro2, true, false);
                 erros4 = erros(rua, erro3, true, false);
-                erros5 = erros(numero, erro3, false, true);
-                erros6 = erros(univProxima, erro4, true, false);
-                erros7 = erros(descricao, erro5, true, false);
+                erros5 = erros(numero, erro32, false, true);
+                erros6 = erros(complemento, erro4, true, false);
+                erros7 = erros(univProxima, erro5, true, false);
+                erros8 = erros(descricao, erro6, true, false);
 
-                if (erros1 || erros2 || erros3 || erros4 || erros5 || erros6 || erros7) {
+                if (erros1 || erros2 || erros3 || erros4 || erros5 || erros6 || erros7 || erros8) {
                     Toast.makeText(getContext(), "Verifique os erros!", Toast.LENGTH_SHORT).show();
+                    Log.d("errosMoradia", "onClick: " + erros1 + erros2 + erros3 + erros4 + erros5 + erros6 + erros7 + erros8);
                 } else {
                     // colocar no hasmap
                     moradia.put("cep", cep.getText().toString());
@@ -84,6 +92,7 @@ public class CadastroMoradiaCinco extends Fragment {
                     moradia.put("bairro", bairro.getText().toString());
                     moradia.put("rua", rua.getText().toString());
                     moradia.put("numero", numero.getText().toString());
+                    moradia.put("complemento", complemento.getText().toString());
                     moradia.put("univProxima", univProxima.getText().toString());
                     moradia.put("descricao", descricao.getText().toString());
 
@@ -100,8 +109,40 @@ public class CadastroMoradiaCinco extends Fragment {
         btFechar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().finish();
-                moradia.clear();
+                if (getContext() != null && getActivity() != null) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_logout_confirmation, null);
+                    builder.setView(dialogView);
+                    AlertDialog alertDialog = builder.create();
+
+                    Button btnConfirmLogout = dialogView.findViewById(R.id.btn_confirm_logout);
+                    Button btnCancelLogout = dialogView.findViewById(R.id.btn_cancel_logout);
+
+                    btnConfirmLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            alertDialog.dismiss();
+
+                            requireActivity().finish();
+                            moradia.clear();
+
+                        }
+                    });
+
+                    // Se o usuário cancelar, apenas fecha o modal
+                    btnCancelLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                        }
+                    });
+
+                    // Exibir o modal
+                    alertDialog.show();
+                }
             }
         });
 

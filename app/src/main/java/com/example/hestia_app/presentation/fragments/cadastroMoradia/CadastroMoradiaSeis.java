@@ -1,9 +1,12 @@
 package com.example.hestia_app.presentation.fragments.cadastroMoradia;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +19,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
+import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
+import com.example.hestia_app.data.api.callbacks.InformacoesAdicionaisMoradiaCallback;
+import com.example.hestia_app.data.api.callbacks.RegistroMoradiaCallback;
+import com.example.hestia_app.data.services.FiltrosTagsService;
+import com.example.hestia_app.data.services.ImagensMoradiaService;
+import com.example.hestia_app.data.services.InformacoesAdicionaisMoradiaService;
+import com.example.hestia_app.data.services.MoradiaService;
+import com.example.hestia_app.domain.models.FiltrosTags;
+import com.example.hestia_app.domain.models.ImagensMoradia;
+import com.example.hestia_app.domain.models.InformacoesAdicionaisMoradia;
+import com.example.hestia_app.domain.models.Moradia;
+import com.example.hestia_app.presentation.view.TelaAviso;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class CadastroMoradiaSeis extends Fragment {
 
@@ -56,8 +77,40 @@ public class CadastroMoradiaSeis extends Fragment {
         bt_fechar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().finish();
-                moradia.clear();
+                if (getContext() != null && getActivity() != null) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_logout_confirmation, null);
+                    builder.setView(dialogView);
+                    AlertDialog alertDialog = builder.create();
+
+                    Button btnConfirmLogout = dialogView.findViewById(R.id.btn_confirm_logout);
+                    Button btnCancelLogout = dialogView.findViewById(R.id.btn_cancel_logout);
+
+                    btnConfirmLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            alertDialog.dismiss();
+
+                            requireActivity().finish();
+                            moradia.clear();
+
+                        }
+                    });
+
+                    // Se o usuário cancelar, apenas fecha o modal
+                    btnCancelLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                        }
+                    });
+
+                    // Exibir o modal
+                    alertDialog.show();
+                }
             }
         });
 
@@ -104,14 +157,112 @@ public class CadastroMoradiaSeis extends Fragment {
                     return;
                 } else {
                     moradia.put("preco", preco.getText().toString());
-                    moradia.put("precoFinal", precoFinal.getText().toString());
 
                     // salvar no banco
+                    Log.d("moradia", "onClick: " + moradia);
 
+                    // salvar moradia
+                    MoradiaService service = new MoradiaService();
+                    FirebaseAuth autenticar = FirebaseAuth.getInstance();
+                    FirebaseUser user = autenticar.getCurrentUser();
+
+                    Moradia moradia1 = new Moradia(user.getEmail(),
+                                                   moradia.get("quantidadePessoas"),
+                                                   null,
+                                                   moradia.get("nomeMoradia"),
+                                                   Double.parseDouble(moradia.get("precoFinal").replace("R$", "").trim()),
+                                                   moradia.get("descricaoMoradia"),
+                                                   moradia.get("regrasMoradia"),
+                                                   moradia.get("quantidadeQuartos"),
+                                                   moradia.get("univProxima"),
+                                                   moradia.get("cep"),
+                                                   moradia.get("municipio"),
+                                                   moradia.get("bairro"),
+                                                   moradia.get("rua"),
+                                                   moradia.get("numero"),
+                                                   moradia.get("complemento"));
+                    Log.d("Moradia", "onClick: " + moradia1);
+                    service.registrarMoradia(moradia1, new RegistroMoradiaCallback() {
+                        @Override
+                        public void onRegistroSuccess(boolean isRegistered, Moradia moradiaRetorno) {
+                            if (isRegistered) {
+                                // salvar imagens no banco
+                                Log.d("MoradiaRetorno", "onRegistroSuccess: " + moradiaRetorno);
+                                ImagensMoradiaService service = new ImagensMoradiaService();
+                                ImagensMoradia imagensMoradia = new ImagensMoradia(moradiaRetorno.getMoradiaId(), transformarLista(moradia.get("imagens")));
+                                Log.d("Moradia", "onRegistroSuccess: " + imagensMoradia);
+                                service.addImagensMoradias(imagensMoradia, new ImagensMoradiaCallback() {
+                                    @Override
+                                    public void onSuccess(ImagensMoradia response) {
+                                        // salvar as informações adicionais
+                                        InformacoesAdicionaisMoradiaService service = new InformacoesAdicionaisMoradiaService();
+                                        InformacoesAdicionaisMoradia informacoesAdicionaisMoradia = new InformacoesAdicionaisMoradia(moradiaRetorno.getMoradiaId(), transformarLista(moradia.get("infosAdicionais")));
+                                        Log.d("Moradia", "onSuccess: " + informacoesAdicionaisMoradia);
+                                        service.addInfosMoradias(informacoesAdicionaisMoradia, new InformacoesAdicionaisMoradiaCallback() {
+                                            @Override
+                                            public void onSuccess(InformacoesAdicionaisMoradia response) {
+                                                Log.d("Moradia", "onSuccess: " + response);
+                                                FiltrosTagsService filtrosTagsService = new FiltrosTagsService();
+                                                FiltrosTags filtrosTags = new FiltrosTags(moradiaRetorno.getMoradiaId(), "moradia", transformarLista(moradia.get("animal")),
+                                                        moradia.get("genero"), moradia.get("pessoa"), moradia.get("fumo"), moradia.get("bebida"),
+                                                        transformarLista(moradia.get("casa")));
+
+                                                filtrosTagsService.addFiltrosTag(filtrosTags, new FiltrosTagsCallback() {
+                                                    @Override
+                                                    public void onFiltroCadastroSuccess(boolean IsRegistered) {
+                                                        Toast.makeText(getContext(), "Moradia registrada com sucesso!", Toast.LENGTH_SHORT).show();
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putString("textExplanation", "Moradia registrada com sucesso!");
+                                                        bundle.putInt("lottieAnimation", R.raw.house);
+                                                        bundle.putString("tipo", "moradia");
+                                                        bundle.putString("tela", "MainActivityNavbar");
+                                                        Intent intent = new Intent(getContext(), TelaAviso.class);
+                                                        intent.putExtras(bundle);
+                                                        startActivity(intent);
+                                                        requireActivity().finish();
+                                                    }
+
+                                                    @Override
+                                                    public void onFiltroCadastroFailure(boolean IsRegistered) {
+                                                        Log.d("Moradia", "onFiltroCadastroFailure: " + IsRegistered);
+                                                    }
+                                                });
+                                            }
+
+                                            @Override
+                                            public void onFailure(Throwable t) {
+                                                Log.d("Moradia", "onFailure: " + t.getMessage());
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(Throwable t) {
+                                        Log.d("Moradia", "onFailure: " + t.getMessage());
+                                    }
+                                });
+                            }
+                            Log.d("Moradia", "onRegistroSuccess: " + isRegistered);
+                        }
+
+                        @Override
+                        public void onRegistroFailure(boolean isRegistered) {
+                            if (!isRegistered) {
+                                Toast.makeText(getContext(), "Erro ao registrar moradia!", Toast.LENGTH_SHORT).show();
+                            }
+                            Log.d("Moradia", "onRegistroFailure: " + isRegistered);
+                        }
+                    });
                 }
             }
         });
 
         return view;
+    }
+
+    public List<String> transformarLista(String string) {
+        string = string.replace("[", "").replace("]", "").replace("'", "").trim();
+        String[] array = string.split(",\\s*");
+        return new ArrayList<>(Arrays.asList(array));
     }
 }

@@ -3,6 +3,7 @@ package com.example.hestia_app.presentation.view.adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
+import com.example.hestia_app.data.services.ImagensMoradiaService;
+import com.example.hestia_app.domain.models.ImagensMoradia;
 import com.example.hestia_app.domain.models.Moradia;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.MoradiaViewHolder> {
@@ -41,9 +46,9 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
         Handler handler;
         Runnable runnable;
 
-        holder.nomeMoradia.setText(moradia.getNome());
-        holder.dataDesde.setText(moradia.getDataDesde());
-        int quantidadePessoas = moradia.getQuantidadePessoas();
+        holder.nomeMoradia.setText(moradia.getNomeCasa());
+        holder.dataDesde.setText(moradia.getDataRegistro());
+        int quantidadePessoas = Integer.parseInt(moradia.getQuantidadeMaximaPessoas());
 
         String texto;
         if (quantidadePessoas > 1) {
@@ -53,10 +58,24 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
         }
         holder.quantidadePessoas.setText(texto);
 
-        List<String> imageList = moradia.getImageList();
+        final List<String>[] imageList = new List[]{new ArrayList<>()};
+
+        // pegar as imagens do mongo e repetir a requisição até que de certo
+        ImagensMoradiaService imagensMoradiaService = new ImagensMoradiaService();
+        imagensMoradiaService.getImagensMoradias(moradia.getMoradiaId(), new ImagensMoradiaCallback() {
+            @Override
+            public void onSuccess(ImagensMoradia response) {
+                imageList[0] = response.getImagens();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("imagens", "onFailure: " + t.getMessage());
+            }
+        });
 
         // Configure o ViewPager2 com o adapter de imagens
-        HouseImgAdapter houseImgAdapter = new HouseImgAdapter(context, imageList);
+        HouseImgAdapter houseImgAdapter = new HouseImgAdapter(context, imageList[0]);
         holder.imagensMoradia.setAdapter(houseImgAdapter);
         holder.setaDetalhes.setOnClickListener(v -> {
             // Lógica para abrir os detalhes da moradia, se necessário
@@ -69,7 +88,7 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
 
             @Override
             public void run() {
-                if (currentIndex < imageList.size()) {
+                if (currentIndex < imageList[0].size()) {
                     holder.imagensMoradia.setCurrentItem(currentIndex++, true);
                 } else {
                     currentIndex = 0; // Reinicia para o primeiro item

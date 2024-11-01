@@ -1,18 +1,29 @@
 package com.example.hestia_app.domain.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.UUID;
+
 public class Moradia {
 
+    private UUID moradiaId;
+    @SerializedName("email_anunciante")
     private String emailAnunciante;
+    @SerializedName("quantidade_maxima_pessoas")
     private String quantidadeMaximaPessoas;
     private String dataRegistro;
+    @SerializedName("nome")
     private String nomeCasa;
     private double aluguel;
     private String descricao;
     private String regras;
+    @SerializedName("quantidade_quartos")
     private String quantidadeQuartos;
+    @SerializedName("universidade_proxima")
     private String universidadeProxima;
     private String cep;
-    private String cidade;
+    @SerializedName("cidade")
+    private String municipio;
     private String bairro;
     private String rua;
     private String numero;
@@ -20,7 +31,7 @@ public class Moradia {
 
     public Moradia(String emailAnunciante, String quantidadeMaximaPessoas, String dataRegistro, String nomeCasa,
                    double aluguel, String descricao, String regras, String quantidadeQuartos, String universidadeProxima,
-                   String cep, String cidade, String bairro, String rua, String numero, String complemento) {
+                   String cep, String municipio, String bairro, String rua, String numero, String complemento) {
 
         this.emailAnunciante = emailAnunciante;
         this.quantidadeMaximaPessoas = quantidadeMaximaPessoas;
@@ -32,11 +43,25 @@ public class Moradia {
         this.quantidadeQuartos = quantidadeQuartos;
         this.universidadeProxima = universidadeProxima;
         this.cep = cep;
-        this.cidade = cidade;
+        this.municipio = municipio;
         this.bairro = bairro;
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
+    }
+
+    public Moradia(String quantidadeMaximaPessoas, String dataRegistro, String nomeCasa) {
+        this.quantidadeMaximaPessoas = quantidadeMaximaPessoas;
+        this.dataRegistro = dataRegistro;
+        this.nomeCasa = nomeCasa;
+    }
+
+    public UUID getMoradiaId() {
+        return moradiaId;
+    }
+
+    public void setMoradiaId(UUID moradiaId) {
+        this.moradiaId = moradiaId;
     }
 
     public String getEmailAnunciante() {
@@ -120,11 +145,11 @@ public class Moradia {
     }
 
     public String getCidade() {
-        return cidade;
+        return municipio;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setCidade(String municipio) {
+        this.municipio = municipio;
     }
 
     public String getBairro() {
@@ -172,7 +197,7 @@ public class Moradia {
                 ", quantidadeQuartos='" + quantidadeQuartos + '\'' +
                 ", universidadeProxima='" + universidadeProxima + '\'' +
                 ", cep='" + cep + '\'' +
-                ", cidade='" + cidade + '\'' +
+                ", municipio='" + municipio + '\'' +
                 ", bairro='" + bairro + '\'' +
                 ", rua='" + rua + '\'' +
                 ", numero=" + numero +

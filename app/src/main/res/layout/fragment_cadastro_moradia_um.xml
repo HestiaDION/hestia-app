@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Descrição do local"
+                android:text="Descrição da moradia"
                 android:textColor="@color/azul"
                 android:textSize="18sp" />
 
@@ -207,7 +207,7 @@
                     android:background="@android:color/transparent"
                     android:fontFamily="@font/poppins_regular"
                     android:gravity="center"
-                    android:hint="Máx. Quartos"
+                    android:hint="Quartos"
                     android:inputType="number" />
             </LinearLayout>
 
@@ -219,14 +219,32 @@
                 android:background="@color/azul" />
 
             <!-- Erro 3-->
-            <TextView
-                android:id="@+id/erro3"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Erro"
-                android:textColor="@color/vermelho"
-                android:textSize="12sp"
-                android:visibility="gone" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/erro3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Erro"
+                    android:textColor="@color/vermelho"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/erro32"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Erro"
+                    android:textColor="@color/vermelho"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView39"
@@ -234,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="Regras do local"
+                android:text="Regras da moradia"
                 android:textColor="@color/azul"
                 android:textSize="18sp" />
 

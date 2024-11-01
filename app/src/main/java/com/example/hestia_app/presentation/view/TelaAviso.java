@@ -32,7 +32,6 @@ public class TelaAviso extends AppCompatActivity {
 
         textExplanation.setText(bundle.getString("textExplanation"));
         lottieAnimation.setAnimation(bundle.getInt("lottieAnimation"));
-        lottieAnimation.playAnimation();
 
         tipo = bundle.getString("tipo");
 
@@ -45,12 +44,18 @@ public class TelaAviso extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(TelaAviso.this, tela.getClass());
+                    Class<?> activityClass = null;
+
+                    // Verifica a tela a ser aberta com base no valor da string `tela`
+                    if ("MainActivityNavbar".equals(tela)) {
+                        activityClass = MainActivityNavbar.class;
+                    }
+
+                    Intent intent = new Intent(TelaAviso.this, activityClass);
                     startActivity(intent);
                     finish();
                 }
             }, 3000);
         }
     }
-
 }

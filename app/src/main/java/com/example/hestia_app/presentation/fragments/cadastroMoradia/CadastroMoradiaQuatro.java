@@ -1,5 +1,6 @@
 package com.example.hestia_app.presentation.fragments.cadastroMoradia;
 
+import android.app.AlertDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -87,8 +88,40 @@ public class CadastroMoradiaQuatro extends Fragment {
         btFechar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().finish();
-                moradia.clear();
+                if (getContext() != null && getActivity() != null) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_logout_confirmation, null);
+                    builder.setView(dialogView);
+                    AlertDialog alertDialog = builder.create();
+
+                    Button btnConfirmLogout = dialogView.findViewById(R.id.btn_confirm_logout);
+                    Button btnCancelLogout = dialogView.findViewById(R.id.btn_cancel_logout);
+
+                    btnConfirmLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            alertDialog.dismiss();
+
+                            requireActivity().finish();
+                            moradia.clear();
+
+                        }
+                    });
+
+                    // Se o usuário cancelar, apenas fecha o modal
+                    btnCancelLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                        }
+                    });
+
+                    // Exibir o modal
+                    alertDialog.show();
+                }
             }
         });
 

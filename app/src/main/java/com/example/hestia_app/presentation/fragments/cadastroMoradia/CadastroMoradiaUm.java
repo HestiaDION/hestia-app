@@ -1,5 +1,7 @@
 package com.example.hestia_app.presentation.fragments.cadastroMoradia;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -17,6 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.presentation.view.LoginActivity;
+import com.google.firebase.auth.FirebaseAuth;
+
+import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -56,6 +62,7 @@ public class CadastroMoradiaUm extends Fragment {
         TextView erro1 = view.findViewById(R.id.erro1);
         TextView erro2 = view.findViewById(R.id.erro2);
         TextView erro3 = view.findViewById(R.id.erro3);
+        TextView erro32 = view.findViewById(R.id.erro32);
         TextView erro4 = view.findViewById(R.id.erro4);
 
         btnProximo.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +74,7 @@ public class CadastroMoradiaUm extends Fragment {
                 erros1 = erros(nomeMoradia, erro1, true, false);
                 erros2 = erros(descricaoMoradia, erro2, true, false);
                 erros3 = erros(quantidadePessoas, erro3, false, true);
-                erros4 = erros(quantidadeQuartos, erro3, false, true);
+                erros4 = erros(quantidadeQuartos, erro32, false, true);
                 erros5 = erros(regrasMoradia, erro4, true, false);
 
                 if (erros1 || erros2 || erros3 || erros4 || erros5) {
@@ -94,8 +101,40 @@ public class CadastroMoradiaUm extends Fragment {
         btFechar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                requireActivity().finish();
-                moradia.clear();
+                if (getContext() != null && getActivity() != null) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.dialog_logout_confirmation, null);
+                    builder.setView(dialogView);
+                    AlertDialog alertDialog = builder.create();
+
+                    Button btnConfirmLogout = dialogView.findViewById(R.id.btn_confirm_logout);
+                    Button btnCancelLogout = dialogView.findViewById(R.id.btn_cancel_logout);
+
+                    btnConfirmLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            alertDialog.dismiss();
+
+                            requireActivity().finish();
+                            moradia.clear();
+
+                        }
+                    });
+
+                    // Se o usuário cancelar, apenas fecha o modal
+                    btnCancelLogout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            alertDialog.dismiss();
+                        }
+                    });
+
+                    // Exibir o modal
+                    alertDialog.show();
+                }
             }
         });
 
