@@ -130,9 +130,11 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
-                android:layout_width="309dp"
+                android:layout_width="0dp"
                 android:layout_height="294dp"
+                android:layout_marginStart="50dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginEnd="50dp"
                 android:background="@drawable/rounded_background"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -177,27 +179,28 @@
     <ImageView
         android:id="@+id/btn_config"
         android:layout_width="wrap_content"
-        android:layout_height="28dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="30dp"
         android:src="@drawable/configuration_perfil_icon"
-        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.909"
-        app:layout_constraintStart_toStartOf="@+id/scrollView2"
+        app:layout_constraintHorizontal_bias="0.816"
+        app:layout_constraintStart_toStartOf="@+id/profile_image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.301" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/logout"
-        android:contentDescription="logout"
-        android:layout_width="80px"
-        android:layout_height="80px"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
+        android:contentDescription="logout"
         android:scaleType="centerCrop"
         android:src="@drawable/logout"
         app:layout_constraintEnd_toStartOf="@+id/btn_config"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
