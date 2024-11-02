@@ -17,9 +17,11 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="148dp"
+        android:layout_width="0dp"
         android:layout_height="164dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="50dp"
         android:src="@drawable/perfil_anunciante"
         app:civ_border_color="#FF000000"
         app:civ_border_width="2dp"
@@ -58,7 +60,7 @@
         android:id="@+id/textView34"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="Informações pessoais"
@@ -69,9 +71,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="350dp"
+        android:layout_width="0dp"
         android:layout_height="296dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/shape_editbox"
         android:orientation="vertical"
         android:padding="20dp"
@@ -124,15 +128,18 @@
         android:id="@+id/editarFoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="76dp"
         app:layout_constraintBottom_toBottomOf="@+id/profile_image"
         app:layout_constraintEnd_toEndOf="@+id/profile_image"
         app:srcCompat="@drawable/camera_icon" />
 
     <Button
         android:id="@+id/salvar"
-        android:layout_width="352dp"
+        android:layout_width="0dp"
         android:layout_height="56dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/login_button"
         android:fontFamily="@font/poppins_regular"
         android:text="Salvar"

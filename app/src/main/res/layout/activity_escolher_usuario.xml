@@ -9,17 +9,17 @@
     android:orientation="vertical"
     tools:context=".presentation.view.EscolherUsuario">
 
+    <!-- Campo para falar do cadastro -->
     <ImageButton
         android:id="@+id/voltar"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="@string/voltar"
         app:srcCompat="@drawable/go_back_arrow_dark_icon" />
 
-    <!-- Campo para falar do cadastro -->
     <TextView
         android:id="@+id/textView"
         android:layout_width="match_parent"
