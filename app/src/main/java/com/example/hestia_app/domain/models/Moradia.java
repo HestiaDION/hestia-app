@@ -6,11 +6,13 @@ import java.util.UUID;
 
 public class Moradia {
 
+    @SerializedName("imovel_id")
     private UUID moradiaId;
     @SerializedName("email_anunciante")
     private String emailAnunciante;
     @SerializedName("quantidade_maxima_pessoas")
-    private String quantidadeMaximaPessoas;
+    private int quantidadeMaximaPessoas;
+    @SerializedName("dt_inicio")
     private String dataRegistro;
     @SerializedName("nome")
     private String nomeCasa;
@@ -18,7 +20,7 @@ public class Moradia {
     private String descricao;
     private String regras;
     @SerializedName("quantidade_quartos")
-    private String quantidadeQuartos;
+    private int quantidadeQuartos;
     @SerializedName("universidade_proxima")
     private String universidadeProxima;
     private String cep;
@@ -29,8 +31,8 @@ public class Moradia {
     private String numero;
     private String complemento;
 
-    public Moradia(String emailAnunciante, String quantidadeMaximaPessoas, String dataRegistro, String nomeCasa,
-                   double aluguel, String descricao, String regras, String quantidadeQuartos, String universidadeProxima,
+    public Moradia(String emailAnunciante, int quantidadeMaximaPessoas, String dataRegistro, String nomeCasa,
+                   double aluguel, String descricao, String regras, int quantidadeQuartos, String universidadeProxima,
                    String cep, String municipio, String bairro, String rua, String numero, String complemento) {
 
         this.emailAnunciante = emailAnunciante;
@@ -50,7 +52,7 @@ public class Moradia {
         this.complemento = complemento;
     }
 
-    public Moradia(String quantidadeMaximaPessoas, String dataRegistro, String nomeCasa) {
+    public Moradia(int quantidadeMaximaPessoas, String dataRegistro, String nomeCasa) {
         this.quantidadeMaximaPessoas = quantidadeMaximaPessoas;
         this.dataRegistro = dataRegistro;
         this.nomeCasa = nomeCasa;
@@ -72,11 +74,11 @@ public class Moradia {
         this.emailAnunciante = emailAnunciante;
     }
 
-    public String getQuantidadeMaximaPessoas() {
+    public int getQuantidadeMaximaPessoas() {
         return quantidadeMaximaPessoas;
     }
 
-    public void setQuantidadeMaximaPessoas(String quantidadeMaximaPessoas) {
+    public void setQuantidadeMaximaPessoas(int quantidadeMaximaPessoas) {
         this.quantidadeMaximaPessoas = quantidadeMaximaPessoas;
     }
 
@@ -120,11 +122,11 @@ public class Moradia {
         this.regras = regras;
     }
 
-    public String getQuantidadeQuartos() {
+    public int getQuantidadeQuartos() {
         return quantidadeQuartos;
     }
 
-    public void setQuantidadeQuartos(String quantidadeQuartos) {
+    public void setQuantidadeQuartos(int quantidadeQuartos) {
         this.quantidadeQuartos = quantidadeQuartos;
     }
 

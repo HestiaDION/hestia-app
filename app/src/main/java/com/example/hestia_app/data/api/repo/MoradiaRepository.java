@@ -3,6 +3,7 @@ package com.example.hestia_app.data.api.repo;
 import com.example.hestia_app.domain.models.Moradia;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,6 +16,6 @@ public interface MoradiaRepository {
     @POST("/ad/register")
     Call<Moradia> registerMoradia(@Body Moradia moradia);
 
-    @GET("/property/listAllByAdvertiser/{id}")
-    Call <List<Moradia>> getMoradiasByAdvertiser(@Path("id") String id);
+    @GET("/ad/property/listAllByAdvertiser/{email}")
+    Call <List<Moradia>> getMoradiasByAdvertiser(@Path("email") String email);
 }

@@ -26,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+
 import android.widget.ImageView;
 import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.PremiumScreenAnunciante;
@@ -67,12 +69,16 @@ public class HomeAnunciante extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         MoradiaService moradiaService = new MoradiaService();
-        moradiaService.getMoradiasByAdvertiser(user.getUid(), new ListaMoradiasCallback() {
+        moradiaService.getMoradiasByAdvertiser(user.getEmail(), new ListaMoradiasCallback() {
             @Override
             public void onSuccess(List<Moradia> moradias) {
-                for (Moradia moradia : moradias) {
-                    moradiaList.add(new Moradia(moradia.getQuantidadeMaximaPessoas(), moradia.getDataRegistro(), moradia.getNomeCasa()));
-                }
+                moradiaList.addAll(moradias);
+                // Criar o adapter e setar no RecyclerView
+                Log.d("moradiaList", "onCreateView: " + moradiaList);
+                MoradiaHomeAdapter adapter = new MoradiaHomeAdapter(getContext(), moradiaList);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                adapter.notifyDataSetChanged();
                 Log.d("Moradia", "onSuccess: " + moradias);
             }
 
@@ -81,11 +87,6 @@ public class HomeAnunciante extends Fragment {
                 Log.d("Moradia", "onFailure: " + t.getMessage());
             }
         });
-
-        // Criar o adapter e setar no RecyclerView
-        MoradiaHomeAdapter adapter = new MoradiaHomeAdapter(getContext(), moradiaList);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         btAdicionarMoradia.setOnClickListener(new View.OnClickListener() {
             @Override

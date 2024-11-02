@@ -11,6 +11,7 @@ import com.example.hestia_app.data.api.repo.MoradiaRepository;
 import com.example.hestia_app.domain.models.Moradia;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,8 +26,8 @@ public class MoradiaService {
         executeWithRetry(call, callback, 0);
     }
 
-    public void getMoradiasByAdvertiser(String id, ListaMoradiasCallback callback) {
-        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(id);
+    public void getMoradiasByAdvertiser(String email, ListaMoradiasCallback callback) {
+        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(email);
         executeWithRetry(call, callback, 0);
     }
 

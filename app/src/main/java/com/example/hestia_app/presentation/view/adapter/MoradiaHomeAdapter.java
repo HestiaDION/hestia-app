@@ -48,7 +48,7 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
 
         holder.nomeMoradia.setText(moradia.getNomeCasa());
         holder.dataDesde.setText(moradia.getDataRegistro());
-        int quantidadePessoas = Integer.parseInt(moradia.getQuantidadeMaximaPessoas());
+        int quantidadePessoas = moradia.getQuantidadeMaximaPessoas();
 
         String texto;
         if (quantidadePessoas > 1) {
@@ -65,7 +65,12 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
         imagensMoradiaService.getImagensMoradias(moradia.getMoradiaId(), new ImagensMoradiaCallback() {
             @Override
             public void onSuccess(ImagensMoradia response) {
+                Log.d("Imagens", "onSuccess: " + response.getImagens());
                 imageList[0] = response.getImagens();
+                // Configure o ViewPager2 com o adapter de imagens
+                HouseImgAdapter houseImgAdapter = new HouseImgAdapter(context, imageList[0]);
+                holder.imagensMoradia.setAdapter(houseImgAdapter);
+                houseImgAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -74,9 +79,6 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
             }
         });
 
-        // Configure o ViewPager2 com o adapter de imagens
-        HouseImgAdapter houseImgAdapter = new HouseImgAdapter(context, imageList[0]);
-        holder.imagensMoradia.setAdapter(houseImgAdapter);
         holder.setaDetalhes.setOnClickListener(v -> {
             // Lógica para abrir os detalhes da moradia, se necessário
         });

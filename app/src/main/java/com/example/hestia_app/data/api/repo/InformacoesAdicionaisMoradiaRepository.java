@@ -11,9 +11,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface InformacoesAdicionaisMoradiaRepository {
-    @POST("/infosMoradia/addInfosMoradias")
+    @POST("/infosMoradias/addInfosMoradias")
     Call<InformacoesAdicionaisMoradia> addInfosMoradias(@Body InformacoesAdicionaisMoradia informacoesAdicionaisMoradia);
 
-    @GET("/infosMoradia/getInfosMoradias/{id_moradia}")
+    @GET("/infosMoradias/getInfosMoradias/{id_moradia}")
     Call<InformacoesAdicionaisMoradia> getInfosMoradias(@Path("id_moradia") UUID id_moradia);
 }

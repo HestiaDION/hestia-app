@@ -272,7 +272,6 @@ public class CadastroFotoFragment extends Fragment {
             public void onRegistroSuccess(boolean isRegistered) {
                 Log.d("Registro", "Anunciante registrado com sucesso!");
                 progressBar.setVisibility(View.GONE); // Ocultar barra de progresso
-                Toast.makeText(getContext(), "Registro concluído!", Toast.LENGTH_SHORT).show();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("textExplanation", "Anunciante registrado com sucesso!");
@@ -381,7 +380,6 @@ public class CadastroFotoFragment extends Fragment {
             public void onFiltroCadastroSuccess(boolean IsRegistered) {
                 Log.d("Filtros", "Filtros salvos com sucesso!");
                 progressBar.setVisibility(View.GONE); // Ocultar barra de progresso após o sucesso
-                Toast.makeText(getContext(), "Registro concluído!", Toast.LENGTH_SHORT).show();
 
                 Bundle bundle = new Bundle();
                 bundle.putString("textExplanation", "Universitário registrado com sucesso!");

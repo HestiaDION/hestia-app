@@ -157,6 +157,7 @@ public class CadastroMoradiaSeis extends Fragment {
                     return;
                 } else {
                     moradia.put("preco", preco.getText().toString());
+                    moradia.put("precoFinal", precoFinal.getText().toString());
 
                     // salvar no banco
                     Log.d("moradia", "onClick: " + moradia);
@@ -167,13 +168,13 @@ public class CadastroMoradiaSeis extends Fragment {
                     FirebaseUser user = autenticar.getCurrentUser();
 
                     Moradia moradia1 = new Moradia(user.getEmail(),
-                                                   moradia.get("quantidadePessoas"),
+                                                   Integer.parseInt(moradia.get("quantidadePessoas")),
                                                    null,
                                                    moradia.get("nomeMoradia"),
                                                    Double.parseDouble(moradia.get("precoFinal").replace("R$", "").trim()),
                                                    moradia.get("descricaoMoradia"),
                                                    moradia.get("regrasMoradia"),
-                                                   moradia.get("quantidadeQuartos"),
+                                                   Integer.parseInt(moradia.get("quantidadeQuartos")),
                                                    moradia.get("univProxima"),
                                                    moradia.get("cep"),
                                                    moradia.get("municipio"),
@@ -210,7 +211,6 @@ public class CadastroMoradiaSeis extends Fragment {
                                                 filtrosTagsService.addFiltrosTag(filtrosTags, new FiltrosTagsCallback() {
                                                     @Override
                                                     public void onFiltroCadastroSuccess(boolean IsRegistered) {
-                                                        Toast.makeText(getContext(), "Moradia registrada com sucesso!", Toast.LENGTH_SHORT).show();
                                                         Bundle bundle = new Bundle();
                                                         bundle.putString("textExplanation", "Moradia registrada com sucesso!");
                                                         bundle.putInt("lottieAnimation", R.raw.house);
