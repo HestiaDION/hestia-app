@@ -93,7 +93,7 @@ public class CadastroManager implements Parcelable {
             case 2:
                 return new String[]{"E-mail", "Telefone", "Sua Universidade", null};
             case 3:
-                return new String[]{"Documento Nacional do Estudante", "Senha", "Confirmação de Senha", null};
+                return new String[]{"DNE", "Senha", "Confirmação de Senha", null};
             default:
                 return new String[]{};
         }

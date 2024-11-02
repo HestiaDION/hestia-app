@@ -1,4 +1,4 @@
-package com.example.hestia_app.data.models;
+package com.example.hestia_app.domain.models;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -41,16 +41,6 @@ public class FiltrosTags {
         this.frequencia_fumo = frequencia_fumo;
         this.frequencia_bebida = frequencia_bebida;
         this.preferencias_moveis_outro = preferencias_moveis_outro;
-    }
-
-    public FiltrosTags(UUID idUsuarioMoradia, String tipo, List<String> animais_estimacao, String preferencia_genero, String numero_maximo_pessoas, String frequencia_fumo, String frequencia_bebida) {
-        this.idUsuarioMoradia = idUsuarioMoradia;
-        this.tipo = tipo;
-        this.animais_estimacao = animais_estimacao;
-        this.preferencia_genero = preferencia_genero;
-        this.numero_maximo_pessoas = numero_maximo_pessoas;
-        this.frequencia_fumo = frequencia_fumo;
-        this.frequencia_bebida = frequencia_bebida;
     }
 
     public UUID getIdUsuarioMoradia() {

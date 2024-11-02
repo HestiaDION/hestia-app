@@ -31,7 +31,7 @@ public class FiltroCadastroService {
                 if (response.isSuccessful() && response.body() != null) {
                     List<FiltroCadastro> filtroCadastro = response.body();
                     Log.d("Api response", "onResponse: " + filtroCadastro);
-                    callback.onFiltroCadastroSuccess(filtroCadastro);
+                    callback.onFiltroCadastroSuccess(filtroCadastro, null);
                 } else {
                     Log.e("Api response", "Erro ao buscar filtro por categoria: " + response.message());
                     callback.onFiltroCadastroFailure("Erro ao buscar filtro por categoria!");
@@ -47,6 +47,42 @@ public class FiltroCadastroService {
                     // Usar Handler para adicionar atraso antes da próxima tentativa
                     new Handler().postDelayed(() -> {
                         getFiltrosPorCategoriaWithRetry(categoria, callback, attempt + 1);
+                    }, RETRY_DELAY);
+                } else {
+                    callback.onFiltroCadastroFailure("Falha na chamada da API após " + MAX_RETRIES + " tentativas.");
+                }
+            }
+        });
+    }
+
+    public void getCategorias(FiltroCadastroCallback callback) {
+        getCategoriasWithRetry(callback, 0);
+    }
+
+    private void getCategoriasWithRetry(FiltroCadastroCallback callback, int attempt) {
+        Call<List<String>> call = filtroCadastroRepository.getCategorias();
+        call.enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> categorias = response.body();
+                    Log.d("Api response", "onResponse: " + categorias);
+                    callback.onFiltroCadastroSuccess(null, categorias);
+                } else {
+                    Log.e("Api response", "Erro ao buscar categorias: " + response.message());
+                    callback.onFiltroCadastroFailure("Erro ao buscar categorias!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                Log.e("Api response", "Falha na chamada da API: " + t.getMessage());
+                if (attempt < MAX_RETRIES) {
+                    Log.d("Api response", "Tentando novamente... (" + (attempt + 1) + "/" + MAX_RETRIES + ")");
+
+                    // Usar Handler para adicionar atraso antes da último tentativa
+                    new Handler().postDelayed(() -> {
+                        getCategoriasWithRetry(callback, attempt + 1);
                     }, RETRY_DELAY);
                 } else {
                     callback.onFiltroCadastroFailure("Falha na chamada da API após " + MAX_RETRIES + " tentativas.");

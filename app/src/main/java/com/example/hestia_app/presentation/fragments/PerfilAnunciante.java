@@ -12,10 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.hestia_app.EditarPerfilAnunciante;
+import com.example.hestia_app.presentation.view.Configuracoes;
+import com.example.hestia_app.presentation.view.EditarPerfilAnunciante;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.domain.models.Anunciante;
@@ -32,6 +34,7 @@ public class PerfilAnunciante extends Fragment {
     String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
     AnuncianteService anuncianteService = new AnuncianteService();
     Button editarPerfil;
+    ImageView configuracoes;
 
     public PerfilAnunciante(String tipo_usuario) {
         this.tipo_usuario = tipo_usuario;
@@ -67,7 +70,15 @@ public class PerfilAnunciante extends Fragment {
 
         });
 
-
+        // configurações
+        configuracoes = view.findViewById(R.id.btn_config);
+        configuracoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Configuracoes.class);
+                startActivity(intent);
+            }
+        });
 
         FirebaseAuth autenticar = FirebaseAuth.getInstance();
         FirebaseUser user = autenticar.getCurrentUser();

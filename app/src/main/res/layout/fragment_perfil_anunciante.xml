@@ -8,6 +8,7 @@
 
     <!-- Topo fixo -->
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -86,8 +87,6 @@
                 android:id="@+id/titleSobreMim"
                 android:layout_width="88dp"
                 android:layout_height="18dp"
-                android:background="#F9F9F9"
-                android:backgroundTint="#FFFFFF"
                 android:fontFamily="@font/poppins_semi_bold"
                 android:text="Sobre mim"
                 android:textColor="@color/azul"
@@ -98,8 +97,8 @@
                 android:id="@+id/user_bio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
                 android:layout_marginStart="50dp"
-                android:layout_marginTop="72dp"
                 android:layout_marginEnd="50dp"
                 android:background="@drawable/rounded_background"
                 android:fontFamily="@font/poppins_regular"
@@ -108,7 +107,7 @@
                 android:textColor="@color/cinza"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.494"
+                app:layout_constraintHorizontal_bias="0.495"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -182,25 +181,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="30dp"
         android:src="@drawable/configuration_perfil_icon"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.923"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.816"
+        app:layout_constraintStart_toStartOf="@+id/profile_image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
         android:layout_marginTop="24dp"
         android:background="@android:color/transparent"
         android:contentDescription="logout"
         android:scaleType="centerCrop"
         android:src="@drawable/logout"
         app:layout_constraintEnd_toStartOf="@+id/btn_config"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.096"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

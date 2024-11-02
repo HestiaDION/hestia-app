@@ -1,26 +1,39 @@
 package com.example.hestia_app.domain.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.UUID;
+
 public class Moradia {
 
+    @SerializedName("imovel_id")
+    private UUID moradiaId;
+    @SerializedName("email_anunciante")
     private String emailAnunciante;
-    private String quantidadeMaximaPessoas;
+    @SerializedName("quantidade_maxima_pessoas")
+    private int quantidadeMaximaPessoas;
+    @SerializedName("dt_inicio")
     private String dataRegistro;
+    @SerializedName("nome")
     private String nomeCasa;
     private double aluguel;
     private String descricao;
     private String regras;
-    private String quantidadeQuartos;
+    @SerializedName("quantidade_quartos")
+    private int quantidadeQuartos;
+    @SerializedName("universidade_proxima")
     private String universidadeProxima;
     private String cep;
-    private String cidade;
+    @SerializedName("cidade")
+    private String municipio;
     private String bairro;
     private String rua;
-    private int numero;
+    private String numero;
     private String complemento;
 
-    public Moradia(String emailAnunciante, String quantidadeMaximaPessoas, String dataRegistro, String nomeCasa,
-                   double aluguel, String descricao, String regras, String quantidadeQuartos, String universidadeProxima,
-                   String cep, String cidade, String bairro, String rua, int numero, String complemento) {
+    public Moradia(String emailAnunciante, int quantidadeMaximaPessoas, String dataRegistro, String nomeCasa,
+                   double aluguel, String descricao, String regras, int quantidadeQuartos, String universidadeProxima,
+                   String cep, String municipio, String bairro, String rua, String numero, String complemento) {
 
         this.emailAnunciante = emailAnunciante;
         this.quantidadeMaximaPessoas = quantidadeMaximaPessoas;
@@ -32,11 +45,25 @@ public class Moradia {
         this.quantidadeQuartos = quantidadeQuartos;
         this.universidadeProxima = universidadeProxima;
         this.cep = cep;
-        this.cidade = cidade;
+        this.municipio = municipio;
         this.bairro = bairro;
         this.rua = rua;
         this.numero = numero;
         this.complemento = complemento;
+    }
+
+    public Moradia(int quantidadeMaximaPessoas, String dataRegistro, String nomeCasa) {
+        this.quantidadeMaximaPessoas = quantidadeMaximaPessoas;
+        this.dataRegistro = dataRegistro;
+        this.nomeCasa = nomeCasa;
+    }
+
+    public UUID getMoradiaId() {
+        return moradiaId;
+    }
+
+    public void setMoradiaId(UUID moradiaId) {
+        this.moradiaId = moradiaId;
     }
 
     public String getEmailAnunciante() {
@@ -47,11 +74,11 @@ public class Moradia {
         this.emailAnunciante = emailAnunciante;
     }
 
-    public String getQuantidadeMaximaPessoas() {
+    public int getQuantidadeMaximaPessoas() {
         return quantidadeMaximaPessoas;
     }
 
-    public void setQuantidadeMaximaPessoas(String quantidadeMaximaPessoas) {
+    public void setQuantidadeMaximaPessoas(int quantidadeMaximaPessoas) {
         this.quantidadeMaximaPessoas = quantidadeMaximaPessoas;
     }
 
@@ -95,11 +122,11 @@ public class Moradia {
         this.regras = regras;
     }
 
-    public String getQuantidadeQuartos() {
+    public int getQuantidadeQuartos() {
         return quantidadeQuartos;
     }
 
-    public void setQuantidadeQuartos(String quantidadeQuartos) {
+    public void setQuantidadeQuartos(int quantidadeQuartos) {
         this.quantidadeQuartos = quantidadeQuartos;
     }
 
@@ -120,11 +147,11 @@ public class Moradia {
     }
 
     public String getCidade() {
-        return cidade;
+        return municipio;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setCidade(String municipio) {
+        this.municipio = municipio;
     }
 
     public String getBairro() {
@@ -143,11 +170,11 @@ public class Moradia {
         this.rua = rua;
     }
 
-    public int getNumero() {
+    public String getNumero() {
         return numero;
     }
 
-    public void setNumero(int numero) {
+    public void setNumero(String numero) {
         this.numero = numero;
     }
 
@@ -172,7 +199,7 @@ public class Moradia {
                 ", quantidadeQuartos='" + quantidadeQuartos + '\'' +
                 ", universidadeProxima='" + universidadeProxima + '\'' +
                 ", cep='" + cep + '\'' +
-                ", cidade='" + cidade + '\'' +
+                ", municipio='" + municipio + '\'' +
                 ", bairro='" + bairro + '\'' +
                 ", rua='" + rua + '\'' +
                 ", numero=" + numero +

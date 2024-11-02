@@ -2,6 +2,7 @@ package com.example.hestia_app.presentation.view;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,12 +44,15 @@ public class MainActivityNavbar extends AppCompatActivity {
         binding = ActivityMainNavbarBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.progressBar.setVisibility(View.VISIBLE);
+
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String emailUsuario = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
         fetchUserOrigin(emailUsuario, new UsuarioCallback() {
             @Override
             public void onUsuarioReceived(String origem) {
+                binding.progressBar.setVisibility(View.GONE);
                 origemUsuario = origem;
                 isUserOriginFetched = true;
                 Log.d("Origem", "Origem do usuário: " + origemUsuario);
@@ -132,6 +136,10 @@ public class MainActivityNavbar extends AppCompatActivity {
 
     // Chamada para verificação do tipo do usuário
     public void fetchUserOrigin(String email, UsuarioCallback callback) {
+        fetchUserOriginWithRetries(email, callback, 5);  // Define o número máximo de tentativas, neste caso, 5
+    }
+
+    private void fetchUserOriginWithRetries(String email, UsuarioCallback callback, int retriesLeft) {
         UsuarioRepository usuarioRepository = RetrofitPostgresClient.getClient().create(UsuarioRepository.class);
         Call<Usuario> call = usuarioRepository.getUserOrigin(email);
 
@@ -142,13 +150,21 @@ public class MainActivityNavbar extends AppCompatActivity {
                     String origem = response.body().getOrigem();
                     callback.onUsuarioReceived(origem);  // Retorna a string "origem" via callback
                 } else {
-                    callback.onFailure("Erro na resposta da API. Código: " + response.code());
+                    if (retriesLeft > 0) {
+                        fetchUserOriginWithRetries(email, callback, retriesLeft - 1);  // Tenta novamente
+                    } else {
+                        callback.onFailure("Erro na resposta da API após múltiplas tentativas. Código: " + response.code());
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
-                callback.onFailure("Erro na chamada da API: " + t.getMessage());
+                if (retriesLeft > 0) {
+                    fetchUserOriginWithRetries(email, callback, retriesLeft - 1);  // Tenta novamente
+                } else {
+                    callback.onFailure("Erro na chamada da API após múltiplas tentativas: " + t.getMessage());
+                }
             }
         });
     }

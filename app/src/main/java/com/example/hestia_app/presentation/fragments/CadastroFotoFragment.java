@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.KeyEvent;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,13 +42,16 @@ import com.example.hestia_app.domain.models.Anunciante;
 
 import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
 
-import com.example.hestia_app.data.models.FiltrosTags;
+import com.example.hestia_app.domain.models.FiltrosTags;
 
 import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.domain.models.InfosUser;
 import com.example.hestia_app.domain.models.Universitario;
+import com.example.hestia_app.presentation.view.MainActivityNavbar;
+import com.example.hestia_app.presentation.view.Splashscreen;
+import com.example.hestia_app.presentation.view.TelaAviso;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
@@ -70,8 +75,10 @@ public class CadastroFotoFragment extends Fragment {
     ImageView foto_usuario, foto_ilustrativa;
     TextView txt_adicionar;
     CheckBox checkBox;
+    private ProgressBar progressBar;
+
     // lista de permissões
-    private static final String[] REQUIRED_PERMISSIONS;
+    public static final String[] REQUIRED_PERMISSIONS;
 
     static {
         List<String> requiredPermissions = new ArrayList<>();
@@ -128,6 +135,7 @@ public class CadastroFotoFragment extends Fragment {
         foto_ilustrativa = view.findViewById(R.id.foto_ilustrativa);
         txt_adicionar = view.findViewById(R.id.txt_adicionar);
         checkBox = view.findViewById(R.id.checkbox);
+        progressBar = view.findViewById(R.id.progress_bar);
 
         if (usuario.containsKey("imagem")) {
             Glide.with(getContext()).load(usuario.get("imagem")).into(foto_usuario);
@@ -152,160 +160,8 @@ public class CadastroFotoFragment extends Fragment {
         bt_acao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nome = usuario.get("nome");
-                String email = usuario.get("email");
-                String senha = usuario.get("senha");
-
-                // salvando informações no firebase
-                assert nome != null;
-                Log.d("Registro", "FIREBASE: USUÁRIO REGISTRADO: " + nome);
-                firebaseService.salvarUsuario(getContext(), nome, email, senha, uri, checkBox.isChecked());
-
-                // enviando informações para a collection InfosUser no MongoDB
-                InfosUser infosUser = new InfosUser(
-                        email,
-                        senha,
-                        uri.toString()
-                );
-
-                infosUserService.addInfosUser(infosUser, new InfosUserCallback() {
-
-                    @Override
-                    public void onSuccess(InfoUserRepository response) {
-                        Log.d("InfosUser", "Sucesso ao enviar objeto InfosUser ao MongoDB:" + response.toString());
-                    }
-
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.d("InfosUser", "Falha ao enviar objeto InfosUser ao MongoDB: " + t.toString());
-                    }
-                });
-
-                if(tipo.equals("anunciante")) {
-
-                    Log.d("Registro", "CAIU NO TIPO ANUNCIANTE");
-                    Anunciante anunciante = new Anunciante(
-                            nome,
-                            usuario.get("municipio"),
-                            usuario.get("telefone"),
-                            usuario.get("genero"),
-                            usuario.get("dt_nascimento"),
-                            email
-                    );
-
-                    Log.d("BODY", anunciante.toString());
-
-
-                  anuncianteService.registrarAnunciante(anunciante, new RegistroAnuncianteCallback() {
-                      @Override
-                      public void onRegistroSuccess(boolean isRegistered) {
-                          if (isRegistered) {
-                              Log.d("Registro", "Anunciante registrado com sucesso!");
-                          } else {
-                              Log.d("Registro", "Falha ao registrar o anunciante.");
-                          }
-                      }
-
-                      @Override
-                      public void onRegistroFailure(boolean isRegistered) {
-                          if (isRegistered) {
-                              Log.d("Registro", "Anunciante registrado com sucesso!");
-                          } else {
-                              Log.d("Registro", "Falha ao registrar o anunciante.");
-                          }
-                      }
-
-
-                  });
-
-                } else if (tipo.equals("universitario")) {
-                    Log.d("Registro", "CAIU NO TIPO UNIVERSITÁRIO");
-
-                    // salvando o universitário no banco
-                    Universitario universitario = new Universitario(
-                            nome,
-                            email,
-                            usuario.get("dne"),
-                            usuario.get("municipio"),
-                            usuario.get("universidade"),
-                            usuario.get("genero"),
-                            usuario.get("telefone"),
-                            usuario.get("dt_nascimento")
-                            );
-
-                    Log.d("BODY", universitario.toString());
-
-
-
-                    universitarioService.registrarUniversitario(universitario, new RegistroUniversitarioCallback() {
-
-                        @Override
-                        public void onRegistroSuccess(boolean isRegistered, UUID universitarioId) {
-
-                            if (isRegistered) {
-                                Log.d("Registro", "Universitário registrado com sucesso!");
-
-                                // salvar os filtros no mongo
-                                // recuperar as informções
-
-                                List<String> categoria1 = transformarLista(usuario.get("categoria1"));
-                                List<String> categoria2 = transformarLista(usuario.get("categoria2"));
-                                List<String> categoria3 = transformarLista(usuario.get("categoria3"));
-                                List<String> categoria4 = transformarLista(usuario.get("categoria4"));
-                                List<String> categoria5 = transformarLista(usuario.get("categoria5"));
-
-                                // informações de filtros
-                                FiltrosTags filtrosTags = new FiltrosTags(
-                                        universitarioId,
-                                        tipo,
-                                        categoria1,
-                                        categoria2.get(0),
-                                        categoria3.get(0),
-                                        categoria4.get(0),
-                                        categoria5.get(0)
-                                );
-
-                                Log.d("FILTROS", "BODY FILTROS: " + filtrosTags);
-
-                                filtrosTagsService.addFiltrosTag(filtrosTags, new FiltrosTagsCallback() {
-                                    @Override
-                                    public void onFiltroCadastroSuccess(boolean IsRegistered) {
-                                        if (IsRegistered) {
-                                            Log.d("Registro", "Filtros salvos com sucesso!");
-                                        } else {
-                                            Log.d("Registro", "Falha ao salvar os filtros.");
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onFiltroCadastroFailure(boolean IsRegistered) {
-                                        if (IsRegistered) {
-                                            Log.d("Registro", "Filtros salvos com sucesso!");
-                                        } else {
-                                            Log.d("Registro", "Falha ao salvar os filtros.");
-                                        }
-                                    }
-                                });
-
-
-
-                            } else {
-                                Log.d("Registro", "Falha ao registrar o universitário.");
-                            }
-                        }
-
-                        @Override
-                        public void onRegistroFailure(boolean isRegistered) {
-                            Log.e("Registro", "Falha ao registrar o universitário.");
-                        }
-                    });
-
-
-
-
-                } else{
-                    Log.d("Registro", "NÃO CAIU NO REGISTRO");
-                }
+                progressBar.setVisibility(View.VISIBLE); // Exibir barra de progresso
+                salvarFirebaseUsuario();
             }
         });
 
@@ -350,6 +206,204 @@ public class CadastroFotoFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void salvarFirebaseUsuario() {
+        String nome = usuario.get("nome");
+        String email = usuario.get("email");
+        String senha = usuario.get("senha");
+
+        // Firebase
+        firebaseService.salvarUsuario(getContext(), nome, email, senha, uri, checkBox.isChecked());
+
+        // Salvar InfosUser
+        InfosUser infosUser = new InfosUser(email, senha, uri.toString());
+        salvarInfosUserComRetry(infosUser);
+    }
+
+    private void salvarInfosUserComRetry(InfosUser infosUser) {
+        infosUserService.addInfosUser(infosUser, new InfosUserCallback() {
+            @Override
+            public void onSuccess(InfosUser response) {
+                Log.d("InfosUser", "Sucesso ao enviar objeto InfosUser ao MongoDB: " + response.toString());
+                if (tipo.equals("anunciante")) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            salvarAnuncianteComRetry();
+                        }
+                    }, 5000);
+                } else if (tipo.equals("universitario")) {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            salvarUniversitarioComRetry();
+                        }
+                    }, 5000);
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.e("InfosUser", "Falha ao enviar objeto InfosUser ao MongoDB: " + t.toString());
+                // Reintenta a requisição em caso de falha
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        salvarInfosUserComRetry(infosUser);
+                    }
+                }, 5000);
+            }
+        });
+    }
+
+    private void salvarAnuncianteComRetry() {
+        Anunciante anunciante = new Anunciante(
+                usuario.get("nome"),
+                usuario.get("municipio"),
+                usuario.get("telefone"),
+                usuario.get("genero"),
+                usuario.get("dt_nascimento"),
+                usuario.get("email")
+        );
+
+        anuncianteService.registrarAnunciante(anunciante, new RegistroAnuncianteCallback() {
+            @Override
+            public void onRegistroSuccess(boolean isRegistered) {
+                Log.d("Registro", "Anunciante registrado com sucesso!");
+                progressBar.setVisibility(View.GONE); // Ocultar barra de progresso
+
+                Bundle bundle = new Bundle();
+                bundle.putString("textExplanation", "Anunciante registrado com sucesso!");
+                bundle.putInt("lottieAnimation", R.raw.contract);
+                bundle.putString("tipo", "anunciante");
+                bundle.putString("tela", "MainActivityNavbar");
+                Intent intent = new Intent(getContext(), TelaAviso.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+
+            @Override
+            public void onRegistroFailure(boolean isRegistered) {
+                Log.e("Registro", "Falha ao registrar o anunciante.");
+                // Reintenta a requisição em caso de falha
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        salvarAnuncianteComRetry();
+                    }
+                }, 5000);
+            }
+        });
+    }
+
+    private void salvarUniversitarioComRetry() {
+        Universitario universitario = new Universitario(
+                usuario.get("nome"),
+                usuario.get("email"),
+                usuario.get("dne"),
+                usuario.get("municipio"),
+                usuario.get("universidade"),
+                usuario.get("genero"),
+                usuario.get("telefone"),
+                usuario.get("dt_nascimento")
+        );
+
+        universitarioService.registrarUniversitario(universitario, new RegistroUniversitarioCallback() {
+            @Override
+            public void onRegistroSuccess(boolean isRegistered, UUID universitarioId) {
+                Log.d("Registro", "Universitário registrado com sucesso!");
+                // salvar filtros
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        salvarFiltrosComRetry(universitarioId);
+                    }
+                }, 5000);
+            }
+
+            @Override
+            public void onRegistroFailure(boolean isRegistered) {
+                Log.e("Registro", "Falha ao registrar o universitário.");
+                // Reintenta a requisição em caso de falha
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        salvarUniversitarioComRetry();
+                    }
+                }, 5000);
+            }
+        });
+    }
+
+    private void salvarFiltrosComRetry(UUID universitarioId) {
+        // pegar o que foi salvo no hashmap
+        List<String> animais = new ArrayList<>(), casa = new ArrayList<>();
+        String generos = "", pessoas = "", fumo = "", bebida = "";
+        for (String categoria : usuario.keySet()) {
+            if (categoria.startsWith("categoria ")) {
+                switch (categoria) {
+                    case "categoria animal":
+                        animais = transformarLista(usuario.get(categoria));
+                        break;
+                    case "categoria genero":
+                        generos = transformarLista(usuario.get(categoria)).get(0);
+                        break;
+                    case "categoria pessoa":
+                        pessoas = transformarLista(usuario.get(categoria)).get(0);
+                        break;
+                    case "categoria fumo":
+                        fumo = transformarLista(usuario.get(categoria)).get(0);
+                        break;
+                    case "categoria bebida":
+                        bebida = transformarLista(usuario.get(categoria)).get(0);
+                        break;
+                    case "categoria casa":
+                        casa = transformarLista(usuario.get(categoria));
+                        break;
+                }
+            }
+        }
+
+        FiltrosTags filtros = new FiltrosTags(universitarioId,
+                                              tipo,
+                                              animais,
+                                              generos,
+                                              pessoas,
+                                              fumo,
+                                              bebida,
+                                              casa);
+
+        filtrosTagsService.addFiltrosTag(filtros, new FiltrosTagsCallback() {
+            @Override
+            public void onFiltroCadastroSuccess(boolean IsRegistered) {
+                Log.d("Filtros", "Filtros salvos com sucesso!");
+                progressBar.setVisibility(View.GONE); // Ocultar barra de progresso após o sucesso
+
+                Bundle bundle = new Bundle();
+                bundle.putString("textExplanation", "Universitário registrado com sucesso!");
+                bundle.putInt("lottieAnimation", R.raw.university);
+                bundle.putString("tipo", "universitário");
+                bundle.putString("tela", "MainActivityNavbar");
+                Intent intent = new Intent(getContext(), TelaAviso.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                requireActivity().finish();
+            }
+
+            @Override
+            public void onFiltroCadastroFailure(boolean IsRegistered) {
+                Log.e("Filtros", "Falha ao salvar os filtro!");
+                // Reintenta a requisição em caso de falha
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        salvarFiltrosComRetry(universitarioId);
+                    }
+                }, 5000);
+            }
+        });
     }
 
     private void showPhotoOptions(Context context) {

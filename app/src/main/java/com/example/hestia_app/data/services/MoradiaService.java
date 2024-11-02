@@ -7,67 +7,84 @@ import androidx.annotation.NonNull;
 import com.example.hestia_app.data.api.callbacks.ListaMoradiasCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroMoradiaCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
-import com.example.hestia_app.data.api.repo.AnuncianteRepository;
 import com.example.hestia_app.data.api.repo.MoradiaRepository;
-import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.domain.models.Moradia;
 
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MoradiaService {
-
+    private static final int MAX_RETRIES = 5; // Número máximo de tentativas
     MoradiaRepository moradiaRepository = RetrofitPostgresClient.getClient().create(MoradiaRepository.class);
 
     public void registrarMoradia(Moradia moradia, RegistroMoradiaCallback callback) {
         Call<Moradia> call = moradiaRepository.registerMoradia(moradia);
+        executeWithRetry(call, callback, 0);
+    }
 
-        call.enqueue(new Callback<Moradia>() {
+    public void getMoradiasByAdvertiser(String email, ListaMoradiasCallback callback) {
+        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(email);
+        executeWithRetry(call, callback, 0);
+    }
+
+    private void executeWithRetry(Call<Moradia> call, RegistroMoradiaCallback callback, int retryCount) {
+        call.clone().enqueue(new Callback<Moradia>() {
             @Override
             public void onResponse(Call<Moradia> call, Response<Moradia> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("Moradia", "Registro de moradia bem-sucedido: " + response.body().toString());
-                    callback.onRegistroSuccess(true);
+                    callback.onRegistroSuccess(true, response.body());
+                } else if (retryCount < MAX_RETRIES) {
+                    // Tentar novamente em caso de falha de resposta
+                    executeWithRetry(call.clone(), callback, retryCount + 1);
                 } else {
-                    Log.e("Moradia", "Falha no registro de moradia: Código de resposta " + response.code());
+                    Log.e("Moradia", "Falha no registro de moradia após tentativas: Código de resposta " + response.code());
                     callback.onRegistroFailure(false);
                 }
             }
 
             @Override
             public void onFailure(Call<Moradia> call, Throwable t) {
-                Log.e("Moradia", "Erro na chamada de registro de moradia: " + t.getMessage(), t);
-                callback.onRegistroFailure(false);
+                if (retryCount < MAX_RETRIES) {
+                    // Tentar novamente em caso de falha de conexão
+                    executeWithRetry(call.clone(), callback, retryCount + 1);
+                } else {
+                    Log.e("Moradia", "Erro na chamada de registro de moradia após tentativas: " + t.getMessage(), t);
+                    callback.onRegistroFailure(false);
+                }
             }
         });
     }
 
-
-    public void getMoradiasByAdvertiser(String id, ListaMoradiasCallback callback) {
-        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(id);
-
-        call.enqueue(new retrofit2.Callback<List<Moradia>>() {
+    private void executeWithRetry(Call<List<Moradia>> call, ListaMoradiasCallback callback, int retryCount) {
+        call.clone().enqueue(new Callback<List<Moradia>>() {
             @Override
-            public void onResponse(Call<List<Moradia>> call, retrofit2.Response<List<Moradia>> response) {
+            public void onResponse(Call<List<Moradia>> call, Response<List<Moradia>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
+                } else if (retryCount < MAX_RETRIES) {
+                    // Tentar novamente em caso de falha de resposta
+                    executeWithRetry(call.clone(), callback, retryCount + 1);
                 } else {
-                    Log.d("Moradia", "Listagem de moradias por anunciante_id bem-sucedida: " + response.body().toString());
+                    Log.e("Moradia", "Falha na listagem de moradias após tentativas: " + response.message());
                     callback.onFailure(new Exception("Falha na resposta da API: " + response.message()));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Moradia>> call, Throwable t) {
-                Log.e("Moradia", "Erro na chamada da listagem de moradias por anunciante_id: " + t.getMessage(), t);
-                callback.onFailure(t);
+                if (retryCount < MAX_RETRIES) {
+                    // Tentar novamente em caso de falha de conexão
+                    executeWithRetry(call.clone(), callback, retryCount + 1);
+                } else {
+                    Log.e("Moradia", "Erro na chamada da listagem de moradias após tentativas: " + t.getMessage(), t);
+                    callback.onFailure(t);
+                }
             }
         });
     }
-
-
-
 }
