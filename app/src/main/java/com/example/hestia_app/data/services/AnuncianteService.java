@@ -22,6 +22,7 @@ public class AnuncianteService {
     public void registrarAnunciante(Anunciante anunciante, RegistroAnuncianteCallback callback) {
         Call<Anunciante> call = anuncianteRepository.registerAnunciante(anunciante);
 
+
         call.enqueue(new Callback<Anunciante>() {
             @Override
             public void onResponse(@NonNull Call<Anunciante> call, @NonNull Response<Anunciante> response) {
