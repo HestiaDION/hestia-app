@@ -14,6 +14,9 @@ import com.example.hestia_app.R;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.hestia_app.data.api.callbacks.TokenJwtCallback;
+import com.example.hestia_app.data.services.TokenJwtService;
+import com.example.hestia_app.domain.models.Token;
 import com.example.hestia_app.presentation.view.swipe.PreviewScreensExplanation;
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,15 +27,18 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     Button loginButton;
     TextView cadastroRedirect;
     EditText email, senha;
-
     ImageButton eyeOpenedPassword;
 
+    // Service
+    TokenJwtService tokenJwtService = new TokenJwtService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         cadastroRedirect.setOnClickListener(v -> {
-            // abrir main mandando os parâmetros
             Intent intent = new Intent(LoginActivity.this, PreviewScreensExplanation.class);
             startActivity(intent);
         });
@@ -72,6 +77,22 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
 
+                                    // gerar token
+                                    tokenJwtService.getAccessToken(email.getText().toString(), new TokenJwtCallback() {
+                                        @Override
+                                        public void onSuccess(Token tokenResponse) {
+
+                                            // colocar token no shared preferences
+
+
+                                            Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
+                                        }
+                                        @Override
+                                        public void onFailure(String t) {
+                                            Toast.makeText(LoginActivity.this, "Erro ao gerar token: " + t, Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
 
                                     Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
                                     startActivity(intent);
@@ -80,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // mostrar erro
                                     String msg = "Erro ao efetuar o login: ";
                                     try {
-                                        throw task.getException();
+                                        throw Objects.requireNonNull(task.getException());
                                     } catch (FirebaseAuthInvalidUserException user) {
                                         msg += "\nE-mail inválido!";
                                     } catch (FirebaseAuthInvalidCredentialsException senha) {
@@ -95,7 +116,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // verificação para abrir o ícone de "olho"
         ViewUtils.setEyeIconVisibilityAndChangeIconOnClick(senha, eyeOpenedPassword);
 
 
