@@ -1,5 +1,6 @@
 package com.example.hestia_app.data.services;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,10 +18,14 @@ import retrofit2.Response;
 public class PagamentoService {
 
     private final PagamentoRepository pagamentoRepository = RetrofitPostgresClient.getClient().create(PagamentoRepository.class);
+    private String token = "";
+    private static final String TOKEN_KEY = "token";
+    SharedPreferences sharedPreferences;
 
 
     public void registrarPagamento(Pagamento pagamentoInfo, RegistroPagamentoCallback callback) {
-        Call<Pagamento> call = pagamentoRepository.registerPagamento(pagamentoInfo);
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+        Call<Pagamento> call = pagamentoRepository.registerPagamento(token, pagamentoInfo);
 
         call.enqueue(new Callback<Pagamento>() {
 

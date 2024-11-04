@@ -1,5 +1,6 @@
 package com.example.hestia_app.presentation.view;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +40,10 @@ public class MainActivityNavbar extends AppCompatActivity {
     boolean isUserOriginFetched = false;
     private static final String PREFS_NAME = "UserPreferences";
     private static final String USER_ORIGIN_KEY = "user_origin";
+    private static final String TOKEN_KEY = "token";
+    private String token = "";
+
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,10 @@ public class MainActivityNavbar extends AppCompatActivity {
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         String emailUsuario = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+
 
         fetchUserOrigin(emailUsuario, new UsuarioCallback() {
             @Override
@@ -150,7 +159,7 @@ public class MainActivityNavbar extends AppCompatActivity {
 
     private void fetchUserOriginWithRetries(String email, UsuarioCallback callback, int retriesLeft) {
         UsuarioRepository usuarioRepository = RetrofitPostgresClient.getClient().create(UsuarioRepository.class);
-        Call<Usuario> call = usuarioRepository.getUserOrigin(email);
+        Call<Usuario> call = usuarioRepository.getUserOrigin(token, email);
 
         call.enqueue(new retrofit2.Callback<Usuario>() {
             @Override

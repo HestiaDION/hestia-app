@@ -1,5 +1,6 @@
 package com.example.hestia_app.data.services;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,14 @@ public class AnuncianteService {
 
     AnuncianteRepository anuncianteRepository = RetrofitPostgresClient.getClient().create(AnuncianteRepository.class);
 
+    private String token = "";
+    private static final String TOKEN_KEY = "token";
+    SharedPreferences sharedPreferences;
+
+
     public void registrarAnunciante(Anunciante anunciante, RegistroAnuncianteCallback callback) {
-        Call<Anunciante> call = anuncianteRepository.registerAnunciante(anunciante);
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+        Call<Anunciante> call = anuncianteRepository.registerAnunciante(token, anunciante);
 
 
         call.enqueue(new Callback<Anunciante>() {
@@ -45,7 +52,8 @@ public class AnuncianteService {
     }
 
     public void atualizarAnuncianteProfile(String email, Anunciante anunciante, UpdatePerfilAnuncianteCallback callback){
-        Call <Anunciante> call = anuncianteRepository.updateAnuncianteProfile(email, anunciante);
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+        Call <Anunciante> call = anuncianteRepository.updateAnuncianteProfile(token, email, anunciante);
         call.enqueue(new Callback<Anunciante>(){
 
             @Override
@@ -67,7 +75,9 @@ public class AnuncianteService {
     }
 
     public void listarPerfilAnunciante(String email, PerfilAnuncianteCallback callback) {
-        Call<Anunciante> call = anuncianteRepository.getAnuncianteProfile(email);
+
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+        Call<Anunciante> call = anuncianteRepository.getAnuncianteProfile(token, email);
 
         call.enqueue(new Callback<Anunciante>() {
             @Override

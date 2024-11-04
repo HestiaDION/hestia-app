@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -83,7 +84,10 @@ public class LoginActivity extends AppCompatActivity {
                                         public void onSuccess(Token tokenResponse) {
 
                                             // colocar token no shared preferences
-
+                                            getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                                                    .edit()
+                                                    .putString("TOKEN", tokenResponse.getToken())
+                                                    .apply();
 
                                             Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
                                         }

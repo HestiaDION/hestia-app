@@ -1,5 +1,6 @@
 package com.example.hestia_app.data.services;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,13 @@ import retrofit2.Response;
 public class UniversitarioService {
 
     UniversitarioRepository universitarioRepository = RetrofitPostgresClient.getClient().create(UniversitarioRepository.class);
-
+    private static final String TOKEN_KEY = "token";
+    SharedPreferences sharedPreferences;
+    String token = "";
 
     public void registrarUniversitario(Universitario universitario, RegistroUniversitarioCallback callback) {
-        Call<Universitario> call = universitarioRepository.registerUniversitario(universitario);
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+        Call<Universitario> call = universitarioRepository.registerUniversitario(token, universitario);
 
         call.enqueue(new Callback<Universitario>() {
             @Override
@@ -47,15 +51,18 @@ public class UniversitarioService {
     }
 
     public void atualizarUniversitarioProfile(String email, Universitario universitario, UpdatePerfilUniversitarioCallback callback){
-        Call<Universitario> call = universitarioRepository.updateUniversitarioProfile(email, universitario);
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+        Call<Universitario> call = universitarioRepository.updateUniversitarioProfile(token, email, universitario);
 
         call.enqueue(new Callback<Universitario>() {
             @Override
             public void onResponse(@NonNull Call<Universitario> call, @NonNull Response<Universitario> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Universitario universitarioResponse = response.body();
+                    callback.onUpdateSuccess(true);
                     Log.d("Update", "Universitário atualizado com sucesso: " + universitarioResponse.getNome());
                 } else{
+                    callback.onUpdateFailure(response.message());
                     Log.e("Update", "Erro ao atualizar universitário: " + response.message());
                 }
             }
@@ -69,7 +76,8 @@ public class UniversitarioService {
     }
 
     public void listarPerfilUniversitario(String email, PerfilUniversitarioCallback callback) {
-        Call<Universitario> call = universitarioRepository.getUniversityProfile(email);
+        token = sharedPreferences.getString(TOKEN_KEY, null);
+        Call<Universitario> call = universitarioRepository.getUniversityProfile(token, email);
 
         call.enqueue(new Callback<Universitario>() {
             @Override
