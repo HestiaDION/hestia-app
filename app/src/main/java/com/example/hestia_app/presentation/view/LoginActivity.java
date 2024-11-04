@@ -78,20 +78,20 @@ public class LoginActivity extends AppCompatActivity {
                                     Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
 
                                     // gerar token
-                                    tokenJwtService.getAccessToken(email.getText().toString(), new TokenJwtCallback() {
-                                        @Override
-                                        public void onSuccess(Token tokenResponse) {
-
-                                            // colocar token no shared preferences
-
-
-                                            Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
-                                        }
-                                        @Override
-                                        public void onFailure(String t) {
-                                            Toast.makeText(LoginActivity.this, "Erro ao gerar token: " + t, Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
+//                                    tokenJwtService.getAccessToken(email.getText().toString(), new TokenJwtCallback() {
+//                                        @Override
+//                                        public void onSuccess(Token tokenResponse) {
+//
+//                                            // colocar token no shared preferences
+//
+//
+//                                            Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                        @Override
+//                                        public void onFailure(String t) {
+//                                            Toast.makeText(LoginActivity.this, "Erro ao gerar token: " + t, Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    });
 
 
                                     Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);

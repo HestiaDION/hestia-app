@@ -26,6 +26,7 @@ public class PremiumScreenAnunciante extends AppCompatActivity {
         {
             Intent intent = new Intent(getApplicationContext(), ConfirmacaoPagamento.class);
             startActivity(intent);
+            finish();
         });
 
         goBack.setOnClickListener(v -> finish());

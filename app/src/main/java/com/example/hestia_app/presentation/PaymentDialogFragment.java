@@ -3,6 +3,7 @@ package com.example.hestia_app.presentation;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -87,8 +88,14 @@ public class PaymentDialogFragment extends DialogFragment {
                 stillPayingButton.setVisibility(View.VISIBLE);
                 countdownTextView.setVisibility(View.GONE);
 
-
                 paymentDoneButton.setOnClickListener(v -> {
+                    salvarPagamentoEmAprovacao();  // Salva o status do pagamento como "em aprovação"
+                    getActivity().finish();
+                    dismiss();
+                });
+
+                stillPayingButton.setOnClickListener(v -> {
+                    salvarPagamentoEmAprovacao();
                     getActivity().finish();
                     dismiss();
                 });
@@ -99,6 +106,10 @@ public class PaymentDialogFragment extends DialogFragment {
         copyCodeTextView.setOnClickListener(v -> copyKeyPixClick());
 
         return view;
+    }
+    private void salvarPagamentoEmAprovacao() {
+        SharedPreferences prefs = getActivity().getSharedPreferences("HestiaPrefs", Context.MODE_PRIVATE);
+        prefs.edit().putBoolean("pagamentoEmAprovacao", true).apply();
     }
 
     private void copyKeyPixClick() {

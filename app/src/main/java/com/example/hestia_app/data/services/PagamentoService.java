@@ -3,6 +3,8 @@ package com.example.hestia_app.data.services;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+
+import com.example.hestia_app.data.api.callbacks.PagamentoPorUserEmail;
 import com.example.hestia_app.data.api.callbacks.RegistroPagamentoCallback;
 import com.example.hestia_app.data.api.clients.RetrofitMongoClient;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
@@ -40,6 +42,26 @@ public class PagamentoService {
             public void onFailure(@NonNull Call<Pagamento> call, @NonNull Throwable t) {
                 Log.e("Pagamento", "Falha na chamada da API: " + t.getMessage());
                 callback.onRegistroSuccess(false, null);
+            }
+        });
+    }
+
+    public void getPagamentoByUserEmail(String email, PagamentoPorUserEmail callback) {
+        Call<Pagamento> call = pagamentoRepository.getPagamentoByUserEmail(email);
+
+        call.enqueue(new Callback<Pagamento>() {
+            @Override
+            public void onResponse(@NonNull Call<Pagamento> call, @NonNull Response<Pagamento> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onFindSuccess(true, response.body());
+                } else {
+                    callback.onFindFailure(false);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Pagamento> call, @NonNull Throwable t) {
+                callback.onFindFailure(false);
             }
         });
     }
