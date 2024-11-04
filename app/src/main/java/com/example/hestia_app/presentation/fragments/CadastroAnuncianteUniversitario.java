@@ -45,6 +45,29 @@ public class CadastroAnuncianteUniversitario extends Fragment {
     private static HashMap<String, String> anunciante = new HashMap<>();
     private static HashMap<String, String> universitario = new HashMap<>();
 
+    Button bt_acao;
+    EditText campo1;
+    EditText campo2;
+    EditText campo3;
+    EditText campo4;
+    TextView tipo_usuario;
+    View view1;
+    View view2;
+    View view3;
+    View view4;
+    TextView erro1;
+    TextView erro2;
+    TextView erro3;
+    TextView erro4;
+    ImageButton olho;
+    ImageButton olho2;
+    ImageButton olho3;
+    ImageButton calendario;
+    ImageButton bt_voltar;
+    ImageButton genero;
+    ImageButton genero2;
+
+
     // construtor
     public CadastroAnuncianteUniversitario() {
     }
@@ -80,27 +103,27 @@ public class CadastroAnuncianteUniversitario extends Fragment {
         View view = inflater.inflate(R.layout.fragment_cadastro, container, false);
 
         // declarando os objetos
-        Button bt_acao = view.findViewById(R.id.bt_acao);
-        EditText campo1 = view.findViewById(R.id.campo1);
-        EditText campo2 = view.findViewById(R.id.campo2);
-        EditText campo3 = view.findViewById(R.id.campo3);
-        EditText campo4 = view.findViewById(R.id.campo4);
-        TextView tipo_usuario = view.findViewById(R.id.tipo_usuario);
-        View view1 = view.findViewById(R.id.view1);
-        View view2 = view.findViewById(R.id.view2);
-        View view3 = view.findViewById(R.id.view3);
-        View view4 = view.findViewById(R.id.view4);
-        TextView erro1 = view.findViewById(R.id.erro1);
-        TextView erro2 = view.findViewById(R.id.erro2);
-        TextView erro3 = view.findViewById(R.id.erro3);
-        TextView erro4 = view.findViewById(R.id.erro4);
-        ImageButton olho = view.findViewById(R.id.ver_senha);
-        ImageButton olho2 = view.findViewById(R.id.ver_senha2);
-        ImageButton olho3 = view.findViewById(R.id.ver_senha3);
-        ImageButton calendario = view.findViewById(R.id.calendario);
-        ImageButton bt_voltar = view.findViewById(R.id.voltar);
-        ImageButton genero = view.findViewById(R.id.selecionar_genero);
-        ImageButton genero2 = view.findViewById(R.id.selecionar_genero2);
+        bt_acao = view.findViewById(R.id.bt_acao);
+        campo1 = view.findViewById(R.id.campo1);
+        campo2 = view.findViewById(R.id.campo2);
+        campo3 = view.findViewById(R.id.campo3);
+        campo4 = view.findViewById(R.id.campo4);
+        tipo_usuario = view.findViewById(R.id.tipo_usuario);
+        view1 = view.findViewById(R.id.view1);
+        view2 = view.findViewById(R.id.view2);
+        view3 = view.findViewById(R.id.view3);
+        view4 = view.findViewById(R.id.view4);
+        erro1 = view.findViewById(R.id.erro1);
+        erro2 = view.findViewById(R.id.erro2);
+        erro3 = view.findViewById(R.id.erro3);
+        erro4 = view.findViewById(R.id.erro4);
+        olho = view.findViewById(R.id.ver_senha);
+        olho2 = view.findViewById(R.id.ver_senha2);
+        olho3 = view.findViewById(R.id.ver_senha3);
+        calendario = view.findViewById(R.id.calendario);
+        bt_voltar = view.findViewById(R.id.voltar);
+        genero = view.findViewById(R.id.selecionar_genero);
+        genero2 = view.findViewById(R.id.selecionar_genero2);
 
         progressBar = view.findViewById(R.id.progresso);
         int etapaAtual = cadastroManager.getEtapaAtual();;
@@ -159,6 +182,14 @@ public class CadastroAnuncianteUniversitario extends Fragment {
             @Override
             public void onClick(View v) {
 
+
+                // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                //                               -=-=-=--=-==--=-= FLUXO ANUNCIANTE =-=--=-=-==-
+                // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
                 if (usuario.equals("anunciante")) {
                     if (cadastroManager.hasNextEtapaAnunciante()) {
                         // salvar as informações
@@ -208,6 +239,15 @@ public class CadastroAnuncianteUniversitario extends Fragment {
                                     .commit();
                         }
                     }
+
+
+                    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    //                               -=-=-=--=-==--=-= FLUXO UNIVERSITÁRIO =-=--=-=-==-
+                    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+                    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+
                 } else if (usuario.equals("universitario")) {
                     if (cadastroManager.hasNextEtapaUniversitario()) {
                         // salvando as informações
@@ -283,6 +323,12 @@ public class CadastroAnuncianteUniversitario extends Fragment {
 
         return view;
     }
+
+    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    //                  -=-=-=--=-==--=-= MÉTODOS AUXILIARES =-=--=-=-==-
+    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    // -=-==--=-=-=-==--=-==--=-==-=-=-=-=-=--==-=-=-=-=-=--==-=-=-=-=-=-=--=-==-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
     private void atualizarProgressBar(String tipo_usuario, int etapa) {
         // Calcular progresso como uma porcentagem do total de etapas

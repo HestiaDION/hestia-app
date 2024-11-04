@@ -17,7 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.hestia_app.EditarPerfilAnunciante;
+import com.example.hestia_app.presentation.view.Configuracoes;
+import com.example.hestia_app.presentation.view.EditarPerfilAnunciante;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.domain.models.Anunciante;
@@ -76,7 +77,15 @@ public class PerfilAnunciante extends Fragment {
 
         });
 
-
+        // configurações
+        configuracoes = view.findViewById(R.id.btn_config);
+        configuracoes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Configuracoes.class);
+                startActivity(intent);
+            }
+        });
 
         FirebaseAuth autenticar = FirebaseAuth.getInstance();
         FirebaseUser user = autenticar.getCurrentUser();

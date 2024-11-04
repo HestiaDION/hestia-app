@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".presentation.fragments.cadastroMoradia.CadastroMoradiaSeis">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="23dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/voltar"
+            android:layout_width="47dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/voltar"
+            android:src="@drawable/go_back_arrow_dark_icon" />
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/fechar"
+            android:layout_width="47dp"
+            android:layout_height="48dp"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/voltar"
+            android:src="@drawable/close" />
+    </LinearLayout>
+
+    <!-- Campo para falar do cadastro -->
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginRight="16dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Anunciando uma"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="moradia"
+        android:textColor="@color/vermelho"
+        android:textSize="24sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <!-- Pergunta sobre o preço -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Qual será o preço de aluguel do local por mês?"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <!-- Campo de entrada do preço -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/poppins_regular"
+                android:text="R$"
+                android:textColor="@color/azul"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/preco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@null"
+                android:fontFamily="@font/poppins_regular"
+                android:hint="0,00"
+                android:inputType="numberDecimal"
+                android:padding="4dp"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/view9"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/azul" />
+
+        <!-- Texto do preço final -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Preço final com adicional do Héstia"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <!-- Caixa com o preço final -->
+        <TextView
+            android:id="@+id/precoFinal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/custom_underline"
+            android:fontFamily="@font/poppins_regular"
+            android:gravity="center_vertical"
+            android:padding="12dp"
+            android:text="R$ XXX,xx"
+            android:textColor="@color/azul"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_acao"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="23dp"
+        android:background="@drawable/bt_cadastro"
+        android:fontFamily="@font/poppins_regular"
+        android:padding="10dp"
+        android:stateListAnimator="@android:anim/fade_in"
+        android:text="Finalizar cadastro"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <ProgressBar
+        android:id="@+id/progresso"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:indeterminateBehavior="repeat"
+        android:max="100"
+        android:maxHeight="20dip"
+        android:minHeight="20dip"
+        android:progress="100"
+        android:progressDrawable="@drawable/custom_progress_bar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scaleX="1"
+        android:scaleY="1"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="-20dp"
+            android:scaleType="fitEnd"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbarAlwaysDrawVerticalTrack="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/blue_bloob_decoration" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitEnd"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/red_bloob_decoration" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

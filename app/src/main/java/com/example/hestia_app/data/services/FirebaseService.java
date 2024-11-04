@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.hestia_app.EditarPerfilAnunciante;
 import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -56,9 +55,7 @@ public class FirebaseService {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Toast.makeText(context, "Cadastro efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(context, MainActivityNavbar.class);
-                                        context.startActivity(intent);
+                                        Log.d("firebaseService", "onComplete: " + task.getResult());
                                     } else {
                                         // Mostrar erro
                                         mostrarErro(context, task, "Erro ao atualizar profile: ");

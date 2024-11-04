@@ -1,6 +1,6 @@
 package com.example.hestia_app.data.api;
 
-import com.example.hestia_app.data.models.FiltrosTags;
+import com.example.hestia_app.domain.models.FiltrosTags;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

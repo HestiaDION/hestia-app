@@ -3,21 +3,15 @@ package com.example.hestia_app.domain.models;
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.gson.annotations.SerializedName;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-
 public class Anunciante {
 
     @SerializedName("nome")
     private String nome;
 
-    @SerializedName("cidade")
-    private String cidade;
+    @SerializedName("municipio")
+    private String municipio;
 
-    @SerializedName("tele" +
-            "fone")
+    @SerializedName("telefone")
     private String telefone;
 
     @SerializedName("genero")
@@ -32,9 +26,9 @@ public class Anunciante {
     @SerializedName("bio")
     private String bio;
 
-    public Anunciante(String nome, String cidade, String telefone, String genero, String dt_nascimento, String email) {
+    public Anunciante(String nome, String municipio, String telefone, String genero, String dt_nascimento, String email) {
         this.nome = nome;
-        this.cidade = cidade;
+        this.municipio = municipio;
         this.telefone = ViewUtils.formatarTelefone(telefone);
         this.genero = genero;
         this.dt_nascimento = ViewUtils.formatarData(dt_nascimento);
@@ -55,12 +49,12 @@ public class Anunciante {
         this.nome = nome;
     }
 
-    public String getCidade() {
-        return cidade;
+    public String getMunicipio() {
+        return municipio;
     }
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
+    public void setMunicipio(String cidade) {
+        this.municipio = cidade;
     }
 
     public String getTelefone() {
@@ -107,7 +101,7 @@ public class Anunciante {
     public String toString() {
         return "Anunciante{" +
                 "nome='" + nome + '\'' +
-                ", cidade='" + cidade + '\'' +
+                ", municipio='" + municipio + '\'' +
                 ", telefone='" + telefone + '\'' +
                 ", genero='" + genero + '\'' +
                 ", dt_nascimento='" + dt_nascimento + '\'' +
