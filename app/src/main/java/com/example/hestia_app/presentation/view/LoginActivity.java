@@ -71,10 +71,11 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                                    // abrir tela inicial
+
 
                                     Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
                                     startActivity(intent);
+
                                 } else {
                                     // mostrar erro
                                     String msg = "Erro ao efetuar o login: ";

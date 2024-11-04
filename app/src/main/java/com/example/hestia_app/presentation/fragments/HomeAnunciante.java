@@ -101,6 +101,7 @@ public class HomeAnunciante extends Fragment {
         premiumButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), PremiumScreenAnunciante.class);
             startActivity(intent);
+
         });
 
         return view;

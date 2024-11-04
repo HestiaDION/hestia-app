@@ -2,11 +2,13 @@ package com.example.hestia_app.presentation.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.hestia_app.ConfirmacaoPagamento;
 import com.example.hestia_app.R;
 
 public class PremiumScreenAnunciante extends AppCompatActivity {
@@ -20,9 +22,12 @@ public class PremiumScreenAnunciante extends AppCompatActivity {
         assinar = findViewById(R.id.assinar);
         goBack = findViewById(R.id.goBackArrow);
 
-        // TODO: implementar tela de pagamento e botão de volta
         assinar.setOnClickListener(v ->
-                Toast.makeText(this, "anunciante", Toast.LENGTH_SHORT).show());
+        {
+            Intent intent = new Intent(getApplicationContext(), ConfirmacaoPagamento.class);
+            startActivity(intent);
+        });
+
         goBack.setOnClickListener(v -> finish());
     }
 }

@@ -37,6 +37,8 @@ public class MainActivityNavbar extends AppCompatActivity {
     private final String ANUNCIANTE = "anunciante";
     private final String UNIVERSITARIO = "universitario";
     boolean isUserOriginFetched = false;
+    private static final String PREFS_NAME = "UserPreferences";
+    private static final String USER_ORIGIN_KEY = "user_origin";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,15 @@ public class MainActivityNavbar extends AppCompatActivity {
                 binding.progressBar.setVisibility(View.GONE);
                 origemUsuario = origem;
                 isUserOriginFetched = true;
+
+                // Salva a origem do usuário no SharedPreferences
+                getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+                        .edit()
+                        .putString(USER_ORIGIN_KEY, origemUsuario)
+                        .apply();
+
                 Log.d("Origem", "Origem do usuário: " + origemUsuario);
+
                 // Configurar o fragmento inicial com base na origem
                 if (origemUsuario.equals(ANUNCIANTE)) {
                     replaceFragment(new HomeAnunciante());
@@ -63,7 +73,6 @@ public class MainActivityNavbar extends AppCompatActivity {
                 } else if (origemUsuario.equals(UNIVERSITARIO)) {
                     replaceFragment(new HomeUniversitario());
                     updateIcons(binding.bottomNavbar.getMenu().findItem(R.id.nav_home).getItemId());
-
                 }
             }
 
