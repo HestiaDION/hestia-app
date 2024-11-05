@@ -1,5 +1,6 @@
 package com.example.hestia_app.presentation.view;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Objects;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivityNavbar extends AppCompatActivity {
 
@@ -87,8 +90,18 @@ public class MainActivityNavbar extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(String errorMessage) {
-                Log.e("Origem", "Erro ao buscar origem: " + errorMessage);
+            public void onFailure(String errorMessage, Response<?> response) {
+                if (response.code() == 401){
+                    Intent intent = new Intent(MainActivityNavbar.this, LoginActivity.class);
+                    startActivity(intent);
+                    Log.e("Origem", "Erro 401 UNAUTHORIZED - TOKEN: " + errorMessage);
+                    finish();
+
+                } else{
+                    Log.e("Origem", "Erro ao buscar origem: " + errorMessage);
+
+                }
+
             }
         });
 
@@ -162,7 +175,7 @@ public class MainActivityNavbar extends AppCompatActivity {
         UsuarioRepository usuarioRepository = RetrofitPostgresClient.getClient().create(UsuarioRepository.class);
         Call<Usuario> call = usuarioRepository.getUserOrigin(token, email);
 
-        call.enqueue(new retrofit2.Callback<Usuario>() {
+        call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, retrofit2.Response<Usuario> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -172,7 +185,7 @@ public class MainActivityNavbar extends AppCompatActivity {
                     if (retriesLeft > 0) {
                         fetchUserOriginWithRetries(email, callback, retriesLeft - 1);  // Tenta novamente
                     } else {
-                        callback.onFailure("Erro na resposta da API após múltiplas tentativas. Código: " + response.code());
+                        callback.onFailure("Erro na chamada da API após múltiplas tenttivas: ", response);
                     }
                 }
             }
@@ -181,8 +194,6 @@ public class MainActivityNavbar extends AppCompatActivity {
             public void onFailure(Call<Usuario> call, Throwable t) {
                 if (retriesLeft > 0) {
                     fetchUserOriginWithRetries(email, callback, retriesLeft - 1);  // Tenta novamente
-                } else {
-                    callback.onFailure("Erro na chamada da API após múltiplas tentativas: " + t.getMessage());
                 }
             }
         });

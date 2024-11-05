@@ -1,5 +1,7 @@
 package com.example.hestia_app.presentation.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,7 +37,9 @@ import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroUniversitarioCallback;
+import com.example.hestia_app.data.api.callbacks.TokenJwtCallback;
 import com.example.hestia_app.data.services.InfosUserService;
+import com.example.hestia_app.data.services.TokenJwtService;
 import com.example.hestia_app.data.services.UniversitarioService;
 import com.example.hestia_app.domain.models.Anunciante;
 
@@ -47,7 +51,10 @@ import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.domain.models.InfosUser;
+import com.example.hestia_app.domain.models.Token;
 import com.example.hestia_app.domain.models.Universitario;
+import com.example.hestia_app.presentation.view.LoginActivity;
+import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.example.hestia_app.presentation.view.TelaAviso;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
@@ -72,6 +79,7 @@ public class CadastroFotoFragment extends Fragment {
     TextView txt_adicionar;
     CheckBox checkBox;
     private ProgressBar progressBar;
+    TokenJwtService tokenJwtService;
 
     // lista de permissões
     public static final String[] REQUIRED_PERMISSIONS;
@@ -110,6 +118,7 @@ public class CadastroFotoFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        tokenJwtService = new TokenJwtService();
         anuncianteService = new AnuncianteService(requireContext());
         universitarioService = new UniversitarioService(requireContext());
         super.onCreate(savedInstanceState);
@@ -319,6 +328,32 @@ public class CadastroFotoFragment extends Fragment {
                         salvarFiltrosComRetry(universitarioId);
                     }
                 }, 5000);
+
+
+                // gerar token
+                tokenJwtService.getAccessToken(usuario.get("email"), new TokenJwtCallback() {
+                    @Override
+                    public void onSuccess(Token tokenResponse) {
+
+                        Log.d("TokenResponse", "onSuccess: " + tokenResponse.getToken());
+                        // colocar token no shared preferences
+                        requireActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                                .edit()
+                                .putString("token", tokenResponse.getToken())
+                                .apply();
+
+                        Log.d("TokenLogin", "onSuccess: " + requireActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
+                        Toast.makeText(requireContext(), "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(requireContext(), MainActivityNavbar.class);
+                        startActivity(intent);
+                    }
+                    @Override
+                    public void onFailure(String t) {
+                        Toast.makeText(requireContext(), "Erro ao gerar token: " + t, Toast.LENGTH_SHORT).show();
+
+                    }
+                });
             }
 
             @Override
@@ -504,6 +539,7 @@ public class CadastroFotoFragment extends Fragment {
     private void requestPermissions() {
         activityResultLauncher.launch(REQUIRED_PERMISSIONS);
     }
+
     private ActivityResultLauncher<String[]> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.RequestMultiplePermissions(),
             permissions -> {
