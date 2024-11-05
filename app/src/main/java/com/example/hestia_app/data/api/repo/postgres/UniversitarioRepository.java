@@ -16,10 +16,10 @@ public interface UniversitarioRepository {
     Call<Universitario> getUniversityProfile(@Header("Authorization") String token, @Path("email") String email);
 
     @POST("/university/register")
-    Call<Universitario> registerUniversitario(@Header ("Authorization") String token, @Body Universitario universitario); // <Universitario>
+    Call<Universitario> registerUniversitario(@Header("Authorization") String token, @Body Universitario universitario); // <Universitario>
 
     @PATCH("/university/updateProfile/{email}")
-    Call<Universitario> updateUniversitarioProfile(@Header ("Authorization") String token, @Path("email") String email, @Body Universitario universitario);
+    Call<Universitario> updateUniversitarioProfile(@Header("Authorization") String token, @Path("email") String email, @Body Universitario universitario);
 
 }
     

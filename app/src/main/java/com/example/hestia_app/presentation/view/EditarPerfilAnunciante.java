@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class EditarPerfilAnunciante extends AppCompatActivity {
 
     EditText nome, bio;
-    AnuncianteService anuncianteService = new AnuncianteService();
     FirebaseService firebaseService = new FirebaseService();
     FirebaseAuth autenticar = FirebaseAuth.getInstance();
     FirebaseUser user = autenticar.getCurrentUser();
@@ -42,7 +42,7 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil_anunciante);
-
+        AnuncianteService anuncianteService = new AnuncianteService(getApplicationContext());
 
         nome = findViewById(R.id.nomeCompleto);
         bio = findViewById(R.id.sobreMim);

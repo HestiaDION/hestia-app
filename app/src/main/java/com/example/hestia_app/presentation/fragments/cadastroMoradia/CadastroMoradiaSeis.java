@@ -163,7 +163,7 @@ public class CadastroMoradiaSeis extends Fragment {
                     Log.d("moradia", "onClick: " + moradia);
 
                     // salvar moradia
-                    MoradiaService service = new MoradiaService();
+                    MoradiaService service = new MoradiaService(requireContext());
                     FirebaseAuth autenticar = FirebaseAuth.getInstance();
                     FirebaseUser user = autenticar.getCurrentUser();
 

@@ -40,7 +40,7 @@ public class MainActivityNavbar extends AppCompatActivity {
     boolean isUserOriginFetched = false;
     private static final String PREFS_NAME = "UserPreferences";
     private static final String USER_ORIGIN_KEY = "user_origin";
-    private static final String TOKEN_KEY = "token";
+
     private String token = "";
 
     SharedPreferences sharedPreferences;
@@ -57,8 +57,9 @@ public class MainActivityNavbar extends AppCompatActivity {
         String emailUsuario = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        token = sharedPreferences.getString(TOKEN_KEY, null);
+        token = sharedPreferences.getString("token", null);
 
+        Log.d("Token", "Token: " + token);
 
         fetchUserOrigin(emailUsuario, new UsuarioCallback() {
             @Override

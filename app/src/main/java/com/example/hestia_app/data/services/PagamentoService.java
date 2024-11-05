@@ -1,5 +1,6 @@
 package com.example.hestia_app.data.services;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -18,12 +19,16 @@ public class PagamentoService {
 
     private final PagamentoRepository pagamentoRepository = RetrofitPostgresClient.getClient().create(PagamentoRepository.class);
     private String token = "";
-    private static final String TOKEN_KEY = "token";
     SharedPreferences sharedPreferences;
+
+    // Construtor que recebe o contexto e inicializa o SharedPreferences
+    public PagamentoService(Context context) {
+        this.sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+    }
 
 
     public void registrarPagamento(Pagamento pagamentoInfo, RegistroPagamentoCallback callback) {
-        token = sharedPreferences.getString(TOKEN_KEY, null);
+        token = sharedPreferences.getString("token", null);
         Call<Pagamento> call = pagamentoRepository.registerPagamento(token, pagamentoInfo);
 
         call.enqueue(new Callback<Pagamento>() {

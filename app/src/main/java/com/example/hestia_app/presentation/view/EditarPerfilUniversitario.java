@@ -30,7 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class EditarPerfilUniversitario extends AppCompatActivity {
 
     EditText nome, bio;
-    UniversitarioService universitarioService = new UniversitarioService();
     FirebaseService firebaseService = new FirebaseService();
     FirebaseAuth autenticar = FirebaseAuth.getInstance();
     FirebaseUser user = autenticar.getCurrentUser();
@@ -40,6 +39,7 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        UniversitarioService universitarioService = new UniversitarioService(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil_universitario);
 

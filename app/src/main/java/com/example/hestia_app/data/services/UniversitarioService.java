@@ -1,5 +1,6 @@
 package com.example.hestia_app.data.services;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
@@ -19,12 +20,17 @@ import retrofit2.Response;
 public class UniversitarioService {
 
     UniversitarioRepository universitarioRepository = RetrofitPostgresClient.getClient().create(UniversitarioRepository.class);
-    private static final String TOKEN_KEY = "token";
-    SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences;
     String token = "";
 
+
+    // Construtor que recebe o contexto e inicializa o SharedPreferences
+    public UniversitarioService(Context context) {
+        this.sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+    }
+
     public void registrarUniversitario(Universitario universitario, RegistroUniversitarioCallback callback) {
-        token = sharedPreferences.getString(TOKEN_KEY, null);
+        token = sharedPreferences.getString("token", null);
         Call<Universitario> call = universitarioRepository.registerUniversitario(token, universitario);
 
         call.enqueue(new Callback<Universitario>() {
@@ -50,7 +56,7 @@ public class UniversitarioService {
     }
 
     public void atualizarUniversitarioProfile(String email, Universitario universitario, UpdatePerfilUniversitarioCallback callback){
-        token = sharedPreferences.getString(TOKEN_KEY, null);
+        token = sharedPreferences.getString("token", null);
         Call<Universitario> call = universitarioRepository.updateUniversitarioProfile(token, email, universitario);
 
         call.enqueue(new Callback<Universitario>() {
@@ -75,7 +81,7 @@ public class UniversitarioService {
     }
 
     public void listarPerfilUniversitario(String email, PerfilUniversitarioCallback callback) {
-        token = sharedPreferences.getString(TOKEN_KEY, null);
+        token = sharedPreferences.getString("token", null);
         Call<Universitario> call = universitarioRepository.getUniversityProfile(token, email);
 
         call.enqueue(new Callback<Universitario>() {

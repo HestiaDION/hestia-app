@@ -1,5 +1,7 @@
 package com.example.hestia_app.data.services;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.example.hestia_app.data.api.callbacks.ListaMoradiasCallback;
@@ -18,15 +20,28 @@ public class MoradiaService {
     private static final int MAX_RETRIES = 5; // Número máximo de tentativas
     MoradiaRepository moradiaRepository = RetrofitPostgresClient.getClient().create(MoradiaRepository.class);
 
+    private String token = "";
+    private SharedPreferences sharedPreferences;
+    // Construtor que recebe o contexto e inicializa o SharedPreferences
+    public MoradiaService(Context context) {
+        this.sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+    }
+
     public void registrarMoradia(Moradia moradia, RegistroMoradiaCallback callback) {
-        Call<Moradia> call = moradiaRepository.registerMoradia(moradia);
+        token = sharedPreferences.getString("token", null);
+        Call<Moradia> call = moradiaRepository.registerMoradia(token, moradia);
         executeWithRetry(call, callback, 0);
     }
 
     public void getMoradiasByAdvertiser(String email, ListaMoradiasCallback callback) {
-        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(email);
+        token = sharedPreferences.getString("token", null);
+        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(token, email);
         executeWithRetry(call, callback, 0);
     }
+
+
+    //                      =--=-=-=-=--=-=-=-=-= MÉTODOS DE RETRY =--==--=-==-=-=-=-=-=-
+
 
     private void executeWithRetry(Call<Moradia> call, RegistroMoradiaCallback callback, int retryCount) {
         call.clone().enqueue(new Callback<Moradia>() {

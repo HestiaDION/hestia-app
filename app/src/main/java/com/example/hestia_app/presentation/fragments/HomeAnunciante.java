@@ -68,7 +68,7 @@ public class HomeAnunciante extends Fragment {
         // pegar as moradias cadastradas no banco
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        MoradiaService moradiaService = new MoradiaService();
+        MoradiaService moradiaService = new MoradiaService(requireContext());
         moradiaService.getMoradiasByAdvertiser(user.getEmail(), new ListaMoradiasCallback() {
             @Override
             public void onSuccess(List<Moradia> moradias) {

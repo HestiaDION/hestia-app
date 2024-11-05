@@ -85,8 +85,8 @@ public class CadastroFotoFragment extends Fragment {
     }
 
     // services
-    AnuncianteService anuncianteService = new AnuncianteService();
-    UniversitarioService universitarioService = new UniversitarioService();
+    AnuncianteService anuncianteService;
+    UniversitarioService universitarioService;
     FirebaseService firebaseService = new FirebaseService();
     FiltrosTagsService filtrosTagsService = new FiltrosTagsService();
     InfosUserService infosUserService = new InfosUserService();
@@ -110,6 +110,8 @@ public class CadastroFotoFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        anuncianteService = new AnuncianteService(requireContext());
+        universitarioService = new UniversitarioService(requireContext());
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             usuario = (HashMap<String, String>) getArguments().getSerializable("usuario");

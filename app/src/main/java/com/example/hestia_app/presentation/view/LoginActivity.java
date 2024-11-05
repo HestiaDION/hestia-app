@@ -34,6 +34,7 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TOKEN_KEY = "token";
     Button loginButton;
     TextView cadastroRedirect;
     EditText email, senha;
@@ -84,13 +85,14 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Token tokenResponse) {
 
+                                            Log.d("TokenResponse", "onSuccess: " + tokenResponse.getToken());
                                             // colocar token no shared preferences
                                             getSharedPreferences("UserPreferences", MODE_PRIVATE)
                                                     .edit()
-                                                    .putString("TOKEN", tokenResponse.getToken())
+                                                    .putString(TOKEN_KEY, tokenResponse.getToken())
                                                     .apply();
 
-                                            Log.d("Token", "onSuccess: " + getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
+                                            Log.d("TokenLogin", "onSuccess: " + getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
                                             Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
                                         }
                                         @Override

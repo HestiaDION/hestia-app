@@ -32,7 +32,7 @@ public class PaymentDialogFragment extends DialogFragment {
     private ImageView qrCodeImageView;
 
     // Service
-    private PagamentoService pagamentoService = new PagamentoService();
+    private PagamentoService pagamentoService;
 
     private final String PIX_KEY = "00020126360014br.gov.bcb.pix0114+5511970566577520400005303986540519.995802BR5925LAURA FARIAS DOMINGUES6009Sao Paulo62070503***630414C7";
 
@@ -40,6 +40,8 @@ public class PaymentDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_payment, container, false);
+
+        pagamentoService = new PagamentoService(requireContext());
 
         paymentDoneButton = view.findViewById(R.id.paymentDoneButton);
         stillPayingButton = view.findViewById(R.id.stillPayingButton);
