@@ -2,16 +2,13 @@ package com.example.hestia_app.data.services;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
 import com.example.hestia_app.data.api.callbacks.ListaMoradiasCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroMoradiaCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
-import com.example.hestia_app.data.api.repo.MoradiaRepository;
+import com.example.hestia_app.data.api.repo.postgres.MoradiaRepository;
 import com.example.hestia_app.domain.models.Moradia;
 
 import java.util.List;
-import java.util.UUID;
 
 import retrofit2.Call;
 import retrofit2.Callback;

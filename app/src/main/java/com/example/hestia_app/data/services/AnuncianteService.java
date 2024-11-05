@@ -6,7 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilAnuncianteCallback;
-import com.example.hestia_app.data.api.repo.AnuncianteRepository;
+import com.example.hestia_app.data.api.repo.postgres.AnuncianteRepository;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;

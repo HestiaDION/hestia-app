@@ -7,9 +7,8 @@ import androidx.annotation.NonNull;
 
 import com.example.hestia_app.data.api.callbacks.RegistroUniversitarioCallback;
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilUniversitarioCallback;
-import com.example.hestia_app.data.api.repo.UniversitarioRepository;
+import com.example.hestia_app.data.api.repo.postgres.UniversitarioRepository;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
-import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.domain.models.Universitario;
 

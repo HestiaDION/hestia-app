@@ -1,4 +1,4 @@
-package com.example.hestia_app.data.api.repo;
+package com.example.hestia_app.data.api.repo.postgres;
 
 import com.example.hestia_app.domain.models.Pagamento;
 import com.example.hestia_app.domain.models.Token;
@@ -11,6 +11,6 @@ import retrofit2.http.Path;
 
 public interface TokenJwtRepository {
 
-    @GET("/token")
+    @GET("/token/access/{email}")
     Call<Token> getTokenAccess(@Path("email") String email);
 }

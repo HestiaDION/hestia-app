@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -89,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     .putString("TOKEN", tokenResponse.getToken())
                                                     .apply();
 
+                                            Log.d("Token", "onSuccess: " + getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
                                             Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
                                         }
                                         @Override

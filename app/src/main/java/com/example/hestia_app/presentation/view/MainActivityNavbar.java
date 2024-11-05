@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.data.api.callbacks.UsuarioCallback;
-import com.example.hestia_app.data.api.repo.UsuarioRepository;
+import com.example.hestia_app.data.api.repo.postgres.UsuarioRepository;
 import com.example.hestia_app.domain.models.Usuario;
 import com.example.hestia_app.databinding.ActivityMainNavbarBinding;
 import com.example.hestia_app.presentation.fragments.ChatAnunciante;

@@ -5,9 +5,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import com.example.hestia_app.data.api.callbacks.RegistroPagamentoCallback;
-import com.example.hestia_app.data.api.clients.RetrofitMongoClient;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
-import com.example.hestia_app.data.api.repo.PagamentoRepository;
+import com.example.hestia_app.data.api.repo.postgres.PagamentoRepository;
 
 import com.example.hestia_app.domain.models.Pagamento;
 

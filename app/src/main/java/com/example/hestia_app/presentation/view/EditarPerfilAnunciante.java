@@ -9,15 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
-import com.example.hestia_app.data.api.InfoUserRepository;
 import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilAnuncianteCallback;
@@ -28,9 +25,6 @@ import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.domain.models.InfosUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-
-import java.util.HashMap;
 
 public class EditarPerfilAnunciante extends AppCompatActivity {
 

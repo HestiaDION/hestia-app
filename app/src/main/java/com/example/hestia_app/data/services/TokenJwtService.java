@@ -1,13 +1,14 @@
 package com.example.hestia_app.data.services;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.hestia_app.data.api.callbacks.TokenJwtCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
-import com.example.hestia_app.data.api.repo.PagamentoRepository;
-import com.example.hestia_app.data.api.repo.TokenJwtRepository;
+import com.example.hestia_app.data.api.repo.postgres.TokenJwtRepository;
 import com.example.hestia_app.domain.models.Token;
 
 import retrofit2.Call;

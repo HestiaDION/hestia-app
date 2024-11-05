@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
-import com.example.hestia_app.data.api.InfoUserRepository;
 import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilUniversitarioCallback;
@@ -27,9 +26,6 @@ import com.example.hestia_app.domain.models.InfosUser;
 import com.example.hestia_app.domain.models.Universitario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-
-import java.util.HashMap;
 
 public class EditarPerfilUniversitario extends AppCompatActivity {
 
