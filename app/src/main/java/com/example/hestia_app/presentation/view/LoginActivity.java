@@ -79,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-
                                     // gerar token
                                     tokenJwtService.getAccessToken(email.getText().toString(), new TokenJwtCallback() {
                                         @Override

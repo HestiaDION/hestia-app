@@ -53,15 +53,23 @@
         android:id="@+id/paymentDoneButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:textColor="@color/white"
+        android:background="@drawable/login_button"
         android:text="Pagamento Efetuado"
-        android:visibility="gone"
-        android:layout_marginTop="16dp" />
+        android:textAllCaps="false"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/stillPayingButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ainda Pagando"
-        android:visibility="gone"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_cancel"
+        android:text="Realizarei depois"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:textColor="@color/azul"
+        android:textAllCaps="false"
+        android:visibility="gone" />
 </LinearLayout>
