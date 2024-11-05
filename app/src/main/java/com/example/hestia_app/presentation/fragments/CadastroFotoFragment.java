@@ -330,30 +330,36 @@ public class CadastroFotoFragment extends Fragment {
                 }, 5000);
 
 
-                // gerar token
-                tokenJwtService.getAccessToken(usuario.get("email"), new TokenJwtCallback() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
-                    public void onSuccess(Token tokenResponse) {
+                    public void run() {
+                        // gerar token
+                        tokenJwtService.getAccessToken(usuario.get("email"), new TokenJwtCallback() {
+                            @Override
+                            public void onSuccess(Token tokenResponse) {
 
-                        Log.d("TokenResponse", "onSuccess: " + tokenResponse.getToken());
-                        // colocar token no shared preferences
-                        requireActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE)
-                                .edit()
-                                .putString("token", tokenResponse.getToken())
-                                .apply();
+                                Log.d("TokenResponse", "onSuccess: " + tokenResponse.getToken());
+                                // colocar token no shared preferences
+                                requireActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                                        .edit()
+                                        .putString("token", tokenResponse.getToken())
+                                        .apply();
 
-                        Log.d("TokenLogin", "onSuccess: " + requireActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
-                        Toast.makeText(requireContext(), "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
+                                Log.d("TokenLogin", "onSuccess: " + requireActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
+                                Toast.makeText(requireContext(), "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(requireContext(), MainActivityNavbar.class);
-                        startActivity(intent);
+                                Intent intent = new Intent(requireContext(), MainActivityNavbar.class);
+                                startActivity(intent);
+                            }
+                            @Override
+                            public void onFailure(String t) {
+                                Toast.makeText(requireContext(), "Erro ao gerar token: " + t, Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
                     }
-                    @Override
-                    public void onFailure(String t) {
-                        Toast.makeText(requireContext(), "Erro ao gerar token: " + t, Toast.LENGTH_SHORT).show();
+                }, 3000);
 
-                    }
-                });
             }
 
             @Override
