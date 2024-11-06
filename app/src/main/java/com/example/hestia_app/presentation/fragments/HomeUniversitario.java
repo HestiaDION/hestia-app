@@ -34,7 +34,7 @@ import java.util.List;
 public class HomeUniversitario extends Fragment {
 
     private static final String PREFS_NAME = "UserPrefs";
-    private static final String KEY_IS_PREMIUM = "isUserPremium";
+    private static final String KEY_IS_PREMIUM = "isPremium";
 
     private FrameLayout frameLayout; // Contêiner para os cartões
     private List<AnuncioCasa> anuncioCasaList; // Lista de anúncios para o swipe
@@ -84,7 +84,6 @@ public class HomeUniversitario extends Fragment {
 
     // Método para verificar o status de pagamento do usuário atual
     private void checkUserPaymentStatus() {
-        // Obtenha o SharedPreferences
         SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean isPremium = prefs.getBoolean(KEY_IS_PREMIUM, false); // Padrão: false se não encontrado
 

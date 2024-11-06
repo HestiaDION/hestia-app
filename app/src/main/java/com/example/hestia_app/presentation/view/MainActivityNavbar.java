@@ -45,7 +45,6 @@ public class MainActivityNavbar extends AppCompatActivity {
     private static final String USER_ORIGIN_KEY = "user_origin";
 
     private String token = "";
-
     SharedPreferences sharedPreferences;
 
     @Override
@@ -57,6 +56,13 @@ public class MainActivityNavbar extends AppCompatActivity {
         binding.progressBar.setVisibility(View.VISIBLE);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        if (firebaseAuth.getCurrentUser() == null){
+            Intent redirectLogin = new Intent(MainActivityNavbar.this, LoginActivity.class);
+            startActivity(redirectLogin);
+            finish();
+        }
+
         String emailUsuario = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);

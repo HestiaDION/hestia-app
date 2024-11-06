@@ -9,9 +9,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,6 +37,7 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
     FirebaseUser user = autenticar.getCurrentUser();
     Button salvar;
     ImageView editarImagem, imagem, goBack;
+    ProgressBar progressBar;
     Uri uri;
 
     @Override
@@ -49,8 +52,8 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
         editarImagem = findViewById(R.id.editarFoto);
         imagem = findViewById(R.id.profile_image);
         goBack = findViewById(R.id.goBackArrow);
+        progressBar = findViewById(R.id.progressBar2);
 
-        goBack = findViewById(R.id.goBackArrow);
         goBack.setOnClickListener(v -> finish());
 
         // preenchendo os hints dos campos com base nas informações atuais
@@ -65,7 +68,6 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
             @Override
             public void onPerfilUniversitarioFailure(String errorMessage) {
                 Log.e("Hint", "Erro ao preencher os hints dos campos com as informações da API: " + errorMessage);
-
             }
         });
 
@@ -74,8 +76,6 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
         if (photoUrl != null) {
             Glide.with(this)
                     .load(photoUrl)
-//                    .placeholder(R.drawable.placeholder_image)
-//                    .error(R.drawable.error_image)
                     .into(imagem);
         }
 
@@ -87,44 +87,52 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
         });
 
         salvar.setOnClickListener(v -> {
-
-            if(nome.getText().toString().isEmpty() ){
+            if (nome.getText().toString().isEmpty()) {
                 nome.setText(nome.getHint());
             }
 
-            if(bio.getText().toString().isEmpty() ){
+            if (bio.getText().toString().isEmpty()) {
                 bio.setText(bio.getHint());
             }
 
+            // Exibir ProgressBar e desativar o botão
+            progressBar.setVisibility(View.VISIBLE);
+            salvar.setText("");
+            salvar.setEnabled(false);
+
             // salvando o nome e foto de perfil no firebase
-            if(!nome.getText().toString().isEmpty()) {
+            if (!nome.getText().toString().isEmpty()) {
                 String nomeFormatado = firebaseService.formatarNome(nome.getText().toString());
                 firebaseService.updateDisplayName(this, user, nomeFormatado);
             }
 
-
-            Log.d("Email", user.getEmail());
             Universitario universitarioAtualizado = new Universitario(nome.getText().toString(), bio.getText().toString());
-            Log.d("Universitario", universitarioAtualizado.toString());
             universitarioService.atualizarUniversitarioProfile(user.getEmail(), universitarioAtualizado, new UpdatePerfilUniversitarioCallback() {
 
                 @Override
                 public void onUpdateSuccess(boolean isUpdated) {
                     Log.d("Update Universitário", "Universitário atualizado com sucesso: " + isUpdated);
 
+                    // Esconder ProgressBar e reativar o botão
+                    progressBar.setVisibility(View.GONE);
+                    salvar.setEnabled(true);
+
+                    // Fechar a atividade ou exibir uma mensagem de sucesso
+                    Toast.makeText(EditarPerfilUniversitario.this, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
                 @Override
                 public void onUpdateFailure(String errorMessage) {
-                    Log.d("Update Universitário", "Erro ao atualizar universitário: " + errorMessage);
-                    Toast.makeText(EditarPerfilUniversitario.this, "Erro ao atualizar universitário: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    Log.e("Update Universitário", "Erro ao atualizar universitário: " + errorMessage);
+                    Toast.makeText(EditarPerfilUniversitario.this, "Erro ao atualizar perfil: " + errorMessage, Toast.LENGTH_SHORT).show();
 
+                    // Esconder ProgressBar e reativar o botão
+                    progressBar.setVisibility(View.GONE);
+                    salvar.setEnabled(true);
                 }
             });
-            finish();
-
         });
-
     }
 
     private ActivityResultLauncher<Intent> resultLauncherGaleria = registerForActivityResult(
@@ -135,7 +143,6 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
                     // imagem selecionada
                     uri = imageUri;
 
-                    FirebaseService firebaseService = new FirebaseService();
                     firebaseService.updateProfilePicture(this, user, uri);
 
                     InfosUserService infosUserService = new InfosUserService();
@@ -148,7 +155,7 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Throwable t) {
-                            Log.d("updateFotoMongo", "onFailure: " + t.getMessage());
+                            Log.e("updateFotoMongo", "onFailure: " + t.getMessage());
                         }
                     });
 

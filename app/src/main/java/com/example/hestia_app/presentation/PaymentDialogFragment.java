@@ -110,7 +110,7 @@ public class PaymentDialogFragment extends DialogFragment {
         return view;
     }
     private void salvarPagamentoEmAprovacao() {
-        SharedPreferences prefs = getActivity().getSharedPreferences("HestiaPrefs", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         prefs.edit().putBoolean("pagamentoEmAprovacao", true).apply();
     }
 

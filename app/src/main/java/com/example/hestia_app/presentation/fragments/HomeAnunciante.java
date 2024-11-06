@@ -38,7 +38,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class HomeAnunciante extends Fragment {
 
-    private static final String PREFS_NAME = "HestiaPrefs";
+    private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_IS_PREMIUM = "isPremium";
     private PagamentoService pagamentoService;
 
@@ -86,10 +86,11 @@ public class HomeAnunciante extends Fragment {
             prefs.edit().putBoolean("pagamentoEmAprovacao", false).apply(); // Limpa o status após exibir o diálogo
         }
 
+        assert user != null;
         if (isPremium) {
             premiumButton.setVisibility(View.GONE);
         } else {
-            checkUserPaymentStatus(user.getEmail());
+            checkUserPaymentStatus(user.getEmail(), prefs);
         }
 
         moradiaService.getMoradiasByAdvertiser(user.getEmail(), new ListaMoradiasCallback() {
@@ -121,20 +122,20 @@ public class HomeAnunciante extends Fragment {
         return view;
     }
 
-    private void checkUserPaymentStatus(String email /*,SharedPreferences prefs*/) {
+    private void checkUserPaymentStatus(String email, SharedPreferences prefs) {
         pagamentoService.getPagamentoByUserEmail(email, new PagamentoPorUserEmail() {
             @Override
             public void onFindSuccess(boolean wasFound, Pagamento pagamento) {
                 // Se o pagamento foi encontrado, ocultar o ícone do plano e atualizar as preferências
                 premiumButton.setVisibility(View.GONE);
-//                prefs.edit().putBoolean(KEY_IS_PREMIUM, true).apply();
+                prefs.edit().putBoolean(KEY_IS_PREMIUM, true).apply();
             }
 
             @Override
             public void onFindFailure(boolean wasFound) {
                 // Se o pagamento não foi encontrado, manter o ícone visível
                 premiumButton.setVisibility(View.VISIBLE);
-//                prefs.edit().putBoolean(KEY_IS_PREMIUM, false).apply();
+                prefs.edit().putBoolean(KEY_IS_PREMIUM, false).apply();
             }
         });
     }
