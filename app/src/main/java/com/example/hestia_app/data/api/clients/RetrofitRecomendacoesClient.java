@@ -5,8 +5,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitPostgresClient {
-    private static final String BASE_URL = "https://hestia-api-postgres-prod.onrender.com";
+public class RetrofitRecomendacoesClient {
+    private static final String BASE_URL = "https://hestia-recomendacao-casa.onrender.com/";
 
     private static Retrofit retrofit = null;
 
@@ -15,6 +15,7 @@ public class RetrofitPostgresClient {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
+
         if (retrofit == null) {
 
             retrofit = new Retrofit.Builder()

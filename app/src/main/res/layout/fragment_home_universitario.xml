@@ -49,7 +49,7 @@
             app:layout_constraintStart_toEndOf="@+id/favoriteHouses"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <MultiAutoCompleteTextView
             android:id="@+id/searchFilters"
             android:layout_width="299dp"
             android:layout_height="49dp"
@@ -63,15 +63,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView34" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroup2"
+        <ScrollView
+            android:id="@+id/filtros"
             android:layout_width="299dp"
-            android:layout_height="15dp"
+            android:layout_height="100dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/input_group_background"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchFilters" />
+            app:layout_constraintTop_toBottomOf="@+id/searchFilters">
+
+            <LinearLayout
+                android:id="@+id/filtrosSelecionados"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
 
         <FrameLayout
             android:id="@+id/frame_cards"
@@ -80,7 +88,7 @@
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chipGroup2">
+            app:layout_constraintTop_toBottomOf="@+id/filtros">
 
         </FrameLayout>
 
@@ -88,7 +96,6 @@
             android:id="@+id/txt_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
             android:fontFamily="@font/poppins_medium"
             android:text="Sem cards para ver"
             app:layout_constraintEnd_toEndOf="parent"

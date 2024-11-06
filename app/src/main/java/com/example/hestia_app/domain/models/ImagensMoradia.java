@@ -6,24 +6,24 @@ import java.util.List;
 import java.util.UUID;
 
 public class ImagensMoradia {
-    @SerializedName("id_moradia")
-    private UUID id_moradia;
+    @SerializedName("idMoradia")
+    private UUID idMoradia;
 
     @SerializedName("imagens")
     private List<String> imagens;
 
 
-    public ImagensMoradia(UUID id_moradia, List<String> imagens) {
-        this.id_moradia = id_moradia;
+    public ImagensMoradia(UUID idMoradia, List<String> imagens) {
+        this.idMoradia = idMoradia;
         this.imagens = imagens;
     }
 
-    public UUID getId_moradia() {
-        return id_moradia;
+    public UUID getIdMoradia() {
+        return idMoradia;
     }
 
-    public void setId_moradia(UUID id_moradia) {
-        this.id_moradia = id_moradia;
+    public void setIdMoradia(UUID idMoradia) {
+        this.idMoradia = idMoradia;
     }
 
     public List<String> getImagens() {
@@ -37,7 +37,7 @@ public class ImagensMoradia {
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("ImagensMoradia{");
-        sb.append("id_moradia=").append(id_moradia);
+        sb.append("id_moradia=").append(idMoradia);
         sb.append(", imagens=").append(imagens);
         sb.append('}');
         return sb.toString();

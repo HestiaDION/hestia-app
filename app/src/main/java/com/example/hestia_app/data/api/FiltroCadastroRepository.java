@@ -2,6 +2,7 @@ package com.example.hestia_app.data.api;
 
 import com.example.hestia_app.domain.models.FiltroCadastro;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -14,4 +15,7 @@ public interface FiltroCadastroRepository {
 
     @GET("/filtros/")
     Call<List<String>> getCategorias();
+
+    @GET("/filtros/getCategoria/{cnome}")
+    Call<HashMap<String, String>> getCategoriaByNome(@Path("cnome") String cnome);
 }

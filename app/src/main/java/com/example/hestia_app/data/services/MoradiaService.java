@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.hestia_app.data.api.callbacks.ListaMoradiasCallback;
+import com.example.hestia_app.data.api.callbacks.MoradiaByIdCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroMoradiaCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.data.api.repo.MoradiaRepository;
@@ -83,6 +84,39 @@ public class MoradiaService {
                 } else {
                     Log.e("Moradia", "Erro na chamada da listagem de moradias após tentativas: " + t.getMessage(), t);
                     callback.onFailure(t);
+                }
+            }
+        });
+    }
+
+    public void getMoradiaById(UUID id, MoradiaByIdCallback callback) {
+        Call<Moradia> call = moradiaRepository.getMoradiaById(id);
+        executeWithRetry(call, callback, 0);
+    }
+
+    private void executeWithRetry(Call<Moradia> call, MoradiaByIdCallback callback, int retryCount) {
+        call.clone().enqueue(new Callback<Moradia>() {
+            @Override
+            public void onResponse(Call<Moradia> call, Response<Moradia> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onSuccess(response.body());
+                } else if (retryCount < MAX_RETRIES) {
+                    // Tentar novamente em caso de falha de resposta
+                    executeWithRetry(call.clone(), callback, retryCount + 1);
+                } else {
+                    Log.e("Moradia", "Falha na listagem de moradias através do id: Código de resposta " + response.code());
+                    callback.onFailure("Falha na resposta da API: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Moradia> call, Throwable t) {
+                if (retryCount < MAX_RETRIES) {
+                    // Tentar novamente em caso de falha de conexão
+                    executeWithRetry(call.clone(), callback, retryCount + 1);
+                } else {
+                    Log.e("Moradia", "Erro na chamada da listagem de moradias através do id: " + t.getMessage(), t);
+                    callback.onFailure(t.getMessage());
                 }
             }
         });

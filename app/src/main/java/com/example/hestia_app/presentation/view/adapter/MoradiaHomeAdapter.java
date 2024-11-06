@@ -60,9 +60,12 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
 
         final List<String>[] imageList = new List[]{new ArrayList<>()};
 
+        Log.d("moradiaAdapter", "onBindViewHolder: " + moradia);
+        Log.d("moradiaAdapter", "onBindViewHolder: " + moradia.getId());
+
         // pegar as imagens do mongo e repetir a requisição até que de certo
         ImagensMoradiaService imagensMoradiaService = new ImagensMoradiaService();
-        imagensMoradiaService.getImagensMoradias(moradia.getMoradiaId(), new ImagensMoradiaCallback() {
+        imagensMoradiaService.getImagensMoradias(moradia.getId(), new ImagensMoradiaCallback() {
             @Override
             public void onSuccess(ImagensMoradia response) {
                 Log.d("Imagens", "onSuccess: " + response.getImagens());
