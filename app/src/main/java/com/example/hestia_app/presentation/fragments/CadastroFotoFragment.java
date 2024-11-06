@@ -1,5 +1,7 @@
 package com.example.hestia_app.presentation.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,11 +34,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
 
-import com.example.hestia_app.data.api.InfoUserRepository;
+import com.example.hestia_app.data.api.callbacks.FirebaseCallback;
 import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroUniversitarioCallback;
+import com.example.hestia_app.data.api.callbacks.TokenJwtCallback;
 import com.example.hestia_app.data.services.InfosUserService;
+import com.example.hestia_app.data.services.TokenJwtService;
 import com.example.hestia_app.data.services.UniversitarioService;
 import com.example.hestia_app.domain.models.Anunciante;
 
@@ -48,15 +52,16 @@ import com.example.hestia_app.data.services.AnuncianteService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.domain.models.InfosUser;
+import com.example.hestia_app.domain.models.Token;
 import com.example.hestia_app.domain.models.Universitario;
-import com.example.hestia_app.presentation.view.MainActivityNavbar;
-import com.example.hestia_app.presentation.view.Splashscreen;
+
 import com.example.hestia_app.presentation.view.TelaAviso;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
+
 import com.example.hestia_app.utils.FirebaseGaleriaUtils;
-import com.example.hestia_app.utils.ViewUtils;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,21 +83,20 @@ public class CadastroFotoFragment extends Fragment {
     CheckBox checkBox;
     Button bt_acao;
     private ProgressBar progressBar;
+    TokenJwtService tokenJwtService;
 
     // lista de permissões
     public static final String[] REQUIRED_PERMISSIONS;
 
     static {
         List<String> requiredPermissions = new ArrayList<>();
-//        requiredPermissions.add("android.permission.WRITE_EXTERNAL_STORAGE");
         requiredPermissions.add("android.permission.READ_MEDIA_IMAGES");
-//        requiredPermissions.add("android.permission.READ_EXTERNAL_STORAGE");
         REQUIRED_PERMISSIONS = requiredPermissions.toArray(new String[0]);
     }
 
     // services
-    AnuncianteService anuncianteService = new AnuncianteService();
-    UniversitarioService universitarioService = new UniversitarioService();
+    AnuncianteService anuncianteService;
+    UniversitarioService universitarioService;
     FirebaseService firebaseService = new FirebaseService();
     FiltrosTagsService filtrosTagsService = new FiltrosTagsService();
     InfosUserService infosUserService = new InfosUserService();
@@ -101,9 +105,7 @@ public class CadastroFotoFragment extends Fragment {
     final String ANUNCIANTE = "ANUNCIANTE";
     final String UNIVERSITARIO = "UNIVERSITÁRIO";
 
-    public CadastroFotoFragment() {
-        // Required empty public constructor
-    }
+    public CadastroFotoFragment() {}
 
     public static CadastroFotoFragment newInstance(HashMap<String, String> usuario, String tipo_usuario) {
         CadastroFotoFragment fragment = new CadastroFotoFragment();
@@ -116,6 +118,9 @@ public class CadastroFotoFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        tokenJwtService = new TokenJwtService();
+        anuncianteService = new AnuncianteService(requireContext());
+        universitarioService = new UniversitarioService(requireContext());
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             usuario = (HashMap<String, String>) getArguments().getSerializable("usuario");
@@ -163,8 +168,9 @@ public class CadastroFotoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE); // Exibir barra de progresso
+                salvarUsuarioPorEtapas();
                 bt_acao.setVisibility(View.GONE);
-                salvarFirebaseUsuario();
+
             }
         });
 
@@ -211,18 +217,70 @@ public class CadastroFotoFragment extends Fragment {
         return view;
     }
 
-    private void salvarFirebaseUsuario() {
+    private void salvarUsuarioPorEtapas(){
+        // passo 1: salvar no firebase
         String nome = usuario.get("nome");
         String email = usuario.get("email");
         String senha = usuario.get("senha");
 
-        // Firebase
-        firebaseService.salvarUsuario(getContext(), nome, email, senha, uri, checkBox.isChecked());
+        firebaseService.salvarUsuario(getContext(), nome, email, senha, uri, checkBox.isChecked(), new FirebaseCallback() {
+            @Override
+            public void onSuccess() {
+                // passo 2: salvar no postgres
+                if(tipo.equals("anunciante")){
+                    salvarAnuncianteComRetry();
+                }
+                if (tipo.equals("universitario")){
+                    salvarUniversitarioComRetry();
+                }
 
-        // Salvar InfosUser
-        InfosUser infosUser = new InfosUser(email, senha, uri.toString());
-        salvarInfosUserComRetry(infosUser);
+                // GERAR TOKEN PARA PODER PROSSEGUIR
+                // gerar token
+                tokenJwtService.getAccessToken(email, new TokenJwtCallback() {
+                    @Override
+                    public void onSuccess(Token tokenResponse) {
+
+                        Log.d("TokenResponse", "onSuccess: " + tokenResponse.getToken());
+                        // colocar token no shared preferences
+                        getActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                                .edit()
+                                .putString("token", tokenResponse.getToken())
+                                .apply();
+
+                        Log.d("TokenCadastro", "onSuccess: " + getActivity().getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
+                        Toast.makeText(requireContext(), "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
+
+
+                        // =-=-=-=-=-=-=-=--=-=-= CONTINUAÇÃO DO CADASTRO SOMENTE QUANDO A GERAÇÃO DO TOKEN FOR BEM SUCEDIDA
+
+                        // passo 3: salvar infos user
+                        InfosUser infosUser = new InfosUser(email, senha, uri.toString());
+                        salvarInfosUserComRetry(infosUser);
+
+
+                        Log.d("Cadastro", "Tudo finalizado, iniciando a nova Activity");
+
+
+                    }
+                    @Override
+                    public void onFailure(String t) {
+                        Log.e("Token", "FALHA NO GERAMENTO DO TOKEN");
+//                        Toast.makeText(requireContext(), "FALHA NO GERAMENTO DO TOKEN: " + t, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(String error) {
+
+               Toast.makeText(requireContext(), "Falha no cadastro no Firebase: " + error, Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
     }
+
 
     private void salvarInfosUserComRetry(InfosUser infosUser) {
         infosUserService.addInfosUser(infosUser, new InfosUserCallback() {
@@ -233,7 +291,9 @@ public class CadastroFotoFragment extends Fragment {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+
                             salvarAnuncianteComRetry();
+
                         }
                     }, 5000);
                 } else if (tipo.equals("universitario")) {
@@ -283,9 +343,9 @@ public class CadastroFotoFragment extends Fragment {
                 bundle.putString("tipo", "anunciante");
                 bundle.putString("tela", "MainActivityNavbar");
                 Intent intent = new Intent(getContext(), TelaAviso.class);
+
                 intent.putExtras(bundle);
                 startActivity(intent);
-                requireActivity().finish();
             }
 
             @Override
@@ -318,6 +378,9 @@ public class CadastroFotoFragment extends Fragment {
             @Override
             public void onRegistroSuccess(boolean isRegistered, UUID universitarioId) {
                 Log.d("Registro", "Universitário registrado com sucesso!");
+
+
+
                 // salvar filtros
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -325,12 +388,13 @@ public class CadastroFotoFragment extends Fragment {
                         salvarFiltrosComRetry(universitarioId);
                     }
                 }, 5000);
+
             }
 
             @Override
             public void onRegistroFailure(boolean isRegistered) {
                 Log.e("Registro", "Falha ao registrar o universitário.");
-                // Reintenta a requisição em caso de falha
+                // Retenta a requisição em caso de falha
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -390,7 +454,7 @@ public class CadastroFotoFragment extends Fragment {
                 bundle.putString("textExplanation", "Universitário registrado com sucesso!");
                 bundle.putInt("lottieAnimation", R.raw.university);
                 bundle.putString("tipo", "universitário");
-                bundle.putString("tela", "MainActivityNavbar");
+                bundle.putString("tela", "FormularioUniversitarioActivity");
                 Intent intent = new Intent(getContext(), TelaAviso.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -441,6 +505,26 @@ public class CadastroFotoFragment extends Fragment {
         });
         builder.show();
     }
+
+
+    // -=-=-=-=-==--==-=-=-=- PERMISSÕES ---=-==--==-=-=-=-=-=-=-
+
+    public boolean allPermissionsGranted() {
+        // verificar permissões
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void requestPermissions() {
+        activityResultLauncher.launch(REQUIRED_PERMISSIONS);
+    }
+
+
+    // ==--=-=-==--=-=-=-==-=-=- CAMERA E GALERIA =-=-=-=-=--==--=-=-=--==-
 
     private ActivityResultLauncher<Intent> resultLauncherGaleria = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -510,19 +594,6 @@ public class CadastroFotoFragment extends Fragment {
             }
     );
 
-    public boolean allPermissionsGranted() {
-        // verificar permissões
-        for (String permission : REQUIRED_PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(requireContext(), permission) != PackageManager.PERMISSION_GRANTED) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private void requestPermissions() {
-        activityResultLauncher.launch(REQUIRED_PERMISSIONS);
-    }
     private ActivityResultLauncher<String[]> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.RequestMultiplePermissions(),
             permissions -> {
@@ -541,6 +612,8 @@ public class CadastroFotoFragment extends Fragment {
                     resultLauncherGaleria.launch(intent2);
                 }
             });
+
+
 
     public List<String> transformarLista(String string) {
         // Remove os colchetes e aspas da string e faz o trim.

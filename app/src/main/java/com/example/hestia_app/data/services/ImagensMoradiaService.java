@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
 import com.example.hestia_app.data.api.clients.RetrofitMongoClient;
-import com.example.hestia_app.data.api.repo.ImagensMoradiaRepository;
+import com.example.hestia_app.data.api.repo.mongo.ImagensMoradiaRepository;
 import com.example.hestia_app.domain.models.ImagensMoradia;
 
 import java.util.UUID;

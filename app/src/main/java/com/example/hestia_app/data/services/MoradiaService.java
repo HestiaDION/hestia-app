@@ -1,5 +1,7 @@
 package com.example.hestia_app.data.services;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -8,7 +10,7 @@ import com.example.hestia_app.data.api.callbacks.ListaMoradiasCallback;
 import com.example.hestia_app.data.api.callbacks.MoradiaByIdCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroMoradiaCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
-import com.example.hestia_app.data.api.repo.MoradiaRepository;
+import com.example.hestia_app.data.api.repo.postgres.MoradiaRepository;
 import com.example.hestia_app.domain.models.Moradia;
 
 import java.util.List;
@@ -22,20 +24,33 @@ public class MoradiaService {
     private static final int MAX_RETRIES = 5; // Número máximo de tentativas
     MoradiaRepository moradiaRepository = RetrofitPostgresClient.getClient().create(MoradiaRepository.class);
 
+    private String token = "";
+    private SharedPreferences sharedPreferences;
+    // Construtor que recebe o contexto e inicializa o SharedPreferences
+    public MoradiaService(Context context) {
+        this.sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+    }
+
     public void registrarMoradia(Moradia moradia, RegistroMoradiaCallback callback) {
-        Call<Moradia> call = moradiaRepository.registerMoradia(moradia);
+        token = sharedPreferences.getString("token", null);
+        Call<Moradia> call = moradiaRepository.registerMoradia(token, moradia);
         executeWithRetry(call, callback, 0);
     }
 
     public void getMoradiasByAdvertiser(String email, ListaMoradiasCallback callback) {
-        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(email);
+        token = sharedPreferences.getString("token", null);
+        Call<List<Moradia>> call = moradiaRepository.getMoradiasByAdvertiser(token, email);
         executeWithRetry(call, callback, 0);
     }
+
+
+    //                      =--=-=-=-=--=-=-=-=-= MÉTODOS DE RETRY =--==--=-==-=-=-=-=-=-
+
 
     private void executeWithRetry(Call<Moradia> call, RegistroMoradiaCallback callback, int retryCount) {
         call.clone().enqueue(new Callback<Moradia>() {
             @Override
-            public void onResponse(Call<Moradia> call, Response<Moradia> response) {
+            public void onResponse(@NonNull Call<Moradia> call, @NonNull Response<Moradia> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Log.d("Moradia", "Registro de moradia bem-sucedido: " + response.body().toString());
                     callback.onRegistroSuccess(true, response.body());
@@ -64,7 +79,7 @@ public class MoradiaService {
     private void executeWithRetry(Call<List<Moradia>> call, ListaMoradiasCallback callback, int retryCount) {
         call.clone().enqueue(new Callback<List<Moradia>>() {
             @Override
-            public void onResponse(Call<List<Moradia>> call, Response<List<Moradia>> response) {
+            public void onResponse(@NonNull Call<List<Moradia>> call, @NonNull Response<List<Moradia>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else if (retryCount < MAX_RETRIES) {
@@ -77,7 +92,7 @@ public class MoradiaService {
             }
 
             @Override
-            public void onFailure(Call<List<Moradia>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Moradia>> call, @NonNull Throwable t) {
                 if (retryCount < MAX_RETRIES) {
                     // Tentar novamente em caso de falha de conexão
                     executeWithRetry(call.clone(), callback, retryCount + 1);
@@ -90,14 +105,15 @@ public class MoradiaService {
     }
 
     public void getMoradiaById(UUID id, MoradiaByIdCallback callback) {
-        Call<Moradia> call = moradiaRepository.getMoradiaById(id);
+        token = sharedPreferences.getString("token", null);
+        Call<Moradia> call = moradiaRepository.getMoradiaById(token, id);
         executeWithRetry(call, callback, 0);
     }
 
     private void executeWithRetry(Call<Moradia> call, MoradiaByIdCallback callback, int retryCount) {
         call.clone().enqueue(new Callback<Moradia>() {
             @Override
-            public void onResponse(Call<Moradia> call, Response<Moradia> response) {
+            public void onResponse(@NonNull Call<Moradia> call, @NonNull Response<Moradia> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     callback.onSuccess(response.body());
                 } else if (retryCount < MAX_RETRIES) {
@@ -110,7 +126,7 @@ public class MoradiaService {
             }
 
             @Override
-            public void onFailure(Call<Moradia> call, Throwable t) {
+            public void onFailure(@NonNull Call<Moradia> call, @NonNull Throwable t) {
                 if (retryCount < MAX_RETRIES) {
                     // Tentar novamente em caso de falha de conexão
                     executeWithRetry(call.clone(), callback, retryCount + 1);

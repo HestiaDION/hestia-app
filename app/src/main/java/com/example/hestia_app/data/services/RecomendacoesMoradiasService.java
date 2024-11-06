@@ -5,7 +5,6 @@ import android.util.Log;
 import com.example.hestia_app.data.api.callbacks.RecomendacoesMoradiaCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.data.api.clients.RetrofitRecomendacoesClient;
-import com.example.hestia_app.data.api.repo.MoradiaRepository;
 import com.example.hestia_app.data.api.repo.RecomendacoesMoradiaRepository;
 import com.example.hestia_app.domain.models.RecomendacoesMoradia;
 import com.example.hestia_app.domain.models.UniversityRequest;

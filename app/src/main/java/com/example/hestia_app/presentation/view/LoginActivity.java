@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +16,9 @@ import com.example.hestia_app.R;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.hestia_app.data.api.callbacks.TokenJwtCallback;
+import com.example.hestia_app.data.services.TokenJwtService;
+import com.example.hestia_app.domain.models.Token;
 import com.example.hestia_app.presentation.view.swipe.PreviewScreensExplanation;
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,15 +29,19 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TOKEN_KEY = "token";
     Button loginButton;
     TextView cadastroRedirect;
     EditText email, senha;
-
     ImageButton eyeOpenedPassword;
 
+    // Service
+    TokenJwtService tokenJwtService = new TokenJwtService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         cadastroRedirect.setOnClickListener(v -> {
-            // abrir main mandando os parâmetros
             Intent intent = new Intent(LoginActivity.this, PreviewScreensExplanation.class);
             startActivity(intent);
         });
@@ -71,15 +79,36 @@ public class LoginActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(LoginActivity.this, "Login efetuado com sucesso!", Toast.LENGTH_SHORT).show();
-                                    // abrir tela inicial
+                                    // gerar token
+                                    tokenJwtService.getAccessToken(email.getText().toString(), new TokenJwtCallback() {
+                                        @Override
+                                        public void onSuccess(Token tokenResponse) {
 
-                                    Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
-                                    startActivity(intent);
+                                            Log.d("TokenResponse", "onSuccess: " + tokenResponse.getToken());
+                                            // colocar token no shared preferences
+                                            getSharedPreferences("UserPreferences", MODE_PRIVATE)
+                                                    .edit()
+                                                    .putString(TOKEN_KEY, tokenResponse.getToken())
+                                                    .apply();
+
+                                            Log.d("TokenLogin", "onSuccess: " + getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
+                                            Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
+
+                                            Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
+                                            startActivity(intent);
+                                        }
+                                        @Override
+                                        public void onFailure(String t) {
+                                            Toast.makeText(LoginActivity.this, "Erro ao gerar token: " + t, Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    });
+
                                 } else {
                                     // mostrar erro
                                     String msg = "Erro ao efetuar o login: ";
                                     try {
-                                        throw task.getException();
+                                        throw Objects.requireNonNull(task.getException());
                                     } catch (FirebaseAuthInvalidUserException user) {
                                         msg += "\nE-mail inválido!";
                                     } catch (FirebaseAuthInvalidCredentialsException senha) {
@@ -94,7 +123,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // verificação para abrir o ícone de "olho"
         ViewUtils.setEyeIconVisibilityAndChangeIconOnClick(senha, eyeOpenedPassword);
 
 

@@ -1,5 +1,7 @@
 package com.example.hestia_app.presentation.view;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.data.api.callbacks.UsuarioCallback;
-import com.example.hestia_app.data.api.repo.UsuarioRepository;
+import com.example.hestia_app.data.api.repo.postgres.UsuarioRepository;
 import com.example.hestia_app.domain.models.Usuario;
 import com.example.hestia_app.databinding.ActivityMainNavbarBinding;
 import com.example.hestia_app.presentation.fragments.ChatAnunciante;
@@ -29,6 +31,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Objects;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivityNavbar extends AppCompatActivity {
 
@@ -37,6 +41,11 @@ public class MainActivityNavbar extends AppCompatActivity {
     private final String ANUNCIANTE = "anunciante";
     private final String UNIVERSITARIO = "universitario";
     boolean isUserOriginFetched = false;
+    private static final String PREFS_NAME = "UserPreferences";
+    private static final String USER_ORIGIN_KEY = "user_origin";
+
+    private String token = "";
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +56,19 @@ public class MainActivityNavbar extends AppCompatActivity {
         binding.progressBar.setVisibility(View.VISIBLE);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+        if (firebaseAuth.getCurrentUser() == null){
+            Intent redirectLogin = new Intent(MainActivityNavbar.this, LoginActivity.class);
+            startActivity(redirectLogin);
+            finish();
+        }
+
         String emailUsuario = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail();
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        token = sharedPreferences.getString("token", null);
+
+        Log.d("Token", "Token: " + token);
 
         fetchUserOrigin(emailUsuario, new UsuarioCallback() {
             @Override
@@ -55,7 +76,15 @@ public class MainActivityNavbar extends AppCompatActivity {
                 binding.progressBar.setVisibility(View.GONE);
                 origemUsuario = origem;
                 isUserOriginFetched = true;
+
+                // Salva a origem do usuário no SharedPreferences
+                getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+                        .edit()
+                        .putString(USER_ORIGIN_KEY, origemUsuario)
+                        .apply();
+
                 Log.d("Origem", "Origem do usuário: " + origemUsuario);
+
                 // Configurar o fragmento inicial com base na origem
                 if (origemUsuario.equals(ANUNCIANTE)) {
                     replaceFragment(new HomeAnunciante());
@@ -63,13 +92,22 @@ public class MainActivityNavbar extends AppCompatActivity {
                 } else if (origemUsuario.equals(UNIVERSITARIO)) {
                     replaceFragment(new HomeUniversitario());
                     updateIcons(binding.bottomNavbar.getMenu().findItem(R.id.nav_home).getItemId());
-
                 }
             }
 
             @Override
-            public void onFailure(String errorMessage) {
-                Log.e("Origem", "Erro ao buscar origem: " + errorMessage);
+            public void onFailure(String errorMessage, Response<?> response) {
+                if (response.code() == 401){
+                    Intent intent = new Intent(MainActivityNavbar.this, LoginActivity.class);
+                    startActivity(intent);
+                    Log.e("Origem", "Erro 401 UNAUTHORIZED - TOKEN: " + errorMessage);
+                    finish();
+
+                } else{
+                    Log.e("Origem", "Erro ao buscar origem: " + errorMessage);
+
+                }
+
             }
         });
 
@@ -141,9 +179,9 @@ public class MainActivityNavbar extends AppCompatActivity {
 
     private void fetchUserOriginWithRetries(String email, UsuarioCallback callback, int retriesLeft) {
         UsuarioRepository usuarioRepository = RetrofitPostgresClient.getClient().create(UsuarioRepository.class);
-        Call<Usuario> call = usuarioRepository.getUserOrigin(email);
+        Call<Usuario> call = usuarioRepository.getUserOrigin(token, email);
 
-        call.enqueue(new retrofit2.Callback<Usuario>() {
+        call.enqueue(new Callback<Usuario>() {
             @Override
             public void onResponse(Call<Usuario> call, retrofit2.Response<Usuario> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -153,7 +191,7 @@ public class MainActivityNavbar extends AppCompatActivity {
                     if (retriesLeft > 0) {
                         fetchUserOriginWithRetries(email, callback, retriesLeft - 1);  // Tenta novamente
                     } else {
-                        callback.onFailure("Erro na resposta da API após múltiplas tentativas. Código: " + response.code());
+                        callback.onFailure("Erro na chamada da API após múltiplas tenttivas: ", response);
                     }
                 }
             }
@@ -162,8 +200,6 @@ public class MainActivityNavbar extends AppCompatActivity {
             public void onFailure(Call<Usuario> call, Throwable t) {
                 if (retriesLeft > 0) {
                     fetchUserOriginWithRetries(email, callback, retriesLeft - 1);  // Tenta novamente
-                } else {
-                    callback.onFailure("Erro na chamada da API após múltiplas tentativas: " + t.getMessage());
                 }
             }
         });

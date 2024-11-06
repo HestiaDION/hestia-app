@@ -52,10 +52,12 @@ public class PerfilUniversitario extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        universitarioService = new UniversitarioService(requireContext());
+
         if (getArguments() != null) {
             tipo_usuario = getArguments().getString("tipo_usuario");
         }
-        universitarioService = new UniversitarioService();
+        universitarioService = new UniversitarioService(requireContext());
         super.onCreate(savedInstanceState);
     }
 
