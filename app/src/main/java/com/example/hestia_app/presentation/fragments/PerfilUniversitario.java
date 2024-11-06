@@ -33,8 +33,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PerfilUniversitario extends Fragment {
     String tipo_usuario;
     Button editarPerfil;
-    String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
     UniversitarioService universitarioService;
+    String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
     ImageView configuracoes;
 
     public PerfilUniversitario(String tipoUsuario) {
@@ -57,6 +57,7 @@ public class PerfilUniversitario extends Fragment {
         if (getArguments() != null) {
             tipo_usuario = getArguments().getString("tipo_usuario");
         }
+        universitarioService = new UniversitarioService(requireContext());
         super.onCreate(savedInstanceState);
     }
 

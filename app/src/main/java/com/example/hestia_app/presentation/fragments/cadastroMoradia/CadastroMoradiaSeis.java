@@ -173,7 +173,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                                    Integer.parseInt(moradia.get("quantidadePessoas")),
                                                    null,
                                                    moradia.get("nomeMoradia"),
-                                                   Double.parseDouble(moradia.get("preco").trim()),
+                                                   Double.parseDouble(moradia.get("preco")) * 1.1,
                                                    moradia.get("descricaoMoradia"),
                                                    moradia.get("regrasMoradia"),
                                                    Integer.parseInt(moradia.get("quantidadeQuartos")),
@@ -193,22 +193,22 @@ public class CadastroMoradiaSeis extends Fragment {
                                 // salvar imagens no banco
                                 Log.d("MoradiaRetorno", "onRegistroSuccess: " + moradiaRetorno);
                                 ImagensMoradiaService service = new ImagensMoradiaService();
-                                ImagensMoradia imagensMoradia = new ImagensMoradia(moradiaRetorno.getMoradiaId(), transformarLista(moradia.get("imagens")));
+                                ImagensMoradia imagensMoradia = new ImagensMoradia(moradiaRetorno.getId(), transformarLista(moradia.get("imagens")));
                                 Log.d("Moradia", "onRegistroSuccess: " + imagensMoradia);
                                 service.addImagensMoradias(imagensMoradia, new ImagensMoradiaCallback() {
                                     @Override
                                     public void onSuccess(ImagensMoradia response) {
                                         // salvar as informações adicionais
                                         InformacoesAdicionaisMoradiaService service = new InformacoesAdicionaisMoradiaService();
-                                        InformacoesAdicionaisMoradia informacoesAdicionaisMoradia = new InformacoesAdicionaisMoradia(moradiaRetorno.getMoradiaId(), transformarLista(moradia.get("infosAdicionais")));
+                                        InformacoesAdicionaisMoradia informacoesAdicionaisMoradia = new InformacoesAdicionaisMoradia(moradiaRetorno.getId(), transformarLista(moradia.get("infosAdicionais")));
                                         Log.d("Moradia", "onSuccess: " + informacoesAdicionaisMoradia);
                                         service.addInfosMoradias(informacoesAdicionaisMoradia, new InformacoesAdicionaisMoradiaCallback() {
                                             @Override
                                             public void onSuccess(InformacoesAdicionaisMoradia response) {
                                                 Log.d("Moradia", "onSuccess: " + response);
                                                 FiltrosTagsService filtrosTagsService = new FiltrosTagsService();
-                                                FiltrosTags filtrosTags = new FiltrosTags(moradiaRetorno.getMoradiaId(), "moradia", transformarLista(moradia.get("animal")),
-                                                        moradia.get("genero"), moradia.get("pessoa"), moradia.get("fumo"), moradia.get("bebida"),
+                                                FiltrosTags filtrosTags = new FiltrosTags(moradiaRetorno.getId(), "moradia", transformarLista(moradia.get("animal")),
+                                                        transformarLista(moradia.get("genero")).get(0), transformarLista(moradia.get("pessoa")).get(0), transformarLista(moradia.get("fumo")).get(0), transformarLista(moradia.get("bebida")).get(0),
                                                         transformarLista(moradia.get("casa")));
 
                                                 filtrosTagsService.addFiltrosTag(filtrosTags, new FiltrosTagsCallback() {
@@ -269,8 +269,22 @@ public class CadastroMoradiaSeis extends Fragment {
     }
 
     public List<String> transformarLista(String string) {
+        // Remove os colchetes e aspas da string e faz o trim.
         string = string.replace("[", "").replace("]", "").replace("'", "").trim();
+
+        // Substitui a vírgula em "não tenho, mas amo" por um caractere temporário.
+        string = string.replace("não tenho, mas amo", "não tenho|mas amo");
+
+        // Divide a string em uma lista, usando vírgula como separador.
         String[] array = string.split(",\\s*");
-        return new ArrayList<>(Arrays.asList(array));
+
+        // Converte o array em lista e restaura o texto original.
+        List<String> result = new ArrayList<>();
+        for (String item : array) {
+            result.add(item.replace("não tenho|mas amo", "não tenho, mas amo"));
+        }
+
+        return result;
     }
+
 }

@@ -26,6 +26,7 @@ import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.data.services.InfosUserService;
 import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.domain.models.InfosUser;
+import com.example.hestia_app.utils.FirebaseGaleriaUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -56,7 +57,6 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
 
         // Inicialmente, torna a ProgressBar invisível
         progressBar.setVisibility(View.GONE);
-
         goBack.setOnClickListener(v -> finish());
 
         // Preenchendo os hints dos campos com base nas informações atuais
@@ -90,11 +90,9 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
         // Salvando as novas informações dos campos
         salvar.setOnClickListener(v -> {
 
-
             if(nome.getText().toString().isEmpty()) {
                 nome.setText(nome.getHint());
             }
-
             if(bio.getText().toString().isEmpty()) {
                 bio.setText(bio.getHint());
             }
@@ -162,10 +160,45 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                         }
                     });
 
+
                     // Exibe a imagem selecionada
                     Glide.with(this).load(imageUri)
                             .centerCrop()
                             .into(imagem);
+
+
+                    FirebaseGaleriaUtils storageHelper = new FirebaseGaleriaUtils();
+                    storageHelper.uploadImage(imageUri.toString(), new FirebaseGaleriaUtils.FirebaseStorageCallback() {
+                        @Override
+                        public void onSuccess(String downloadUrl) {
+                            // Adiciona o link do download ao Map
+                            FirebaseService firebaseService = new FirebaseService();
+                            firebaseService.updateProfilePicture(EditarPerfilAnunciante.this, user, Uri.parse(downloadUrl));
+
+                            InfosUserService infosUserService = new InfosUserService();
+                            InfosUser infosUser = new InfosUser(downloadUrl);
+                            infosUserService.updateProfilePhotoUrlMongoCollection(user.getEmail(), infosUser, new InfosUserCallback() {
+                                @Override
+                                public void onSuccess(InfosUser response) {
+                                    Log.d("updateFotoMongo", "onSuccess: " + response);
+                                }
+
+                                @Override
+                                public void onFailure(Throwable t) {
+                                    Log.d("updateFotoMongo", "onFailure: " + t.getMessage());
+                                }
+                            });
+
+                            Log.d("FirebaseStorage", "Link de download: " + downloadUrl);
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.e("FirebaseStorage", "Erro ao fazer upload: ", e);
+                        }
+                    });
+
+
                 }
             }
     );

@@ -36,5 +36,13 @@
         <item name="fontFamily">@font/poppins_regular</item>
     </style>
 
+    <style name="CustomChipStyle2" parent="Widget.Material3.Chip.Input">
+        <item name="chipBackgroundColor">@drawable/chip_background_selector</item>
+        <item name="chipStrokeColor">@color/azul</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="android:textColor">@color/chip_text_selector</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
 
 </resources>

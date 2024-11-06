@@ -97,6 +97,7 @@ public class HomeAnunciante extends Fragment {
             @Override
             public void onSuccess(List<Moradia> moradias) {
                 moradiaList.addAll(moradias);
+
                 MoradiaHomeAdapter adapter = new MoradiaHomeAdapter(getContext(), moradiaList);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

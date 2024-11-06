@@ -2,6 +2,8 @@ package com.example.hestia_app.data.api.repo.postgres;
 
 import com.example.hestia_app.domain.models.Universitario;
 
+import java.util.UUID;
+
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.Call;
@@ -20,6 +22,9 @@ public interface UniversitarioRepository {
 
     @PATCH("/university/updateProfile/{email}")
     Call<Universitario> updateUniversitarioProfile(@Header("Authorization") String token, @Path("email") String email, @Body Universitario universitario);
+
+    @GET("/university/findId/{email}")
+    Call<UUID> getUniversitarioId(@Header("Authorization") String token, @Path("email") String email);
 
 }
     
