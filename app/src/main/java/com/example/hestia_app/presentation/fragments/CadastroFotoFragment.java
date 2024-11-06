@@ -257,10 +257,7 @@ public class CadastroFotoFragment extends Fragment {
                         InfosUser infosUser = new InfosUser(email, senha, uri.toString());
                         salvarInfosUserComRetry(infosUser);
 
-
                         Log.d("Cadastro", "Tudo finalizado, iniciando a nova Activity");
-
-
                     }
                     @Override
                     public void onFailure(String t) {
@@ -287,23 +284,6 @@ public class CadastroFotoFragment extends Fragment {
             @Override
             public void onSuccess(InfosUser response) {
                 Log.d("InfosUser", "Sucesso ao enviar objeto InfosUser ao MongoDB: " + response.toString());
-                if (tipo.equals("anunciante")) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            salvarAnuncianteComRetry();
-
-                        }
-                    }, 5000);
-                } else if (tipo.equals("universitario")) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            salvarUniversitarioComRetry();
-                        }
-                    }, 5000);
-                }
             }
 
             @Override
