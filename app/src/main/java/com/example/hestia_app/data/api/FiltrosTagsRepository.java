@@ -2,6 +2,8 @@ package com.example.hestia_app.data.api;
 
 import com.example.hestia_app.domain.models.FiltrosTags;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -14,4 +16,7 @@ public interface FiltrosTagsRepository {
 
     @GET("/filtros_tag/getFiltrosTag/{id_usuario_moradia}")
     Call<FiltrosTags> getFiltrosTag(@Path("id_usuario_moradia") String id_usuario_moradia);
+
+    @GET("/filtros_tag/getFiltrosTag")
+    Call<List<FiltrosTags>> getAllFiltrosTag();
 }

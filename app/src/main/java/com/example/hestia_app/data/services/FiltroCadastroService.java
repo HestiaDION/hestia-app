@@ -9,9 +9,11 @@ import retrofit2.Response;
 
 import com.example.hestia_app.data.api.FiltroCadastroRepository;
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
+import com.example.hestia_app.data.api.callbacks.GetCategoriaByNomeCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresPrimeiroClient;
 import com.example.hestia_app.domain.models.FiltroCadastro;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class FiltroCadastroService {
@@ -86,6 +88,42 @@ public class FiltroCadastroService {
                     }, RETRY_DELAY);
                 } else {
                     callback.onFiltroCadastroFailure("Falha na chamada da API após " + MAX_RETRIES + " tentativas.");
+                }
+            }
+        });
+    }
+
+    public void getCategoriaByNome(String cnome, GetCategoriaByNomeCallback callback) {
+        getCategoriaByNomeWithRetry(cnome, callback, 0);
+    }
+
+    private void getCategoriaByNomeWithRetry(String cnome, GetCategoriaByNomeCallback callback, int attempt) {
+        Call<HashMap<String, String>> call = filtroCadastroRepository.getCategoriaByNome(cnome);
+        call.enqueue(new Callback<HashMap<String, String>>() {
+            @Override
+            public void onResponse(Call<HashMap<String, String>> call, Response<HashMap<String, String>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    HashMap<String, String> categoria = response.body();
+                    Log.d("Api response", "onResponse: " + categoria);
+                    callback.onGetCategoriaByNomeCallbackSuccess(categoria);
+                } else {
+                    Log.e("Api response", "Erro ao buscar categoria: " + response.message());
+                    callback.onGetCategoriaByNomeCallbackFailure("Erro ao buscar categoria!");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HashMap<String, String>> call, Throwable t) {
+                Log.e("Api response", "Falha na chamada da API: " + t.getMessage());
+                if (attempt < MAX_RETRIES) {
+                    Log.d("Api response", "Tentando novamente... (" + (attempt + 1) + "/" + MAX_RETRIES + ")");
+
+                    // Usar Handler para adicionar atraso antes da último tentativa
+                    new Handler().postDelayed(() -> {
+                        getCategoriaByNomeWithRetry(cnome, callback, attempt + 1);
+                    }, RETRY_DELAY);
+                } else {
+                    callback.onGetCategoriaByNomeCallbackFailure("Falha na chamada da API após " + MAX_RETRIES + " tentativas.");
                 }
             }
         });

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/input_group_background">
 
         <androidx.viewpager2.widget.ViewPager2
@@ -99,9 +98,6 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/infoButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             android:layout_width="227dp"
             android:layout_height="56dp"
             android:layout_marginTop="4dp"
@@ -109,7 +105,21 @@
             android:fontFamily="@font/poppins_semi_bold"
             android:text="Mais informações"
             android:textAllCaps="false"
-            android:textColor="@color/azul_mais_claro" />
+            android:textColor="@color/azul_mais_claro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <ImageButton
+            android:id="@+id/button"
+            android:layout_width="88dp"
+            android:layout_height="28dp"
+            android:background="@drawable/bt_cadastro"
+            android:src="@drawable/white_bin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.964"
+            app:layout_constraintStart_toStartOf="@+id/houseImg"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

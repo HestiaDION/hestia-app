@@ -215,7 +215,7 @@ public class CadastroMoradiaQuatro extends Fragment {
                         if (imagem != 0) {
                             categoriaTextView.setText(texto);
                             categoriaTextView.setCompoundDrawablesWithIntrinsicBounds(imagem, 0, 0, 0);
-                            categoriaTextView.setCompoundDrawablePadding(5);
+                            categoriaTextView.setCompoundDrawablePadding(7);
                         }
 
                         Typeface typeface = ResourcesCompat.getFont(getContext(), R.font.poppins_semi_bold);

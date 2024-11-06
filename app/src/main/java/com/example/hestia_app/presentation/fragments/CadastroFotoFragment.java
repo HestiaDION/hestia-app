@@ -55,6 +55,7 @@ import com.example.hestia_app.presentation.view.TelaAviso;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
+import com.example.hestia_app.utils.FirebaseGaleriaUtils;
 import com.example.hestia_app.utils.ViewUtils;
 
 import java.util.ArrayList;
@@ -75,6 +76,7 @@ public class CadastroFotoFragment extends Fragment {
     ImageView foto_usuario, foto_ilustrativa;
     TextView txt_adicionar;
     CheckBox checkBox;
+    Button bt_acao;
     private ProgressBar progressBar;
 
     // lista de permissões
@@ -129,7 +131,7 @@ public class CadastroFotoFragment extends Fragment {
         TextView termos = view.findViewById(R.id.termos_ler);
         TextView tipo_usuario = view.findViewById(R.id.tipo_usuario);
         ImageButton bt_voltar = view.findViewById(R.id.voltar);
-        Button bt_acao = view.findViewById(R.id.bt_acao);
+        bt_acao = view.findViewById(R.id.bt_acao);
         LinearLayout tirar_escolher_foto = view.findViewById(R.id.tirar_escolher_foto);
         foto_usuario = view.findViewById(R.id.foto_usuario);
         foto_ilustrativa = view.findViewById(R.id.foto_ilustrativa);
@@ -161,6 +163,7 @@ public class CadastroFotoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE); // Exibir barra de progresso
+                bt_acao.setVisibility(View.GONE);
                 salvarFirebaseUsuario();
             }
         });
@@ -272,6 +275,7 @@ public class CadastroFotoFragment extends Fragment {
             public void onRegistroSuccess(boolean isRegistered) {
                 Log.d("Registro", "Anunciante registrado com sucesso!");
                 progressBar.setVisibility(View.GONE); // Ocultar barra de progresso
+                bt_acao.setVisibility(View.VISIBLE);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("textExplanation", "Anunciante registrado com sucesso!");
@@ -380,6 +384,7 @@ public class CadastroFotoFragment extends Fragment {
             public void onFiltroCadastroSuccess(boolean IsRegistered) {
                 Log.d("Filtros", "Filtros salvos com sucesso!");
                 progressBar.setVisibility(View.GONE); // Ocultar barra de progresso após o sucesso
+                bt_acao.setVisibility(View.VISIBLE);
 
                 Bundle bundle = new Bundle();
                 bundle.putString("textExplanation", "Universitário registrado com sucesso!");
@@ -442,23 +447,35 @@ public class CadastroFotoFragment extends Fragment {
             result -> {
                 Uri imageUri = result.getData().getData();
                 if (imageUri != null) {
-                    // imagem selecionada
-                    uri = imageUri;
-
-                    // salvar no map
-                    usuario.put("imagem", uri.toString());
-
-                    // Exibe a imagem selecionada
-                    Glide.with(this).load(imageUri)
-                            .centerCrop()
-                            .into(foto_usuario);
-
                     // desaparecer a imagem padrão
                     foto_ilustrativa.setVisibility(View.GONE);
                     txt_adicionar.setVisibility(View.GONE);
 
                     // aparecer a imagem selecionada
                     foto_usuario.setVisibility(View.VISIBLE);
+
+                    FirebaseGaleriaUtils storageHelper = new FirebaseGaleriaUtils();
+                    storageHelper.uploadImage(imageUri.toString(), new FirebaseGaleriaUtils.FirebaseStorageCallback() {
+                        @Override
+                        public void onSuccess(String downloadUrl) {
+                            // Adiciona o link do download ao Map
+                            usuario.put("imagem", downloadUrl);
+
+                            // imagem selecionada
+                            uri = Uri.parse(downloadUrl);
+
+                            // Exibe a imagem selecionada
+                            Glide.with(requireContext()).load(imageUri)
+                                    .centerCrop()
+                                    .into(foto_usuario);
+                            Log.d("FirebaseStorage", "Link de download: " + downloadUrl);
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.e("FirebaseStorage", "Erro ao fazer upload: ", e);
+                        }
+                    });
                 } else {
                     Toast.makeText(getContext(), "Selecione uma imagem!", Toast.LENGTH_SHORT).show();
                 }
@@ -526,8 +543,22 @@ public class CadastroFotoFragment extends Fragment {
             });
 
     public List<String> transformarLista(String string) {
+        // Remove os colchetes e aspas da string e faz o trim.
         string = string.replace("[", "").replace("]", "").replace("'", "").trim();
+
+        // Substitui a vírgula em "não tenho, mas amo" por um caractere temporário.
+        string = string.replace("não tenho, mas amo", "não tenho|mas amo");
+
+        // Divide a string em uma lista, usando vírgula como separador.
         String[] array = string.split(",\\s*");
-        return new ArrayList<>(Arrays.asList(array));
+
+        // Converte o array em lista e restaura o texto original.
+        List<String> result = new ArrayList<>();
+        for (String item : array) {
+            result.add(item.replace("não tenho|mas amo", "não tenho, mas amo"));
+        }
+
+        return result;
     }
+
 }

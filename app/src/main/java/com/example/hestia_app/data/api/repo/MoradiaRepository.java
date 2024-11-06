@@ -18,4 +18,7 @@ public interface MoradiaRepository {
 
     @GET("/ad/property/listAllByAdvertiser/{email}")
     Call <List<Moradia>> getMoradiasByAdvertiser(@Path("email") String email);
+
+    @GET("/ad/property/getPropertyByAdId/{id}")
+    Call <Moradia> getMoradiaById(@Path("id") UUID id);
 }

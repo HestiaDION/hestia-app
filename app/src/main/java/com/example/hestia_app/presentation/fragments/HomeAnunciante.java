@@ -74,7 +74,6 @@ public class HomeAnunciante extends Fragment {
             public void onSuccess(List<Moradia> moradias) {
                 moradiaList.addAll(moradias);
                 // Criar o adapter e setar no RecyclerView
-                Log.d("moradiaList", "onCreateView: " + moradiaList);
                 MoradiaHomeAdapter adapter = new MoradiaHomeAdapter(getContext(), moradiaList);
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
