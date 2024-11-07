@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hestia_app.data.api.callbacks.MoradiaByIdCallback;
@@ -25,6 +26,7 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
     TextView nomeMoradia, quantidadePessoas, universidadePerto, quantidadeQuartos, capacidadePessoas,
             descricao, contatoTitulo, regras;
     Button joinMoradia, entrarContato;
+    ImageView goBack;
     String email;
     String nomeUniversitario;
     MoradiaService moradiaService;
@@ -50,6 +52,9 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
         entrarContato = findViewById(R.id.btnEntrarContato);
         contatoTitulo = findViewById(R.id.contatoTitulo);
 
+        goBack = findViewById(R.id.goBackArrow);
+        goBack.setOnClickListener(v -> finish());
+
         // Verifica o tipo de usuário
         SharedPreferences sharedPreferences = getSharedPreferences("UserPreferences", MODE_PRIVATE);
         String userOrigin = sharedPreferences.getString("user_origin", "");
@@ -59,12 +64,14 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
         // Se for do tipo "anunciante", oculta os botões
         if ("anunciante".equals(userOrigin)) {
             joinMoradia.setVisibility(Button.GONE);
-//            entrarContato.setVisibility(Button.GONE);
+            entrarContato.setVisibility(Button.GONE);
             contatoTitulo.setVisibility(View.GONE);
         }
 
         moradiaService = new MoradiaService(getApplicationContext());
         String moradiaIdString = getIntent().getStringExtra("moradiaId");
+
+        Log.d("moradiaId", moradiaIdString);
 
         // get de informações
         moradiaService.getMoradiaById(UUID.fromString(moradiaIdString), new MoradiaByIdCallback() {

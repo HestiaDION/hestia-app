@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hestia_app.MoradiaMaisInformacoes;
 import com.example.hestia_app.PagamentoEmAprovacaoDialogFragment;
 import com.example.hestia_app.R;
 
@@ -285,6 +287,14 @@ public class HomeUniversitario extends Fragment {
 
         Moradia anuncioCasa = moradiasList.get(currentIndex);
         View card = LayoutInflater.from(getActivity()).inflate(R.layout.activity_item_moradia, null); // Infla o layout do cartão
+
+        Button btnDetalhes = card.findViewById(R.id.infoButton);
+        btnDetalhes.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MoradiaMaisInformacoes.class);
+            intent.putExtra("moradiaId", anuncioCasa.getId().toString());
+            startActivity(intent);
+        });
+
 
         ViewPager2 houseImg = card.findViewById(R.id.houseImg);
         TextView nmMoradia = card.findViewById(R.id.cNmMoradia);
