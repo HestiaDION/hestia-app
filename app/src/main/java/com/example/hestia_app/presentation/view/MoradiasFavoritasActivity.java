@@ -52,8 +52,8 @@ public class MoradiasFavoritasActivity extends AppCompatActivity {
 
         // pegar do banco
         MoradiaFavoritaService service = new MoradiaFavoritaService();
-        UniversitarioService universitarioService = new UniversitarioService();
-        MoradiaService moradiaService = new MoradiaService();
+        UniversitarioService universitarioService = new UniversitarioService(getApplicationContext());
+        MoradiaService moradiaService = new MoradiaService(getApplicationContext());
 
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
