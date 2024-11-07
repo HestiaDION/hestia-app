@@ -3,7 +3,7 @@ package com.example.hestia_app.data.services;
 import androidx.annotation.NonNull;
 
 
-import com.example.hestia_app.data.api.InfoUserRepository;
+import com.example.hestia_app.data.api.repo.InfoUserRepository;
 import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.clients.RetrofitMongoClient;
 import com.example.hestia_app.domain.models.InfosUser;

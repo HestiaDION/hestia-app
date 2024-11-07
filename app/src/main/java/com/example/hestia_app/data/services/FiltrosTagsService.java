@@ -3,7 +3,7 @@ package com.example.hestia_app.data.services;
 import android.os.Handler;
 import android.util.Log;
 
-import com.example.hestia_app.data.api.FiltrosTagsRepository;
+import com.example.hestia_app.data.api.repo.FiltrosTagsRepository;
 import com.example.hestia_app.data.api.callbacks.FiltrosTagAllCallback;
 import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
 import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallbackGet;

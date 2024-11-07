@@ -32,7 +32,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
 
-import com.example.hestia_app.data.api.InfoUserRepository;
 import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
 import com.example.hestia_app.data.api.callbacks.RegistroUniversitarioCallback;
@@ -49,14 +48,11 @@ import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.domain.models.InfosUser;
 import com.example.hestia_app.domain.models.Universitario;
-import com.example.hestia_app.presentation.view.MainActivityNavbar;
-import com.example.hestia_app.presentation.view.Splashscreen;
 import com.example.hestia_app.presentation.view.TelaAviso;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
 import com.example.hestia_app.utils.FirebaseGaleriaUtils;
-import com.example.hestia_app.utils.ViewUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
