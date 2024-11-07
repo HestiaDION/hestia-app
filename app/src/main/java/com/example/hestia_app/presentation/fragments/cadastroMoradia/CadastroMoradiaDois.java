@@ -31,8 +31,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.data.api.callbacks.InfosUserCallback;
+import com.example.hestia_app.data.services.FirebaseService;
+import com.example.hestia_app.data.services.InfosUserService;
+import com.example.hestia_app.domain.models.InfosUser;
 import com.example.hestia_app.presentation.fragments.CadastroFotoFragment;
+import com.example.hestia_app.presentation.view.EditarPerfilAnunciante;
 import com.example.hestia_app.presentation.view.adapter.FotosCadastroAdapter;
+import com.example.hestia_app.utils.FirebaseGaleriaUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -215,11 +221,23 @@ public class CadastroMoradiaDois extends Fragment {
                         } else {
                             for (int i = 0; i < count; i++) {
                                 Uri imageUri = result.getData().getClipData().getItemAt(i).getUri();
-                                imagePaths.add(imageUri.toString());
+                                FirebaseGaleriaUtils storageHelper = new FirebaseGaleriaUtils();
+                                storageHelper.uploadImage(imageUri.toString(), new FirebaseGaleriaUtils.FirebaseStorageCallback() {
+                                    @Override
+                                    public void onSuccess(String downloadUrl) {
+                                        // Adiciona o link do download ao Map
+                                        imagePaths.add(downloadUrl);
+                                        imageAdapter.notifyDataSetChanged();
+                                    }
+
+                                    @Override
+                                    public void onFailure(Exception e) {
+                                        Log.e("FirebaseStorage", "Erro ao fazer upload: ", e);
+                                    }
+                                });
                             }
                         }
                     }
-                    imageAdapter.notifyDataSetChanged();
                 } else {
                     imagePaths.clear();
                     imagens.setVisibility(View.GONE);
@@ -277,8 +295,22 @@ public class CadastroMoradiaDois extends Fragment {
             });
 
     public List<String> transformarLista(String string) {
+        // Remove os colchetes e aspas da string e faz o trim.
         string = string.replace("[", "").replace("]", "").replace("'", "").trim();
+
+        // Substitui a vírgula em "não tenho, mas amo" por um caractere temporário.
+        string = string.replace("não tenho, mas amo", "não tenho|mas amo");
+
+        // Divide a string em uma lista, usando vírgula como separador.
         String[] array = string.split(",\\s*");
-        return new ArrayList<>(Arrays.asList(array));
+
+        // Converte o array em lista e restaura o texto original.
+        List<String> result = new ArrayList<>();
+        for (String item : array) {
+            result.add(item.replace("não tenho|mas amo", "não tenho, mas amo"));
+        }
+
+        return result;
     }
+
 }

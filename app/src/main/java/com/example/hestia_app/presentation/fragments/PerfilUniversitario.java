@@ -22,6 +22,7 @@ import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilUniversitarioCallback;
 import com.example.hestia_app.data.services.UniversitarioService;
 import com.example.hestia_app.domain.models.Universitario;
+import com.example.hestia_app.presentation.view.Configuracoes;
 import com.example.hestia_app.presentation.view.LoginActivity;
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PerfilUniversitario extends Fragment {
     String tipo_usuario;
     Button editarPerfil;
-    UniversitarioService universitarioService = new UniversitarioService();
+    UniversitarioService universitarioService;
     String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
     ImageView configuracoes;
 
@@ -51,9 +52,12 @@ public class PerfilUniversitario extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        universitarioService = new UniversitarioService(requireContext());
+
         if (getArguments() != null) {
             tipo_usuario = getArguments().getString("tipo_usuario");
         }
+        universitarioService = new UniversitarioService(requireContext());
         super.onCreate(savedInstanceState);
     }
 
@@ -63,15 +67,13 @@ public class PerfilUniversitario extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_perfil_universitario, container, false);
 
-        // configurações
+
         configuracoes = view.findViewById(R.id.btn_config);
-        configuracoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), Configuracoes.class);
-                startActivity(intent);
-            }
+        configuracoes.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), Configuracoes.class);
+            startActivity(intent);
         });
+
 
         // edição de perfil
         editarPerfil = view.findViewById(R.id.bt_editar);

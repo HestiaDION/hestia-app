@@ -13,8 +13,7 @@ import java.io.IOException;
 
 public class FormularioUniversitarioService {
 
-    FormularioUniversitarioRepository formularioUniversitarioRepository =
-            RetrofitFormsClient.getClient().create(FormularioUniversitarioRepository.class);
+    FormularioUniversitarioRepository formularioUniversitarioRepository = RetrofitFormsClient.getClient().create(FormularioUniversitarioRepository.class);
 
     public ProbabilityResponse enviarFormularioUniversitario(FormularioUniversitario formularioUniversitario) {
         Call<ProbabilityResponse> call = formularioUniversitarioRepository.predictUser(formularioUniversitario);

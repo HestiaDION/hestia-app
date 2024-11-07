@@ -16,9 +16,8 @@
         android:layout_height="match_parent"
         android:background="@drawable/input_group_background">
 
-        <ImageView
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/houseImg"
-            tools:srcCompat="@tools:sample/avatars"
             android:layout_width="268dp"
             android:layout_height="183dp"
             android:layout_marginTop="13dp"

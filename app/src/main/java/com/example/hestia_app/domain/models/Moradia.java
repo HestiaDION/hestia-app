@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class Moradia {
 
-    @SerializedName("imovel_id")
+    @SerializedName("id")
     private UUID moradiaId;
     @SerializedName("email_anunciante")
     private String emailAnunciante;
@@ -58,7 +58,7 @@ public class Moradia {
         this.nomeCasa = nomeCasa;
     }
 
-    public UUID getMoradiaId() {
+    public UUID getId() {
         return moradiaId;
     }
 
@@ -190,6 +190,7 @@ public class Moradia {
     public String toString() {
         return "Moradia{" +
                 "emailAnunciante='" + emailAnunciante + '\'' +
+                ", id='" + moradiaId + '\'' +
                 ", quantidadeMaximaPessoas='" + quantidadeMaximaPessoas + '\'' +
                 ", dataRegistro='" + dataRegistro + '\'' +
                 ", nomeCasa='" + nomeCasa + '\'' +

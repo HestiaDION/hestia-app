@@ -1,5 +1,6 @@
 package com.example.hestia_app.presentation.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.PerfilAnuncianteCallback;
 import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.data.services.AnuncianteService;
+import com.example.hestia_app.presentation.view.Configuracoes;
 import com.example.hestia_app.presentation.view.LoginActivity;
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PerfilAnunciante extends Fragment {
     String tipo_usuario;
     String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
-    AnuncianteService anuncianteService = new AnuncianteService();
+    AnuncianteService anuncianteService;
     Button editarPerfil;
     ImageView configuracoes;
 
@@ -50,6 +52,7 @@ public class PerfilAnunciante extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        anuncianteService = new AnuncianteService(requireContext());
         if (getArguments() != null) {
             tipo_usuario = getArguments().getString("tipo_usuario");
         }
@@ -61,6 +64,11 @@ public class PerfilAnunciante extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_perfil_anunciante, container, false);
 
+        configuracoes = view.findViewById(R.id.btn_config);
+        configuracoes.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), Configuracoes.class);
+            startActivity(intent);
+        });
 
         // edição de perfil
         editarPerfil = view.findViewById(R.id.bt_editar);

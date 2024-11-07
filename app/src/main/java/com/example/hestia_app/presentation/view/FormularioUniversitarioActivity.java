@@ -131,7 +131,7 @@ public class FormularioUniversitarioActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         loadingDialog.dismiss();
-                        Intent intent = new Intent(FormularioUniversitarioActivity.this, MainActivity.class);
+                        Intent intent = new Intent(FormularioUniversitarioActivity.this, MainActivityNavbar.class);
                         startActivity(intent);
                         finish();
                     }

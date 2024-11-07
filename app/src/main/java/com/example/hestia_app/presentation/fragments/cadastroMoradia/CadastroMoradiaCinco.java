@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +68,34 @@ public class CadastroMoradiaCinco extends Fragment {
         TextView erro5 = view.findViewById(R.id.erro5);
         TextView erro6 = view.findViewById(R.id.erro6);
 
+        // cep
+        cep.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String cepString = s.toString().replaceAll("[^\\d]", ""); // Remove todos os caracteres não numéricos
+
+                if (cepString.length() > 5) {
+                    cepString = cepString.substring(0, 5) + "-" + cepString.substring(5, Math.min(cepString.length(), 8)); // Formata o CEP
+                }
+
+                // Remove o listener temporariamente para evitar loops infinitos
+                cep.removeTextChangedListener(this);
+                cep.setText(cepString);
+                cep.setSelection(cepString.length()); // Move o cursor para o final
+                cep.addTextChangedListener(this);
+            }
+        });
+
         // proximo fragment
         Button btnProximo = view.findViewById(R.id.bt_acao);
         btnProximo.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +117,7 @@ public class CadastroMoradiaCinco extends Fragment {
                     Log.d("errosMoradia", "onClick: " + erros1 + erros2 + erros3 + erros4 + erros5 + erros6 + erros7 + erros8);
                 } else {
                     // colocar no hasmap
-                    moradia.put("cep", cep.getText().toString());
+                    moradia.put("cep", cep.getText().toString().replace("-", ""));
                     moradia.put("municipio", municipio.getText().toString());
                     moradia.put("bairro", bairro.getText().toString());
                     moradia.put("rua", rua.getText().toString());

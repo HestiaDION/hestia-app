@@ -149,6 +149,8 @@ public class CadastroMoradiaSeis extends Fragment {
         bt_acao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bt_acao.setEnabled(false);
+
                 if (preco.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "O preço deve ser definido!", Toast.LENGTH_SHORT).show();
                     return;
@@ -163,7 +165,7 @@ public class CadastroMoradiaSeis extends Fragment {
                     Log.d("moradia", "onClick: " + moradia);
 
                     // salvar moradia
-                    MoradiaService service = new MoradiaService();
+                    MoradiaService service = new MoradiaService(requireContext());
                     FirebaseAuth autenticar = FirebaseAuth.getInstance();
                     FirebaseUser user = autenticar.getCurrentUser();
 
@@ -171,7 +173,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                                    Integer.parseInt(moradia.get("quantidadePessoas")),
                                                    null,
                                                    moradia.get("nomeMoradia"),
-                                                   Double.parseDouble(moradia.get("precoFinal").replace("R$", "").trim()),
+                                                   Double.parseDouble(moradia.get("preco")) * 1.1,
                                                    moradia.get("descricaoMoradia"),
                                                    moradia.get("regrasMoradia"),
                                                    Integer.parseInt(moradia.get("quantidadeQuartos")),
@@ -183,6 +185,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                                    moradia.get("numero"),
                                                    moradia.get("complemento"));
                     Log.d("Moradia", "onClick: " + moradia1);
+
                     service.registrarMoradia(moradia1, new RegistroMoradiaCallback() {
                         @Override
                         public void onRegistroSuccess(boolean isRegistered, Moradia moradiaRetorno) {
@@ -190,22 +193,22 @@ public class CadastroMoradiaSeis extends Fragment {
                                 // salvar imagens no banco
                                 Log.d("MoradiaRetorno", "onRegistroSuccess: " + moradiaRetorno);
                                 ImagensMoradiaService service = new ImagensMoradiaService();
-                                ImagensMoradia imagensMoradia = new ImagensMoradia(moradiaRetorno.getMoradiaId(), transformarLista(moradia.get("imagens")));
+                                ImagensMoradia imagensMoradia = new ImagensMoradia(moradiaRetorno.getId(), transformarLista(moradia.get("imagens")));
                                 Log.d("Moradia", "onRegistroSuccess: " + imagensMoradia);
                                 service.addImagensMoradias(imagensMoradia, new ImagensMoradiaCallback() {
                                     @Override
                                     public void onSuccess(ImagensMoradia response) {
                                         // salvar as informações adicionais
                                         InformacoesAdicionaisMoradiaService service = new InformacoesAdicionaisMoradiaService();
-                                        InformacoesAdicionaisMoradia informacoesAdicionaisMoradia = new InformacoesAdicionaisMoradia(moradiaRetorno.getMoradiaId(), transformarLista(moradia.get("infosAdicionais")));
+                                        InformacoesAdicionaisMoradia informacoesAdicionaisMoradia = new InformacoesAdicionaisMoradia(moradiaRetorno.getId(), transformarLista(moradia.get("infosAdicionais")));
                                         Log.d("Moradia", "onSuccess: " + informacoesAdicionaisMoradia);
                                         service.addInfosMoradias(informacoesAdicionaisMoradia, new InformacoesAdicionaisMoradiaCallback() {
                                             @Override
                                             public void onSuccess(InformacoesAdicionaisMoradia response) {
                                                 Log.d("Moradia", "onSuccess: " + response);
                                                 FiltrosTagsService filtrosTagsService = new FiltrosTagsService();
-                                                FiltrosTags filtrosTags = new FiltrosTags(moradiaRetorno.getMoradiaId(), "moradia", transformarLista(moradia.get("animal")),
-                                                        moradia.get("genero"), moradia.get("pessoa"), moradia.get("fumo"), moradia.get("bebida"),
+                                                FiltrosTags filtrosTags = new FiltrosTags(moradiaRetorno.getId(), "moradia", transformarLista(moradia.get("animal")),
+                                                        transformarLista(moradia.get("genero")).get(0), transformarLista(moradia.get("pessoa")).get(0), transformarLista(moradia.get("fumo")).get(0), transformarLista(moradia.get("bebida")).get(0),
                                                         transformarLista(moradia.get("casa")));
 
                                                 filtrosTagsService.addFiltrosTag(filtrosTags, new FiltrosTagsCallback() {
@@ -225,6 +228,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                                     @Override
                                                     public void onFiltroCadastroFailure(boolean IsRegistered) {
                                                         Log.d("Moradia", "onFiltroCadastroFailure: " + IsRegistered);
+                                                        bt_acao.setEnabled(true);
                                                     }
                                                 });
                                             }
@@ -232,6 +236,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                             @Override
                                             public void onFailure(Throwable t) {
                                                 Log.d("Moradia", "onFailure: " + t.getMessage());
+                                                bt_acao.setEnabled(true);
                                             }
                                         });
                                     }
@@ -239,6 +244,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                     @Override
                                     public void onFailure(Throwable t) {
                                         Log.d("Moradia", "onFailure: " + t.getMessage());
+                                        bt_acao.setEnabled(true);
                                     }
                                 });
                             }
@@ -251,18 +257,34 @@ public class CadastroMoradiaSeis extends Fragment {
                                 Toast.makeText(getContext(), "Erro ao registrar moradia!", Toast.LENGTH_SHORT).show();
                             }
                             Log.d("Moradia", "onRegistroFailure: " + isRegistered);
+                            bt_acao.setEnabled(true);
                         }
                     });
                 }
             }
+
         });
 
         return view;
     }
 
     public List<String> transformarLista(String string) {
+        // Remove os colchetes e aspas da string e faz o trim.
         string = string.replace("[", "").replace("]", "").replace("'", "").trim();
+
+        // Substitui a vírgula em "não tenho, mas amo" por um caractere temporário.
+        string = string.replace("não tenho, mas amo", "não tenho|mas amo");
+
+        // Divide a string em uma lista, usando vírgula como separador.
         String[] array = string.split(",\\s*");
-        return new ArrayList<>(Arrays.asList(array));
+
+        // Converte o array em lista e restaura o texto original.
+        List<String> result = new ArrayList<>();
+        for (String item : array) {
+            result.add(item.replace("não tenho|mas amo", "não tenho, mas amo"));
+        }
+
+        return result;
     }
+
 }

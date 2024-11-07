@@ -6,23 +6,23 @@ import java.util.List;
 import java.util.UUID;
 
 public class InformacoesAdicionaisMoradia {
-    @SerializedName("id_moradia")
-    private UUID id_moradia;
+    @SerializedName("idMoradia")
+    private UUID idMoradia;
 
     @SerializedName("topicos")
     private List<String> topicos;
 
-    public InformacoesAdicionaisMoradia(UUID id_moradia, List<String> topicos) {
-        this.id_moradia = id_moradia;
+    public InformacoesAdicionaisMoradia(UUID idMoradia, List<String> topicos) {
+        this.idMoradia = idMoradia;
         this.topicos = topicos;
     }
 
-    public UUID getId_moradia() {
-        return id_moradia;
+    public UUID getIdMoradia() {
+        return idMoradia;
     }
 
-    public void setId_moradia(UUID id_moradia) {
-        this.id_moradia = id_moradia;
+    public void setIdMoradia(UUID idMoradia) {
+        this.idMoradia = idMoradia;
     }
 
     public List<String> getTopicos() {
@@ -36,7 +36,7 @@ public class InformacoesAdicionaisMoradia {
     @Override
     public String toString() {
         return "InformacoesAdicionaisMoradia{" +
-                "id_moradia=" + id_moradia +
+                "id_moradia=" + idMoradia +
                 ", topicos=" + topicos +
                 '}';
     }
