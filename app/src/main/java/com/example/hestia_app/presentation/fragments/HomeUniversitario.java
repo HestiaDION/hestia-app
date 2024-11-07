@@ -38,10 +38,12 @@ import com.example.hestia_app.data.api.callbacks.GetCategoriaByNomeCallback;
 import com.example.hestia_app.data.api.callbacks.GetUUIDByEmailCallback;
 import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
 import com.example.hestia_app.data.api.callbacks.MoradiaByIdCallback;
+import com.example.hestia_app.data.api.callbacks.MoradiaFavoritaCallback;
 import com.example.hestia_app.data.api.callbacks.RecomendacoesMoradiaCallback;
 import com.example.hestia_app.data.services.FiltroCadastroService;
 import com.example.hestia_app.data.services.FiltrosTagsService;
 import com.example.hestia_app.data.services.ImagensMoradiaService;
+import com.example.hestia_app.data.services.MoradiaFavoritaService;
 import com.example.hestia_app.data.services.MoradiaService;
 import com.example.hestia_app.data.services.RecomendacoesMoradiasService;
 import com.example.hestia_app.data.services.UniversitarioService;
@@ -49,9 +51,11 @@ import com.example.hestia_app.domain.models.FiltroCadastro;
 import com.example.hestia_app.domain.models.FiltrosTags;
 import com.example.hestia_app.domain.models.ImagensMoradia;
 import com.example.hestia_app.domain.models.Moradia;
+import com.example.hestia_app.domain.models.MoradiaFavorita;
 import com.example.hestia_app.domain.models.RecomendacoesMoradia;
 import com.example.hestia_app.domain.models.UniversityRequest;
-
+import com.example.hestia_app.presentation.view.AnuncioCasa;
+import com.example.hestia_app.presentation.view.MoradiasFavoritasActivity;
 import com.example.hestia_app.presentation.view.OnSwipeTouchListener;
 import com.example.hestia_app.presentation.view.PremiumScreenUniversitario;
 import com.example.hestia_app.presentation.view.adapter.CustomArrayAdapter;
@@ -89,6 +93,7 @@ public class HomeUniversitario extends Fragment {
 
     private static final List<Moradia> moradiasLista = new ArrayList<>();
     private static final HashMap<String, List<String>> selecoesPorCategoria = new HashMap<>();
+    private static final ArrayList<UUID> moradiasFavoritadas = new ArrayList<>();
 
 
 
@@ -122,6 +127,15 @@ public class HomeUniversitario extends Fragment {
 
         ImageView premiumButton = view.findViewById(R.id.premiumButtonUniversity);
         LinearLayout filtrosSelecionados = view.findViewById(R.id.filtrosSelecionados);
+        ImageView favoriteHouses = view.findViewById(R.id.favoriteHouses);
+
+        favoriteHouses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MoradiasFavoritasActivity.class);
+                startActivity(intent);
+            }
+        });
 
         universitarioService = new UniversitarioService(requireContext());
         universitarioService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
@@ -153,6 +167,7 @@ public class HomeUniversitario extends Fragment {
                                         // Atualizar o adaptador no final da coleta de todas as sugestões
                                         CustomArrayAdapter adapter = new CustomArrayAdapter(requireContext(), suggestions);
                                         MultiAutoCompleteTextView multiAutoCompleteTextView = view.findViewById(R.id.searchFilters);
+
                                         multiAutoCompleteTextView.setAdapter(adapter);
                                         multiAutoCompleteTextView.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
@@ -271,19 +286,19 @@ public class HomeUniversitario extends Fragment {
     }
 
     // Método para adicionar o próximo cartão
-    private void addNextCard(List<Moradia> moradiasList) {
+    private void addNextCard() {
 
-        Log.d("addNextCard", "addNextCard: " + moradiasList);
+        Log.d("addNextCard", "addNextCard: " + moradiasLista.size());
 
         final List<String>[] imageList = new List[]{new ArrayList<>()};
 
-        if (currentIndex >= moradiasList.size()) {
+        if (currentIndex >= moradiasLista.size()) {
             txt_card.setVisibility(View.VISIBLE); // Mostra o texto de fim de lista
             Toast.makeText(getActivity(), "Você viu todos os anúncios!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Moradia anuncioCasa = moradiasList.get(currentIndex);
+        Moradia anuncioCasa = moradiasLista.get(currentIndex);
         View card = LayoutInflater.from(getActivity()).inflate(R.layout.activity_item_moradia, null); // Infla o layout do cartão
 
         ViewPager2 houseImg = card.findViewById(R.id.houseImg);
@@ -337,10 +352,9 @@ public class HomeUniversitario extends Fragment {
                         .translationX(-card.getWidth())
                         .setDuration(300)
                         .withEndAction(() -> {
-                            Toast.makeText(getActivity(), "Deslizou para a esquerda: " + anuncioCasa.getNomeCasa(), Toast.LENGTH_SHORT).show();
-                            removeCard(card);
-                            currentIndex++;
-                            addNextCard(moradiasLista); // Adiciona o próximo cartão
+                            removeCard(card); // Remove o cartão
+                            currentIndex++; // Avança para o próximo
+                            addNextCard(); // Adiciona o próximo cartão
                         })
                         .start();
             }
@@ -351,10 +365,11 @@ public class HomeUniversitario extends Fragment {
                         .translationX(card.getWidth())
                         .setDuration(300)
                         .withEndAction(() -> {
-                            Toast.makeText(getActivity(), "Deslizou para a direita: " + anuncioCasa.getNomeCasa(), Toast.LENGTH_SHORT).show();
-                            removeCard(card);
-                            currentIndex++;
-                            addNextCard(moradiasLista); // Adiciona o próximo cartão
+                            // adiciona a moradia para favoritas
+                            addMoradiaFavorita(anuncioCasa.getId());
+                            removeCard(card); // Remove o cartão
+                            currentIndex++; // Avança para o próximo
+                            addNextCard(); // Adiciona o próximo cartão
                         })
                         .start();
             }
@@ -386,9 +401,11 @@ public class HomeUniversitario extends Fragment {
                             moradiaService.getMoradiaById(UUID.fromString(moradia2.get("uid")), new MoradiaByIdCallback() {
                                 @Override
                                 public void onSuccess(Moradia moradia) {
-                                    moradiasLista.add(moradia);
-                                    if(isAdded()) {
-                                        addNextCard(moradiasLista);
+                                    if (!moradiasLista.contains(moradia)) {
+                                        moradiasLista.add(moradia);
+                                        if(isAdded()) {
+                                            addNextCard();
+                                        }
                                     }
                                     Log.d("moradiasFinal", "onSuccess: " + moradiasLista);
                                 }
@@ -415,6 +432,34 @@ public class HomeUniversitario extends Fragment {
         });
     }
 
+    private void addMoradiaFavorita(UUID id) {
+        UniversitarioService universitarioService = new UniversitarioService();
+        universitarioService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
+            @Override
+            public void onGetUUIDByEmailSuccess(String uuid) {
+                if(!moradiasFavoritadas.contains(UUID.fromString(uuid))) {
+                    moradiasFavoritadas.add(id);
+                }
+                MoradiaFavoritaService service = new MoradiaFavoritaService();
+                service.addMoradiasFavoritas(new MoradiaFavorita(UUID.fromString(uuid), moradiasFavoritadas), new MoradiaFavoritaCallback() {
+                    @Override
+                    public void moradiaFavoritaOnSuccess(MoradiaFavorita moradiaFavorita) {
+                        Log.d("moradiaFavorita", "moradiaFavoritaOnSuccess: " + moradiaFavorita);
+                    }
+
+                    @Override
+                    public void moradiaFavoritaOnFailure(String message) {
+                        Log.d("moradiaFavorita", "moradiaFavoritaOnFailure: " + message);
+                    }
+                });
+            }
+
+            @Override
+            public void onGetUUIDByEmailFailure(String erroMessage) {
+                Log.d("falha", "onGetUUIDByEmailFailure: " + erroMessage);
+            }
+        });
+    }
 
     private void carregarCategorias(LinearLayout layout, Context context) {
         // pegar uuid do universitário
@@ -494,7 +539,7 @@ public class HomeUniversitario extends Fragment {
                 imagem = R.drawable.gender;
             } else if (categoria.equals("pessoa")) {
                 texto = "Número máximo de pessoas";
-                imagem = R.drawable.pessoas;
+                imagem = R.drawable.pessoas_black;
             } else if (categoria.equals("fumo")) {
                 texto = "Frequência de fumo permitida";
                 imagem = R.drawable.fumo;
@@ -547,26 +592,16 @@ public class HomeUniversitario extends Fragment {
         Chip chip = (Chip) inflater.inflate(R.layout.chip_layout2, chipGroup, false);
         chip.setText(chipText);
         chip.setId(View.generateViewId());
+        chip.setClickable(false);
+
+        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chipGroup.removeView(chip);;
+            }
+        });
 
         chipGroup.addView(chip);
-
-//        chip.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                selecionados.add(chip.getText().toString());
-//            } else {
-//                selecionados.remove(chip.getText().toString());
-//            }
-//            Log.d("Chip", "Selecionados para categoria: " + selecionados);
-//        });
-
-//        chip.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                chipGroup.removeView(chip);
-//                selecionados.remove(chip.getText().toString());
-//                Log.d("Chip", "onClick: removido " + chip);
-//            }
-//        });
     }
 
 }

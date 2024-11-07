@@ -1,6 +1,7 @@
 package com.example.hestia_app.presentation.view.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.hestia_app.R;
+import com.example.hestia_app.data.api.callbacks.GetUUIDByEmailCallback;
+import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
+import com.example.hestia_app.data.api.callbacks.MoradiaFavoritaCallback;
+import com.example.hestia_app.data.services.ImagensMoradiaService;
+import com.example.hestia_app.data.services.MoradiaFavoritaService;
+import com.example.hestia_app.data.services.UniversitarioService;
+import com.example.hestia_app.domain.models.ImagensMoradia;
 import com.example.hestia_app.domain.models.Moradia;
+import com.example.hestia_app.domain.models.MoradiaFavorita;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavoritasAdapter.MoradiaViewHolder> {
 
@@ -30,7 +44,7 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
     @NonNull
     @Override
     public MoradiaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_moradias_favoritas, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.activity_moradia_favorita_item, parent, false);
         return new MoradiaViewHolder(view);
     }
 
@@ -38,13 +52,30 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
     public void onBindViewHolder(@NonNull MoradiaViewHolder holder, int position) {
         Moradia moradia = moradiaList.get(position);
         holder.cNmMoradia.setText(moradia.getNomeCasa());
-        holder.qntPessoas.setText(moradia.getQuantidadeMaximaPessoas());
+        holder.qntPessoas.setText(moradia.getQuantidadeMaximaPessoas() + " pessoas");
         holder.iQntQuartos.setText(moradia.getQuantidadeQuartos() + " quartos");
         holder.iQntPessoasMax.setText("Capacidade de " + moradia.getQuantidadeMaximaPessoas() + " pessoas");
         holder.nValor.setText("R$" + moradia.getAluguel());
 
-        // Exemplo de como configurar a imagem
-//        holder.houseImg.setImageResource(moradia.getImagemResId());
+        final List<String>[] imageList = new List[]{new ArrayList<>()};
+        // pegar as imagens do mongo e repetir a requisição até que de certo
+        ImagensMoradiaService imagensMoradiaService = new ImagensMoradiaService();
+        imagensMoradiaService.getImagensMoradias(moradia.getId(), new ImagensMoradiaCallback() {
+            @Override
+            public void onSuccess(ImagensMoradia response) {
+                Log.d("Imagens", "onSuccess: " + response.getImagens());
+                imageList[0] = response.getImagens();
+                // Configure o ViewPager2 com o adapter de imagens
+                HouseImgAdapter houseImgAdapter = new HouseImgAdapter(context, imageList[0]);
+                holder.houseImg.setAdapter(houseImgAdapter);
+                houseImgAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("imagens", "onFailure: " + t.getMessage());
+            }
+        });
 
         // Ações dos botões
         holder.infoButton.setOnClickListener(v -> {
@@ -52,7 +83,39 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
         });
 
         holder.deleteButton.setOnClickListener(v -> {
-            // Lógica para o botão de exclusão
+            MoradiaFavoritaService service = new MoradiaFavoritaService();
+            UniversitarioService universitarioService = new UniversitarioService();
+
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            FirebaseUser user = auth.getCurrentUser();
+
+            universitarioService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
+                @Override
+                public void onGetUUIDByEmailSuccess(String uuid) {
+                    service.deleteMoradiasFavoritas(UUID.fromString(uuid), moradia.getId(), new MoradiaFavoritaCallback() {
+                        @Override
+                        public void moradiaFavoritaOnSuccess(MoradiaFavorita moradiaFavorita) {
+                            Log.d("moradiaFavorita", "moradiaFavoritaOnSuccess: " + moradiaFavorita);
+
+                            // Remover a moradia da lista
+                            moradiaList.remove(moradia);  // Assumindo que "moradiasList" é a lista de moradias no Adapter
+
+                            // Atualizar a lista no RecyclerView
+                            notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void moradiaFavoritaOnFailure(String message) {
+                            Log.d("moradiaFavorita", "moradiaFavoritaOnFailure: " + message);
+                        }
+                    });
+                }
+
+                @Override
+                public void onGetUUIDByEmailFailure(String erroMessage) {
+                    Log.d("moradiaFavorita", "onGetUUIDByEmailFailure: " + erroMessage);
+                }
+            });
         });
     }
 
@@ -63,7 +126,7 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
 
     static class MoradiaViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        ImageView houseImg;
+        ViewPager2 houseImg;
         TextView cNmMoradia, qntPessoas, iQntQuartos, iQntPessoasMax, nValor;
         AppCompatButton infoButton;
         ImageButton deleteButton;
