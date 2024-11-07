@@ -24,6 +24,7 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.hestia_app.PagamentoEmAprovacaoDialogFragment;
 import com.example.hestia_app.R;
 
@@ -56,6 +57,7 @@ import com.example.hestia_app.domain.models.RecomendacoesMoradia;
 import com.example.hestia_app.domain.models.UniversityRequest;
 import com.example.hestia_app.presentation.view.AnuncioCasa;
 import com.example.hestia_app.presentation.view.MoradiasFavoritasActivity;
+import com.example.hestia_app.presentation.view.Notificacoes;
 import com.example.hestia_app.presentation.view.OnSwipeTouchListener;
 import com.example.hestia_app.presentation.view.PremiumScreenUniversitario;
 import com.example.hestia_app.presentation.view.adapter.CustomArrayAdapter;
@@ -87,6 +89,7 @@ public class HomeUniversitario extends Fragment {
     PagamentoService pagamentoService;
     UniversitarioService universitarioService;
     MoradiaService moradiaService;
+    LottieAnimationView lottieAnimationView;
 
     private final FirebaseAuth autenticar = FirebaseAuth.getInstance();
     private final FirebaseUser user = autenticar.getCurrentUser();
@@ -95,7 +98,7 @@ public class HomeUniversitario extends Fragment {
     private static final HashMap<String, List<String>> selecoesPorCategoria = new HashMap<>();
     private static final ArrayList<UUID> moradiasFavoritadas = new ArrayList<>();
 
-
+    ImageView notification_button;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,6 +117,16 @@ public class HomeUniversitario extends Fragment {
         frameLayout = view.findViewById(R.id.frame_cards);
         txt_card = view.findViewById(R.id.txt_card);
         txt_card.setVisibility(View.INVISIBLE);
+        notification_button = view.findViewById(R.id.notification_button);
+        lottieAnimationView = view.findViewById(R.id.gif);
+
+        notification_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Notificacoes.class);
+                startActivity(intent);
+            }
+        });
 
         checkUserPaymentStatus();
 
@@ -237,11 +250,6 @@ public class HomeUniversitario extends Fragment {
             startActivity(intent);
         });
 
-
-        frameLayout = view.findViewById(R.id.frame_cards);
-        txt_card = view.findViewById(R.id.txt_card);
-        txt_card.setVisibility(View.INVISIBLE);
-
         return view;
     }
 
@@ -291,6 +299,11 @@ public class HomeUniversitario extends Fragment {
         Log.d("addNextCard", "addNextCard: " + moradiasLista.size());
 
         final List<String>[] imageList = new List[]{new ArrayList<>()};
+
+        if(moradiasLista.isEmpty()) {
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            return;
+        }
 
         if (currentIndex >= moradiasLista.size()) {
             txt_card.setVisibility(View.VISIBLE); // Mostra o texto de fim de lista

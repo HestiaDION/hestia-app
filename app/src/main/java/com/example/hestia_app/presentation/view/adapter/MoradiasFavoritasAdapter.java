@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.GetUUIDByEmailCallback;
 import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
@@ -51,6 +52,13 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
     @Override
     public void onBindViewHolder(@NonNull MoradiaViewHolder holder, int position) {
         Moradia moradia = moradiaList.get(position);
+
+        if (moradiaList.isEmpty()){
+            holder.lottieAnimation.setVisibility(View.VISIBLE);
+        } else {
+            holder.lottieAnimation.setVisibility(View.GONE);
+        }
+
         holder.cNmMoradia.setText(moradia.getNomeCasa());
         holder.qntPessoas.setText(moradia.getQuantidadeMaximaPessoas() + " pessoas");
         holder.iQntQuartos.setText(moradia.getQuantidadeQuartos() + " quartos");
@@ -130,6 +138,7 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
         TextView cNmMoradia, qntPessoas, iQntQuartos, iQntPessoasMax, nValor;
         AppCompatButton infoButton;
         ImageButton deleteButton;
+        LottieAnimationView lottieAnimation;
 
         public MoradiaViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -142,6 +151,7 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
             nValor = itemView.findViewById(R.id.nValor);
             infoButton = itemView.findViewById(R.id.infoButton);
             deleteButton = itemView.findViewById(R.id.button);
+            lottieAnimation = itemView.findViewById(R.id.gif);
         }
     }
 }
