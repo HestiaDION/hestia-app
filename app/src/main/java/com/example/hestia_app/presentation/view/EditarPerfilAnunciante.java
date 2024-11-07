@@ -1,5 +1,8 @@
 package com.example.hestia_app.presentation.view;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,7 +58,7 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar2);
 
         // Inicialmente, torna a ProgressBar invisível
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(GONE);
         goBack.setOnClickListener(v -> finish());
 
         // Preenchendo os hints dos campos com base nas informações atuais
@@ -97,7 +100,7 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
             }
 
             // Torna a ProgressBar visível e desativa o botão de salvar
-            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(VISIBLE);
             salvar.setText("");
             salvar.setEnabled(false);
 
@@ -115,7 +118,7 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                     Log.d("Update Anunciante", "Anunciante atualizado com sucesso: " + isUpdated);
 
                     // Esconde a ProgressBar e reativa o botão de salvar
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
                     salvar.setEnabled(true);
 
                     // Finaliza a Activity após o sucesso
@@ -127,7 +130,7 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                     Log.e("Update Anunciante", "Erro ao atualizar anunciante: " + errorMessage);
 
                     // Esconde a ProgressBar e reativa o botão de salvar em caso de erro
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
                     salvar.setEnabled(true);
                 }
             });

@@ -22,6 +22,9 @@ public class DashboardInformacoes extends AppCompatActivity {
         goBack = findViewById(R.id.goBackArrow);
 
         webView = findViewById(R.id.webview);
+        webView.loadUrl("https://discord.com/channels/@me/1231733341158379620/1303900995172175893");
+        webView.getSettings().setJavaScriptEnabled(true);
+
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

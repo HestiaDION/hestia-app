@@ -25,6 +25,7 @@ import com.example.hestia_app.domain.models.Moradia;
 import com.example.hestia_app.domain.models.Pagamento;
 import com.example.hestia_app.presentation.PaymentDialogFragment;
 import com.example.hestia_app.presentation.view.AdicionarMoradia;
+import com.example.hestia_app.presentation.view.Notificacoes;
 import com.example.hestia_app.presentation.view.adapter.MoradiaHomeAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -44,6 +45,7 @@ public class HomeAnunciante extends Fragment {
 
     ImageButton btAdicionarMoradia;
     ImageView premiumButton;
+    ImageView notification_button;
 
     public HomeAnunciante() {}
 
@@ -75,6 +77,15 @@ public class HomeAnunciante extends Fragment {
         MoradiaService moradiaService = new MoradiaService(requireContext());
         pagamentoService = new PagamentoService(requireContext());
 
+        notification_button = view.findViewById(R.id.notification_button);
+
+        notification_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), Notificacoes.class);
+                startActivity(intent);
+            }
+        });
 
         SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         boolean isPremium = prefs.getBoolean(KEY_IS_PREMIUM, false);
