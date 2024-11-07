@@ -1,12 +1,15 @@
-<!-- dialog_pagamento_em_aprovacao.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/linearLayout4"
+    android:id="@+id/dialog_entrar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    >
 
+
+    <!-- Título do email do anunciante -->
     <TextView
         android:id="@+id/emailAnunciante"
         android:layout_width="match_parent"
@@ -14,20 +17,36 @@
         android:layout_marginBottom="16dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:paddingBottom="16dp"
-        android:text="Seu pagamento está em aprovação. Em breve você terá acesso ao plano premium."
+        android:text="Entrar em contato com o anunciante:"
         android:textAlignment="center"
         android:textColor="@color/azul_claro"
         android:textSize="16sp" />
 
+    <!-- Botão para entrar em contato -->
     <Button
-        android:id="@+id/okButton"
+        android:id="@+id/entrarEmContato"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:background="@drawable/login_button"
         android:fontFamily="@font/poppins_semi_bold"
-        android:text="Entendido"
+        android:text="Entrar em contato"
         android:textAllCaps="false"
         android:textColor="@color/white" />
+
+    <!-- Botão para cancelar -->
+    <Button
+        android:id="@+id/cancelarContato"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:background="@drawable/button_cancel"
+        android:fontFamily="@font/poppins_semi_bold"
+        android:text="Cancelar"
+        android:textAllCaps="false"
+        android:textColor="@color/azul_claro" />
+
 </LinearLayout>

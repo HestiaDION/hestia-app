@@ -27,6 +27,7 @@ public class FormularioUniversitarioService {
                 return null;
             }
         } catch (IOException e) {
+            Log.e("Probabilidade", e.getMessage());
             e.printStackTrace();
             return null;
         }

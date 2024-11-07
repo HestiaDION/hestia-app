@@ -25,6 +25,7 @@ import com.example.hestia_app.domain.models.Moradia;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.MoradiaViewHolder> {
 
@@ -89,7 +90,8 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
 
         holder.setaDetalhes.setOnClickListener(v -> {
             Intent intent = new Intent(context, MoradiaMaisInformacoes.class);
-            intent.putExtra("moradiaId", moradia.getId());
+            intent.putExtra("moradiaId", moradia.getId().toString());
+            Log.d("MoradiaId", moradia.getId().toString());
             context.startActivity(intent);
         });
 
