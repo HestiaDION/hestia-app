@@ -1,8 +1,19 @@
 package com.example.hestia_app.presentation.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,13 +22,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.hestia_app.NotificationWorker;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.ApiServiceCallback;
 import com.example.hestia_app.data.services.ApiService;
 import com.example.hestia_app.utils.NetworkUtil;
 
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+@SuppressLint("CustomSplashScreen")
 public class Splashscreen extends AppCompatActivity {
 
     private static final int MAX_RETRIES = 5;
@@ -29,10 +43,7 @@ public class Splashscreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
 
-        // Pegando o logo
         ImageView logo = findViewById(R.id.logo);
-
-        // Carregando a animação
         Animation logoAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
         logo.startAnimation(logoAnimation);
 
@@ -48,13 +59,65 @@ public class Splashscreen extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
+
             wakeUpApiWithRetries();
             new Handler().postDelayed(() -> {
+
+                // garantindo que o usuário tem permissão para receber notificações
+                requestNotificationPermission();
+
+                OneTimeWorkRequest testNotificationWork =
+                        new OneTimeWorkRequest.Builder(NotificationWorker.class).build();
+
+                WorkManager.getInstance(this).enqueue(testNotificationWork);
+
+                PeriodicWorkRequest notificationWork =
+                        new PeriodicWorkRequest.Builder(NotificationWorker.class, 1, TimeUnit.HOURS)
+                                .build();
+
+                WorkManager.getInstance(this).enqueue(notificationWork);
+
+
                 Intent intent = new Intent(Splashscreen.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
-            }, 3000);  // 3 segundos
+            }, 3000);
         }
+
+
+
+
+    }
+
+    public void requestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
+    }
+    private void testNotificationDirectly() {
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Configura o canal de notificação (apenas para API 26+)
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    "test_notification",
+                    "Teste de Notificação",
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "test_notification")
+                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setContentTitle("Teste de Notificação")
+                .setContentText("Se você vê isso, as notificações funcionam!")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true);
+
+        notificationManager.notify(2, builder.build());
     }
 
     private void wakeUpApiWithRetries() {

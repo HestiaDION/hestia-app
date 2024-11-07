@@ -48,13 +48,11 @@ public class ChatUniversitario extends Fragment {
         TextView messageTextView = dialogView.findViewById(R.id.emailAnunciante);
         messageTextView.setText("Esta área ainda está em desenvolvimento.");
 
-        // Cria o diálogo
         AlertDialog dialog = new AlertDialog.Builder(getContext())
                 .setView(dialogView)
                 .setCancelable(false)
                 .create();
 
-        // Configura o botão "Entendido" para fechar o fragmento
         Button okButton = dialogView.findViewById(R.id.okButton);
         okButton.setOnClickListener(v -> {
             dialog.dismiss(); // Fecha o diálogo

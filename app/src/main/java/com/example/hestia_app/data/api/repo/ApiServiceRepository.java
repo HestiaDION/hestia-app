@@ -1,4 +1,4 @@
-package com.example.hestia_app.data.api;
+package com.example.hestia_app.data.api.repo;
 
 import java.util.Map;
 

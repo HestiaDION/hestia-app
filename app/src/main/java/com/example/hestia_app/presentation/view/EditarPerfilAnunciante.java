@@ -1,16 +1,17 @@
 package com.example.hestia_app.presentation.view;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,7 +57,7 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar2);
 
         // Inicialmente, torna a ProgressBar invisível
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(GONE);
         goBack.setOnClickListener(v -> finish());
 
         // Preenchendo os hints dos campos com base nas informações atuais
@@ -98,7 +99,12 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
             }
 
             // Torna a ProgressBar visível e desativa o botão de salvar
-            progressBar.setVisibility(View.VISIBLE);
+
+            progressBar.setVisibility(VISIBLE);
+
+            progressBar.setVisibility(VISIBLE);
+            salvar.setText("");
+
             salvar.setEnabled(false);
             salvar.setText("");
 
@@ -115,6 +121,13 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 public void onUpdateSuccess(boolean isUpdated) {
                     Log.d("Update Anunciante", "Anunciante atualizado com sucesso: " + isUpdated);
 
+
+
+                    // Esconde a ProgressBar e reativa o botão de salvar
+                    progressBar.setVisibility(GONE);
+                    salvar.setEnabled(true);
+
+
                     // Finaliza a Activity após o sucesso
                     finish();
                 }
@@ -123,10 +136,15 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 public void onUpdateFailure(String errorMessage) {
                     Log.e("Update Anunciante", "Erro ao atualizar anunciante: " + errorMessage);
 
+
                     // Reativa o botão e oculta a ProgressBar em caso de falha
+
+                    // Esconde a ProgressBar e reativa o botão de salvar em caso de erro
+                    progressBar.setVisibility(GONE);
+
                     salvar.setEnabled(true);
                     salvar.setText(R.string.salvar);
-                    progressBar.setVisibility(View.GONE);
+                    progressBar.setVisibility(GONE);
                 }
             });
         });

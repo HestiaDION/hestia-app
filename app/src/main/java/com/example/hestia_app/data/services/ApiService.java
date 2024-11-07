@@ -2,7 +2,7 @@ package com.example.hestia_app.data.services;
 
 import android.util.Log;
 
-import com.example.hestia_app.data.api.ApiServiceRepository;
+import com.example.hestia_app.data.api.repo.ApiServiceRepository;
 
 import com.example.hestia_app.data.api.callbacks.ApiServiceCallback;
 import com.example.hestia_app.data.api.clients.RetrofitMongoClient;

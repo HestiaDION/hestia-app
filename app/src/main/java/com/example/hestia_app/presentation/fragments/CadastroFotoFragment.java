@@ -54,14 +54,12 @@ import com.example.hestia_app.data.services.FirebaseService;
 import com.example.hestia_app.domain.models.InfosUser;
 import com.example.hestia_app.domain.models.Token;
 import com.example.hestia_app.domain.models.Universitario;
-
 import com.example.hestia_app.presentation.view.TelaAviso;
 import com.example.hestia_app.presentation.view.UserTerms;
 import com.example.hestia_app.utils.CadastroManager;
 import com.example.hestia_app.presentation.view.camera.FotoActivity;
 
 import com.example.hestia_app.utils.FirebaseGaleriaUtils;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;

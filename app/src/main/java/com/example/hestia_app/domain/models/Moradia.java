@@ -190,6 +190,7 @@ public class Moradia {
     public String toString() {
         return "Moradia{" +
                 "emailAnunciante='" + emailAnunciante + '\'' +
+                ", id='" + moradiaId + '\'' +
                 ", quantidadeMaximaPessoas='" + quantidadeMaximaPessoas + '\'' +
                 ", dataRegistro='" + dataRegistro + '\'' +
                 ", nomeCasa='" + nomeCasa + '\'' +
