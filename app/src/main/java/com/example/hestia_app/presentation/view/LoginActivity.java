@@ -91,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                                                     .putString(TOKEN_KEY, tokenResponse.getToken())
                                                     .apply();
 
-                                            Log.d("TokenLogin", "onSuccess: " + getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("TOKEN", ""));
+                                            Log.d("TokenLogin", "onSuccess: " + getSharedPreferences("UserPreferences", MODE_PRIVATE).getString("token", ""));
                                             Toast.makeText(LoginActivity.this, "Token gerado com sucesso!", Toast.LENGTH_SHORT).show();
 
                                             Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);

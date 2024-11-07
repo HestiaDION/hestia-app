@@ -34,11 +34,11 @@ public class ConfirmacaoPagamento extends AppCompatActivity {
 
         assert origemUsuario != null;
         if (origemUsuario.equals("anunciante")) {
-            planoType.setText("Plano Labareda");
+            planoType.setText("Plano Faísca");
             planoType.setTextColor(getResources().getColor(R.color.vermelho));
             logoPlano.setImageResource(R.drawable.logo_premium_anunciante);
         } else if (origemUsuario.equals("universitario")) {
-            planoType.setText("Plano Faísca");
+            planoType.setText("Plano Labareda");
             planoType.setTextColor(getResources().getColor(R.color.azul_claro));
             logoPlano.setImageResource(R.drawable.universitario_premium_logo);
         }

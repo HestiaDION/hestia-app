@@ -22,7 +22,7 @@ public class DashboardInformacoes extends AppCompatActivity {
         goBack = findViewById(R.id.goBackArrow);
 
         webView = findViewById(R.id.webview);
-        webView.loadUrl("https://discord.com/channels/@me/1231733341158379620/1303900995172175893");
+        webView.loadUrl("https://app.powerbi.com/view?r=eyJrIjoiNzg3YjY4MDUtNTU2Mi00ZjE4LWI1NDAtODEwZDQyN2JiYmJhIiwidCI6ImIxNDhmMTRjLTIzOTctNDAyYy1hYjZhLTFiNDcxMTE3N2FjMCJ9&pageName=44ba1a04d4574e88f4b1");
         webView.getSettings().setJavaScriptEnabled(true);
 
         goBack.setOnClickListener(new View.OnClickListener() {

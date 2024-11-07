@@ -59,7 +59,7 @@
         android:layout_height="81dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_semi_bold"
-        android:text="Por apenas R$XX,xx por mês, você garante a melhor experiência como anunciante no Héstia."
+        android:text="Por apenas R$16,00 por mês, você garante a melhor experiência como anunciante no Héstia."
         android:textColor="@color/white"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/textView24"

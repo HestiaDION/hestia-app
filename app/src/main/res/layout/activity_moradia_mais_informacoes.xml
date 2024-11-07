@@ -64,7 +64,7 @@
                 android:src="@drawable/housepng" />
 
             <TextView
-                android:id="@+id/textView37"
+                android:id="@+id/nomeDaMoradia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -313,6 +313,39 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/contatoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/contatoTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semi_bold"
+                    android:text="Contato E-mail"
+                    android:textColor="@color/azul_claro"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btnEntrarContato"
+                    android:layout_width="330dp"
+                    android:layout_height="54dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/button_cancel"
+                    android:fontFamily="@font/poppins_regular"
+                    android:padding="12dp"
+                    android:text="Entrar em contato"
+                    android:textAllCaps="false"
+                    android:textColor="@color/vermelho_claro"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/informacoesAdicionaisLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -341,7 +374,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semi_bold"
-                    android:text="Descrição"
+                    android:text="Regras"
                     android:textColor="@color/azul_claro"
                     android:textSize="18sp" />
 
@@ -384,14 +417,16 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btnEntrarEmContato"
+        android:id="@+id/btnAssociar"
         android:layout_width="330dp"
         android:layout_height="54dp"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
         android:background="@drawable/login_button"
+        android:fontFamily="@font/poppins_regular"
         android:padding="12dp"
-        android:text="Entrar em contato"
+        android:text="Associar-se a moradia"
+        android:textAllCaps="false"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

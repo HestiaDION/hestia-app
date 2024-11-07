@@ -7,7 +7,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -44,7 +43,7 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
     ProgressBar progressBar;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil_anunciante);
         AnuncianteService anuncianteService = new AnuncianteService(getApplicationContext());
@@ -91,21 +90,26 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
 
         // Salvando as novas informações dos campos
         salvar.setOnClickListener(v -> {
-
-            if(nome.getText().toString().isEmpty()) {
+            // Define os valores se estiverem vazios
+            if (nome.getText().toString().isEmpty()) {
                 nome.setText(nome.getHint());
             }
-            if(bio.getText().toString().isEmpty()) {
+            if (bio.getText().toString().isEmpty()) {
                 bio.setText(bio.getHint());
             }
 
             // Torna a ProgressBar visível e desativa o botão de salvar
+
+            progressBar.setVisibility(VISIBLE);
+
             progressBar.setVisibility(VISIBLE);
             salvar.setText("");
+
             salvar.setEnabled(false);
+            salvar.setText("");
 
             // Salvando o nome e foto de perfil no Firebase
-            if(!nome.getText().toString().isEmpty()) {
+            if (!nome.getText().toString().isEmpty()) {
                 String nomeFormatado = firebaseService.formatarNome(nome.getText().toString());
                 firebaseService.updateDisplayName(this, user, nomeFormatado);
             }
@@ -117,9 +121,12 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 public void onUpdateSuccess(boolean isUpdated) {
                     Log.d("Update Anunciante", "Anunciante atualizado com sucesso: " + isUpdated);
 
+
+
                     // Esconde a ProgressBar e reativa o botão de salvar
                     progressBar.setVisibility(GONE);
                     salvar.setEnabled(true);
+
 
                     // Finaliza a Activity após o sucesso
                     finish();
@@ -129,9 +136,15 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 public void onUpdateFailure(String errorMessage) {
                     Log.e("Update Anunciante", "Erro ao atualizar anunciante: " + errorMessage);
 
+
+                    // Reativa o botão e oculta a ProgressBar em caso de falha
+
                     // Esconde a ProgressBar e reativa o botão de salvar em caso de erro
                     progressBar.setVisibility(GONE);
+
                     salvar.setEnabled(true);
+                    salvar.setText(R.string.salvar);
+                    progressBar.setVisibility(GONE);
                 }
             });
         });

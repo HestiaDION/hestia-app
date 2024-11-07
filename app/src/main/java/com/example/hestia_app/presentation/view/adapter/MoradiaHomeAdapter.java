@@ -1,6 +1,7 @@
 package com.example.hestia_app.presentation.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
@@ -14,19 +15,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.hestia_app.MoradiaMaisInformacoes;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
 import com.example.hestia_app.data.services.ImagensMoradiaService;
+import com.example.hestia_app.data.services.MoradiaService;
 import com.example.hestia_app.domain.models.ImagensMoradia;
 import com.example.hestia_app.domain.models.Moradia;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.MoradiaViewHolder> {
 
     private Context context;
     private List<Moradia> moradiaList;
+    MoradiaService moradiaService;
 
     public MoradiaHomeAdapter(Context context, List<Moradia> moradiaList) {
         this.context = context;
@@ -37,6 +42,7 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
     @Override
     public MoradiaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.activity_moradia_item, parent, false);
+        moradiaService = new MoradiaService(context);
         return new MoradiaViewHolder(view);
     }
 
@@ -83,7 +89,10 @@ public class MoradiaHomeAdapter extends RecyclerView.Adapter<MoradiaHomeAdapter.
         });
 
         holder.setaDetalhes.setOnClickListener(v -> {
-            // Lógica para abrir os detalhes da moradia, se necessário
+            Intent intent = new Intent(context, MoradiaMaisInformacoes.class);
+            intent.putExtra("moradiaId", moradia.getId().toString());
+            Log.d("MoradiaId", moradia.getId().toString());
+            context.startActivity(intent);
         });
 
         // Inicializa o Handler e o Runnable para mudar as imagens automaticamente

@@ -55,11 +55,13 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
         goBack = findViewById(R.id.goBackArrow);
         progressBar = findViewById(R.id.progressBar2);
 
+        // Inicialmente, oculta a ProgressBar
+        progressBar.setVisibility(View.GONE);
+
         goBack.setOnClickListener(v -> finish());
 
-        // preenchendo os hints dos campos com base nas informações atuais
+        // Preenchendo os hints dos campos com as informações atuais
         universitarioService.listarPerfilUniversitario(user.getEmail(), new PerfilUniversitarioCallback() {
-
             @Override
             public void onPerfilUniversitarioSuccess(Universitario universitario) {
                 nome.setHint(user.getDisplayName());
@@ -72,7 +74,7 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
             }
         });
 
-        // preenchendo a foto com a foto atual
+        // Preenchendo a foto com a foto atual
         String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
         if (photoUrl != null) {
             Glide.with(this)
@@ -80,13 +82,14 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
                     .into(imagem);
         }
 
-        // abrindo a galeria
+        // Abrindo a galeria
         editarImagem.setOnClickListener(v2 -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             resultLauncherGaleria.launch(intent);
             Toast.makeText(this, "Selecione uma imagem", Toast.LENGTH_SHORT).show();
         });
 
+        // Salvando as novas informações dos campos
         salvar.setOnClickListener(v -> {
             if (nome.getText().toString().isEmpty()) {
                 nome.setText(nome.getHint());
@@ -101,7 +104,7 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
             salvar.setText("");
             salvar.setEnabled(false);
 
-            // salvando o nome e foto de perfil no firebase
+            // Salvando o nome e foto de perfil no Firebase
             if (!nome.getText().toString().isEmpty()) {
                 String nomeFormatado = firebaseService.formatarNome(nome.getText().toString());
                 firebaseService.updateDisplayName(this, user, nomeFormatado);
@@ -114,12 +117,7 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
                 public void onUpdateSuccess(boolean isUpdated) {
                     Log.d("Update Universitário", "Universitário atualizado com sucesso: " + isUpdated);
 
-                    // Esconder ProgressBar e reativar o botão
-                    progressBar.setVisibility(View.GONE);
-                    salvar.setEnabled(true);
-
-                    // Fechar a atividade ou exibir uma mensagem de sucesso
-                    Toast.makeText(EditarPerfilUniversitario.this, "Perfil atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    // Finaliza a Activity após o sucesso
                     finish();
                 }
 
@@ -128,9 +126,10 @@ public class EditarPerfilUniversitario extends AppCompatActivity {
                     Log.e("Update Universitário", "Erro ao atualizar universitário: " + errorMessage);
                     Toast.makeText(EditarPerfilUniversitario.this, "Erro ao atualizar perfil: " + errorMessage, Toast.LENGTH_SHORT).show();
 
-                    // Esconder ProgressBar e reativar o botão
+                    // Esconder ProgressBar e reativar o botão em caso de falha
                     progressBar.setVisibility(View.GONE);
                     salvar.setEnabled(true);
+                    salvar.setText(R.string.salvar);
                 }
             });
         });
