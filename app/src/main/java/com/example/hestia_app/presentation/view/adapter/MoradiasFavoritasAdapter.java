@@ -84,7 +84,7 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
 
         holder.deleteButton.setOnClickListener(v -> {
             MoradiaFavoritaService service = new MoradiaFavoritaService();
-            UniversitarioService universitarioService = new UniversitarioService();
+            UniversitarioService universitarioService = new UniversitarioService(context);
 
             FirebaseAuth auth = FirebaseAuth.getInstance();
             FirebaseUser user = auth.getCurrentUser();

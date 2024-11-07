@@ -433,7 +433,7 @@ public class HomeUniversitario extends Fragment {
     }
 
     private void addMoradiaFavorita(UUID id) {
-        UniversitarioService universitarioService = new UniversitarioService();
+        UniversitarioService universitarioService = new UniversitarioService(requireContext());
         universitarioService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
             @Override
             public void onGetUUIDByEmailSuccess(String uuid) {

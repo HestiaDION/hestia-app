@@ -108,5 +108,9 @@ dependencies {
     // debug
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
 
+    // worker
+    implementation("androidx.work:work-runtime:2.7.0")
+
+
 
 }
