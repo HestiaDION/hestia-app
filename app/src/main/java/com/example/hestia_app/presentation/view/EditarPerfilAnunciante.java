@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.example.hestia_app.R;
@@ -30,20 +32,19 @@ import com.google.firebase.auth.FirebaseUser;
 public class EditarPerfilAnunciante extends AppCompatActivity {
 
     EditText nome, bio;
-    AnuncianteService anuncianteService = new AnuncianteService();
     FirebaseService firebaseService = new FirebaseService();
     FirebaseAuth autenticar = FirebaseAuth.getInstance();
     FirebaseUser user = autenticar.getCurrentUser();
     Button salvar;
     ImageView editarImagem, imagem, goBack;
     Uri uri;
-
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_perfil_anunciante);
-
+        AnuncianteService anuncianteService = new AnuncianteService(getApplicationContext());
 
         nome = findViewById(R.id.nomeCompleto);
         bio = findViewById(R.id.sobreMim);
@@ -51,11 +52,13 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
         editarImagem = findViewById(R.id.editarFoto);
         imagem = findViewById(R.id.profile_image);
         goBack = findViewById(R.id.goBackArrow);
+        progressBar = findViewById(R.id.progressBar2);
 
+        // Inicialmente, torna a ProgressBar invisível
+        progressBar.setVisibility(View.GONE);
         goBack.setOnClickListener(v -> finish());
 
-
-        // preenchendo os hints dos campos com base nas informações atuais
+        // Preenchendo os hints dos campos com base nas informações atuais
         anuncianteService.listarPerfilAnunciante(user.getEmail(), new PerfilAnuncianteCallback() {
             @Override
             public void onPerfilAnuncianteSuccess(Anunciante anunciante) {
@@ -69,34 +72,36 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
             }
         });
 
-        // preenchendo a foto com a foto atual
+        // Preenchendo a foto com a foto atual
         String photoUrl = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : null;
         if (photoUrl != null) {
             Glide.with(this)
                     .load(photoUrl)
-//                    .placeholder(R.drawable.placeholder_image)
-//                    .error(R.drawable.error_image)
                     .into(imagem);
         }
 
-        // abrindo a galeria
+        // Abrindo a galeria
         editarImagem.setOnClickListener(v2 -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             resultLauncherGaleria.launch(intent);
         });
 
-        // salvando as novas informações dos campos
+        // Salvando as novas informações dos campos
         salvar.setOnClickListener(v -> {
 
-            if(nome.getText().toString().isEmpty() ){
+            if(nome.getText().toString().isEmpty()) {
                 nome.setText(nome.getHint());
             }
-
-            if(bio.getText().toString().isEmpty() ){
+            if(bio.getText().toString().isEmpty()) {
                 bio.setText(bio.getHint());
             }
 
-            // salvando o nome e foto de perfil no firebase
+            // Torna a ProgressBar visível e desativa o botão de salvar
+            progressBar.setVisibility(View.VISIBLE);
+            salvar.setText("");
+            salvar.setEnabled(false);
+
+            // Salvando o nome e foto de perfil no Firebase
             if(!nome.getText().toString().isEmpty()) {
                 String nomeFormatado = firebaseService.formatarNome(nome.getText().toString());
                 firebaseService.updateDisplayName(this, user, nomeFormatado);
@@ -109,18 +114,24 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 public void onUpdateSuccess(boolean isUpdated) {
                     Log.d("Update Anunciante", "Anunciante atualizado com sucesso: " + isUpdated);
 
+                    // Esconde a ProgressBar e reativa o botão de salvar
+                    progressBar.setVisibility(View.GONE);
+                    salvar.setEnabled(true);
+
+                    // Finaliza a Activity após o sucesso
+                    finish();
                 }
 
                 @Override
                 public void onUpdateFailure(String errorMessage) {
-                    Log.d("Update Anunciante", "Erro ao atualizar anunciante: " + errorMessage);
+                    Log.e("Update Anunciante", "Erro ao atualizar anunciante: " + errorMessage);
+
+                    // Esconde a ProgressBar e reativa o botão de salvar em caso de erro
+                    progressBar.setVisibility(View.GONE);
+                    salvar.setEnabled(true);
                 }
             });
-            finish();
-
         });
-
-
     }
 
     private ActivityResultLauncher<Intent> resultLauncherGaleria = registerForActivityResult(
@@ -128,13 +139,32 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
             result -> {
                 Uri imageUri = result.getData().getData();
                 if (imageUri != null) {
-                    // imagem selecionada
+                    // Imagem selecionada
                     uri = imageUri;
+
+                    FirebaseService firebaseService = new FirebaseService();
+                    firebaseService.updateProfilePicture(this, user, uri);
+
+                    InfosUserService infosUserService = new InfosUserService();
+                    InfosUser infosUser = new InfosUser(uri.toString());
+                    infosUserService.updateProfilePhotoUrlMongoCollection(user.getEmail(), infosUser, new InfosUserCallback() {
+                        @Override
+                        public void onSuccess(InfosUser response) {
+                            Log.d("updateFotoMongo", "onSuccess: " + response);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable t) {
+                            Log.e("updateFotoMongo", "onFailure: " + t.getMessage());
+                        }
+                    });
+
 
                     // Exibe a imagem selecionada
                     Glide.with(this).load(imageUri)
                             .centerCrop()
                             .into(imagem);
+
 
                     FirebaseGaleriaUtils storageHelper = new FirebaseGaleriaUtils();
                     storageHelper.uploadImage(imageUri.toString(), new FirebaseGaleriaUtils.FirebaseStorageCallback() {
@@ -171,5 +201,4 @@ public class EditarPerfilAnunciante extends AppCompatActivity {
                 }
             }
     );
-
 }

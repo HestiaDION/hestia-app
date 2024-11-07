@@ -149,6 +149,8 @@ public class CadastroMoradiaSeis extends Fragment {
         bt_acao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                bt_acao.setEnabled(false);
+
                 if (preco.getText().toString().isEmpty()) {
                     Toast.makeText(getContext(), "O preço deve ser definido!", Toast.LENGTH_SHORT).show();
                     return;
@@ -163,7 +165,7 @@ public class CadastroMoradiaSeis extends Fragment {
                     Log.d("moradia", "onClick: " + moradia);
 
                     // salvar moradia
-                    MoradiaService service = new MoradiaService();
+                    MoradiaService service = new MoradiaService(requireContext());
                     FirebaseAuth autenticar = FirebaseAuth.getInstance();
                     FirebaseUser user = autenticar.getCurrentUser();
 
@@ -183,6 +185,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                                    moradia.get("numero"),
                                                    moradia.get("complemento"));
                     Log.d("Moradia", "onClick: " + moradia1);
+
                     service.registrarMoradia(moradia1, new RegistroMoradiaCallback() {
                         @Override
                         public void onRegistroSuccess(boolean isRegistered, Moradia moradiaRetorno) {
@@ -225,6 +228,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                                     @Override
                                                     public void onFiltroCadastroFailure(boolean IsRegistered) {
                                                         Log.d("Moradia", "onFiltroCadastroFailure: " + IsRegistered);
+                                                        bt_acao.setEnabled(true);
                                                     }
                                                 });
                                             }
@@ -232,6 +236,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                             @Override
                                             public void onFailure(Throwable t) {
                                                 Log.d("Moradia", "onFailure: " + t.getMessage());
+                                                bt_acao.setEnabled(true);
                                             }
                                         });
                                     }
@@ -239,6 +244,7 @@ public class CadastroMoradiaSeis extends Fragment {
                                     @Override
                                     public void onFailure(Throwable t) {
                                         Log.d("Moradia", "onFailure: " + t.getMessage());
+                                        bt_acao.setEnabled(true);
                                     }
                                 });
                             }
@@ -251,10 +257,12 @@ public class CadastroMoradiaSeis extends Fragment {
                                 Toast.makeText(getContext(), "Erro ao registrar moradia!", Toast.LENGTH_SHORT).show();
                             }
                             Log.d("Moradia", "onRegistroFailure: " + isRegistered);
+                            bt_acao.setEnabled(true);
                         }
                     });
                 }
             }
+
         });
 
         return view;

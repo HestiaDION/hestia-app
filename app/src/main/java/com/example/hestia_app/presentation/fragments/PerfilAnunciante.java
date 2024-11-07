@@ -34,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PerfilAnunciante extends Fragment {
     String tipo_usuario;
     String USER_DEFAULT_BIO = "Insira uma descrição sobre você na área de edição!";
-    AnuncianteService anuncianteService = new AnuncianteService();
+    AnuncianteService anuncianteService;
     Button editarPerfil;
     ImageView configuracoes;
 
@@ -52,6 +52,7 @@ public class PerfilAnunciante extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        anuncianteService = new AnuncianteService(requireContext());
         if (getArguments() != null) {
             tipo_usuario = getArguments().getString("tipo_usuario");
         }

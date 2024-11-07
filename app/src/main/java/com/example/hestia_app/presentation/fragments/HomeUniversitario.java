@@ -2,7 +2,11 @@ package com.example.hestia_app.presentation.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+
+import android.content.SharedPreferences;
+
 import android.graphics.Typeface;
+
 import android.os.Bundle;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -20,10 +24,15 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide; // Adicionar importação do Glide
+import com.example.hestia_app.PagamentoEmAprovacaoDialogFragment;
 import com.example.hestia_app.R;
+
+import com.example.hestia_app.data.api.callbacks.PagamentoPorUserEmail;
+import com.example.hestia_app.data.services.PagamentoService;
+import com.example.hestia_app.domain.models.Pagamento;
+
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
-import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallback;
+
 import com.example.hestia_app.data.api.callbacks.FiltrosTagsCallbackGet;
 import com.example.hestia_app.data.api.callbacks.GetCategoriaByNomeCallback;
 import com.example.hestia_app.data.api.callbacks.GetUUIDByEmailCallback;
@@ -48,17 +57,6 @@ import com.example.hestia_app.domain.models.UniversityRequest;
 import com.example.hestia_app.presentation.view.AnuncioCasa;
 import com.example.hestia_app.presentation.view.MoradiasFavoritasActivity;
 import com.example.hestia_app.presentation.view.OnSwipeTouchListener;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
-
-import com.example.hestia_app.R;
 import com.example.hestia_app.presentation.view.PremiumScreenUniversitario;
 import com.example.hestia_app.presentation.view.adapter.CustomArrayAdapter;
 import com.example.hestia_app.presentation.view.adapter.HouseImgAdapter;
@@ -67,10 +65,28 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+
+import java.util.ArrayList;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
+
 public class HomeUniversitario extends Fragment {
 
-    private FrameLayout frameLayout;
-    private int currentIndex = 0;
+    private static final String PREFS_NAME = "UserPrefs";
+    private static final String KEY_IS_PREMIUM = "isPremium";
+
+    private FrameLayout frameLayout; // Contêiner para os cartões
+    private int currentIndex = 0; // Índice do anúncio atual
+    private ImageView premiumButton;
+    private TextView txt_card;
+    PagamentoService pagamentoService;
+    UniversitarioService universitarioService;
+    MoradiaService moradiaService;
 
     private final FirebaseAuth autenticar = FirebaseAuth.getInstance();
     private final FirebaseUser user = autenticar.getCurrentUser();
@@ -79,20 +95,35 @@ public class HomeUniversitario extends Fragment {
     private static final HashMap<String, List<String>> selecoesPorCategoria = new HashMap<>();
     private static final ArrayList<UUID> moradiasFavoritadas = new ArrayList<>();
 
-    TextView txt_card;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        pagamentoService = new PagamentoService(requireContext());
+        moradiaService = new MoradiaService(requireContext());
         getMoradia();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_home_universitario, container, false);
+        premiumButton = view.findViewById(R.id.premiumButtonUniversity);
+        frameLayout = view.findViewById(R.id.frame_cards);
+        txt_card = view.findViewById(R.id.txt_card);
+        txt_card.setVisibility(View.INVISIBLE);
+
+        checkUserPaymentStatus();
+
+        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        // Exibe o diálogo de pagamento em aprovação se estiver pendente
+        if (prefs.getBoolean("pagamentoEmAprovacao", false)) {
+            PagamentoEmAprovacaoDialogFragment dialog = new PagamentoEmAprovacaoDialogFragment();
+            dialog.show(getParentFragmentManager(), "PagamentoEmAprovacaoDialog");
+            prefs.edit().putBoolean("pagamentoEmAprovacao", false).apply(); // Limpa o status após exibir o diálogo
+        }
 
         ImageView premiumButton = view.findViewById(R.id.premiumButtonUniversity);
         LinearLayout filtrosSelecionados = view.findViewById(R.id.filtrosSelecionados);
@@ -106,8 +137,8 @@ public class HomeUniversitario extends Fragment {
             }
         });
 
-        UniversitarioService univService = new UniversitarioService();
-        univService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
+        universitarioService = new UniversitarioService(requireContext());
+        universitarioService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
             @Override
             public void onGetUUIDByEmailSuccess(String uuid) {
                 Log.d("uuid", "onGetUUIDByEmailSuccess: " + uuid);
@@ -200,16 +231,58 @@ public class HomeUniversitario extends Fragment {
 
         carregarCategorias(filtrosSelecionados, getContext());
 
+
         premiumButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), PremiumScreenUniversitario.class);
             startActivity(intent);
         });
+
 
         frameLayout = view.findViewById(R.id.frame_cards);
         txt_card = view.findViewById(R.id.txt_card);
         txt_card.setVisibility(View.INVISIBLE);
 
         return view;
+    }
+
+    // Método para verificar o status de pagamento do usuário atual
+    private void checkUserPaymentStatus() {
+        SharedPreferences prefs = getActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        boolean isPremium = prefs.getBoolean(KEY_IS_PREMIUM, false); // Padrão: false se não encontrado
+
+        // Se já for premium, esconda o botão
+        if (isPremium) {
+            premiumButton.setVisibility(View.GONE);
+            return;
+        }
+
+        // Caso contrário, faça a chamada à API
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String email = currentUser.getEmail();
+            if (email != null) {
+                pagamentoService.getPagamentoByUserEmail(email, new PagamentoPorUserEmail() {
+                    @Override
+                    public void onFindSuccess(boolean isPaid, Pagamento pagamento) {
+                        // Armazene o resultado no SharedPreferences
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putBoolean(KEY_IS_PREMIUM, isPaid);
+                        editor.apply();
+
+                        // Se o usuário já tiver pago, oculte o botão premium
+                        if (isPaid) {
+                            premiumButton.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onFindFailure(boolean isPaid) {
+                        // Caso o usuário não tenha pago, mantenha o botão visível
+                        premiumButton.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }
     }
 
     // Método para adicionar o próximo cartão
@@ -221,7 +294,7 @@ public class HomeUniversitario extends Fragment {
 
         if (currentIndex >= moradiasLista.size()) {
             txt_card.setVisibility(View.VISIBLE); // Mostra o texto de fim de lista
-            Toast.makeText(getActivity(), "Você viu todos os anuncios!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Você viu todos os anúncios!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -237,6 +310,10 @@ public class HomeUniversitario extends Fragment {
 
         Log.d("moradia", "addNextCard: " + anuncioCasa);
 
+        nmMoradia.setText(anuncioCasa.getNomeCasa());
+        qntQuartos.setText(anuncioCasa.getQuantidadeQuartos() + " quartos");
+        qntPessoasMax.setText("Capacidade de " + anuncioCasa.getQuantidadeMaximaPessoas() + " pessoas");
+        valor.setText("R$ " + anuncioCasa.getAluguel());
         nmMoradia.setText(anuncioCasa.getNomeCasa());
 
         qntQuartos.setText(anuncioCasa.getQuantidadeQuartos() + " quartos");
@@ -266,17 +343,14 @@ public class HomeUniversitario extends Fragment {
             }
         });
 
-        // Adiciona o cartão ao FrameLayout
         frameLayout.addView(card);
 
-        // Define o listener para detectar swipes
         card.setOnTouchListener(new OnSwipeTouchListener(getActivity(), card) {
             @Override
             public void onSwipeLeft() {
-                // Animação ao deslizar para a esquerda
                 card.animate()
-                        .translationX(-card.getWidth()) // desliza para a esquerda
-                        .setDuration(300) // tempo de animação
+                        .translationX(-card.getWidth())
+                        .setDuration(300)
                         .withEndAction(() -> {
                             removeCard(card); // Remove o cartão
                             currentIndex++; // Avança para o próximo
@@ -287,10 +361,9 @@ public class HomeUniversitario extends Fragment {
 
             @Override
             public void onSwipeRight() {
-                // Animação ao deslizar para a direita
                 card.animate()
-                        .translationX(card.getWidth()) // desliza para a direita
-                        .setDuration(300) // tempo de animação
+                        .translationX(card.getWidth())
+                        .setDuration(300)
                         .withEndAction(() -> {
                             // adiciona a moradia para favoritas
                             addMoradiaFavorita(anuncioCasa.getId());
@@ -303,27 +376,29 @@ public class HomeUniversitario extends Fragment {
         });
     }
 
-    // Método para remover um cartão
     private void removeCard(View card) {
         frameLayout.removeView(card);
     }
 
+
     // Método para obter a lista de moradias
     private void getMoradia() {
-        UniversitarioService univService = new UniversitarioService();
-        univService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
+        universitarioService = new UniversitarioService(requireContext());
+
+        universitarioService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
             @Override
             public void onGetUUIDByEmailSuccess(String uuid) {
                 // pegar as moradias do mongo e repetir a requisição até que de certo
+
                 RecomendacoesMoradiasService service = new RecomendacoesMoradiasService();
                 service.getRecomendacoesMoradia(new UniversityRequest(UUID.fromString(uuid)), new RecomendacoesMoradiaCallback() {
+
                     @Override
                     public void onRecomendacoesSuccess(boolean success, RecomendacoesMoradia recomendacoesMoradia) {
                         List<HashMap<String, String>> moradias = recomendacoesMoradia.getHouses();
                         for (HashMap<String, String> moradia2 : moradias) {
-                            MoradiaService serviceMoradia = new MoradiaService();
                             Log.d("uuid", "onRecomendacoesSuccess: " + moradia2);
-                            serviceMoradia.getMoradiaById(UUID.fromString(moradia2.get("uid")), new MoradiaByIdCallback() {
+                            moradiaService.getMoradiaById(UUID.fromString(moradia2.get("uid")), new MoradiaByIdCallback() {
                                 @Override
                                 public void onSuccess(Moradia moradia) {
                                     if (!moradiasLista.contains(moradia)) {
@@ -388,7 +463,7 @@ public class HomeUniversitario extends Fragment {
 
     private void carregarCategorias(LinearLayout layout, Context context) {
         // pegar uuid do universitário
-        UniversitarioService universitarioService = new UniversitarioService();
+        universitarioService = new UniversitarioService(requireContext());
         universitarioService.getUniversitarioId(user.getEmail(), new GetUUIDByEmailCallback() {
             @Override
             public void onGetUUIDByEmailSuccess(String uuid) {
@@ -528,5 +603,5 @@ public class HomeUniversitario extends Fragment {
 
         chipGroup.addView(chip);
     }
-}
 
+}

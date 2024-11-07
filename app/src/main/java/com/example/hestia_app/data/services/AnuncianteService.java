@@ -1,11 +1,13 @@
 package com.example.hestia_app.data.services;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.example.hestia_app.data.api.callbacks.UpdatePerfilAnuncianteCallback;
-import com.example.hestia_app.data.api.repo.AnuncianteRepository;
+import com.example.hestia_app.data.api.repo.postgres.AnuncianteRepository;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresClient;
 import com.example.hestia_app.domain.models.Anunciante;
 import com.example.hestia_app.data.api.callbacks.RegistroAnuncianteCallback;
@@ -19,9 +21,16 @@ public class AnuncianteService {
 
     AnuncianteRepository anuncianteRepository = RetrofitPostgresClient.getClient().create(AnuncianteRepository.class);
 
-    public void registrarAnunciante(Anunciante anunciante, RegistroAnuncianteCallback callback) {
-        Call<Anunciante> call = anuncianteRepository.registerAnunciante(anunciante);
+    private String token = "";
+    private SharedPreferences sharedPreferences;
+    // Construtor que recebe o contexto e inicializa o SharedPreferences
+    public AnuncianteService(Context context) {
+        this.sharedPreferences = context.getSharedPreferences("UserPreferences", Context.MODE_PRIVATE);
+    }
 
+    public void registrarAnunciante(Anunciante anunciante, RegistroAnuncianteCallback callback) {
+        token = sharedPreferences.getString("token", null);
+        Call<Anunciante> call = anuncianteRepository.registerAnunciante(token, anunciante);
 
         call.enqueue(new Callback<Anunciante>() {
             @Override
@@ -45,7 +54,8 @@ public class AnuncianteService {
     }
 
     public void atualizarAnuncianteProfile(String email, Anunciante anunciante, UpdatePerfilAnuncianteCallback callback){
-        Call <Anunciante> call = anuncianteRepository.updateAnuncianteProfile(email, anunciante);
+        token = sharedPreferences.getString("token", null);
+        Call <Anunciante> call = anuncianteRepository.updateAnuncianteProfile(token, email, anunciante);
         call.enqueue(new Callback<Anunciante>(){
 
             @Override
@@ -67,7 +77,18 @@ public class AnuncianteService {
     }
 
     public void listarPerfilAnunciante(String email, PerfilAnuncianteCallback callback) {
-        Call<Anunciante> call = anuncianteRepository.getAnuncianteProfile(email);
+
+        token = sharedPreferences.getString("token", null);
+
+        if (token == null) {
+            Log.e("TokenAnunciante", "Token nulo");
+            return;
+        } else {
+            Log.d("TokenAnunciante", token.toString());
+        }
+
+
+        Call<Anunciante> call = anuncianteRepository.getAnuncianteProfile(token, email);
 
         call.enqueue(new Callback<Anunciante>() {
             @Override
@@ -86,6 +107,5 @@ public class AnuncianteService {
             }
         });
     }
-
 
 }

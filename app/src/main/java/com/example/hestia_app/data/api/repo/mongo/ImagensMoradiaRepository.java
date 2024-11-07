@@ -1,4 +1,4 @@
-package com.example.hestia_app.data.api.repo;
+package com.example.hestia_app.data.api.repo.mongo;
 
 import com.example.hestia_app.domain.models.ImagensMoradia;
 

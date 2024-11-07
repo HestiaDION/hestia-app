@@ -7,7 +7,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import com.example.hestia_app.data.api.repo.FiltroCadastroRepository;
+import com.example.hestia_app.data.api.repo.mongo.FiltroCadastroRepository;
 import com.example.hestia_app.data.api.callbacks.FiltroCadastroCallback;
 import com.example.hestia_app.data.api.callbacks.GetCategoriaByNomeCallback;
 import com.example.hestia_app.data.api.clients.RetrofitPostgresPrimeiroClient;

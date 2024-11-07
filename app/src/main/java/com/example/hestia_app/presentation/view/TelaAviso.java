@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.hestia_app.R;
+import com.example.hestia_app.domain.models.FormularioUniversitario;
 
 public class TelaAviso extends AppCompatActivity {
 
@@ -49,6 +50,8 @@ public class TelaAviso extends AppCompatActivity {
                     // Verifica a tela a ser aberta com base no valor da string `tela`
                     if ("MainActivityNavbar".equals(tela)) {
                         activityClass = MainActivityNavbar.class;
+                    } else{
+                        activityClass = FormularioUniversitarioActivity.class;
                     }
 
                     Intent intent = new Intent(TelaAviso.this, activityClass);

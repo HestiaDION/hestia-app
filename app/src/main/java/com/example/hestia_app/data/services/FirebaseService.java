@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.hestia_app.data.api.callbacks.FirebaseCallback;
 import com.example.hestia_app.presentation.view.MainActivityNavbar;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +27,7 @@ public class FirebaseService {
         this.firebaseAuth = FirebaseAuth.getInstance();
     }
 
-    public void salvarUsuario(Context context, String txtNome, String txtEmail, String txtSenha, Uri uri, boolean isTermosAceitos) {
+    public void salvarUsuario(Context context, String txtNome, String txtEmail, String txtSenha, Uri uri, boolean isTermosAceitos, FirebaseCallback callback) {
         String nome = formatarNome(txtNome);
 
         if (uri == null) {
@@ -55,20 +56,26 @@ public class FirebaseService {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        Log.d("firebaseService", "onComplete: " + task.getResult());
+                                        Log.d("firebaseService", "Profile atualizado com sucesso!");
+
+                                        // Chama o callback de sucesso após o cadastro e atualização do perfil
+                                        callback.onSuccess();
                                     } else {
-                                        // Mostrar erro
-                                        mostrarErro(context, task, "Erro ao atualizar profile: ");
+                                        mostrarErro(context, task, "Erro ao criar profile: ");
+                                        // Chama o callback de falha se a atualização do perfil falhar
+                                        callback.onFailure("Erro ao criar profile");
                                     }
                                 }
                             });
                         } else {
-                            // Mostrar erro
                             mostrarErro(context, task, "Erro ao efetuar o cadastro: ");
+                            // Chama o callback de falha se o cadastro do usuário falhar
+                            callback.onFailure("Erro ao efetuar o cadastro");
                         }
                     }
                 });
     }
+
 
     private void mostrarErro(Context context, Task<?> task, String mensagem) {
         String msg = mensagem;
