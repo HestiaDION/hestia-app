@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/house_name"
-            android:layout_width="291dp"
+            android:layout_width="0dp"
             android:layout_height="53dp"
             android:width="300dp"
             android:background="@color/azul"
@@ -25,10 +25,10 @@
             android:gravity="center"
             android:text="Moradia"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/house_img"
-            app:layout_constraintStart_toStartOf="@+id/house_img"
-            tools:layout_editor_absoluteY="0dp"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
 
         <ImageView
             android:id="@+id/go_arrow"
@@ -44,9 +44,11 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/house_img"
-            android:layout_width="214dp"
+            android:layout_width="0dp"
             android:layout_height="200dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="40dp"
             android:background="@drawable/input_group_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
