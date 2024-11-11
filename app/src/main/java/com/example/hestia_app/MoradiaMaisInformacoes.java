@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -116,6 +117,7 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
             @Override
             public void onListError(Exception e) {
                 // Trate o erro aqui (ex: mostre uma mensagem para o usuário)
+                Log.e("Membros", e.getMessage());
                 Toast.makeText(MoradiaMaisInformacoes.this, "Erro ao carregar membros", Toast.LENGTH_SHORT).show();
             }
         });
@@ -123,16 +125,20 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
 
         recyclerView.setAdapter(memberAdapter);
 
+        Log.d("MoradiaId", UUID.fromString(moradiaIdString).toString());
+
+        UUID moradiaId = UUID.fromString(moradiaIdString);
         // get de informações
-        moradiaService.getMoradiaById(UUID.fromString(moradiaIdString), new MoradiaByIdCallback() {
+        moradiaService.getMoradiaById(moradiaIdString, new MoradiaByIdCallback() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(Moradia moradias) {
                 // populando campos da tela
                 nomeMoradia.setText(moradias.getNomeCasa());
-                quantidadePessoas.setText(String.valueOf(moradias.getQuantidadeMaximaPessoas()));
-                universidadePerto.setText(moradias.getUniversidadeProxima());
-                quantidadeQuartos.setText(String.valueOf(moradias.getQuantidadeQuartos()));
-                capacidadePessoas.setText(String.valueOf(moradias.getQuantidadeMaximaPessoas()));
+                quantidadePessoas.setText(String.valueOf(moradias.getQuantidadeMaximaPessoas()) + " pessoas");
+                universidadePerto.setText("Perto de " + moradias.getUniversidadeProxima());
+                quantidadeQuartos.setText(String.valueOf(moradias.getQuantidadeQuartos()) + " quartos");
+                capacidadePessoas.setText("Capacidade de " + moradias.getQuantidadeMaximaPessoas() + " pessoas");
                 descricao.setText(String.valueOf(moradias.getDescricao()));
                 regras.setText(String.valueOf(moradias.getRegras()));
 
