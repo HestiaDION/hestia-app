@@ -9,7 +9,7 @@
 
     <View
         android:id="@+id/view2"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="84dp"
         android:background="@color/azul"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,9 +44,11 @@
 
     <TextView
         android:id="@+id/espaco"
-        android:layout_width="352dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/gray_backgroud"
         android:drawableLeft="@drawable/blue_bin"
         android:drawablePadding="5dp"
@@ -86,8 +88,6 @@
         android:text="Conta"
         android:textColor="@color/azul"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/goBackArrow"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
@@ -109,9 +109,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="352dp"
-        android:layout_height="140dp"
+        android:layout_width="0dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="52dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/gray_backgroud"
         android:orientation="vertical"
         android:paddingTop="2dp"
@@ -121,18 +123,6 @@
         app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2">
-
-        <TextView
-            android:id="@+id/seguranca"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/blue_privacy"
-            android:drawablePadding="5dp"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:padding="10dp"
-            android:text="Segurança"
-            android:textColor="@color/azul"
-            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/notificacao"
@@ -146,24 +136,15 @@
             android:textColor="@color/azul"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/privacidade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/blue_lock"
-            android:drawablePadding="5dp"
-            android:fontFamily="@font/poppins_semi_bold"
-            android:padding="10dp"
-            android:text="Privacidade"
-            android:textColor="@color/azul"
-            android:textSize="15sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="352dp"
+        android:layout_width="0dp"
         android:layout_height="140dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="12dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/gray_backgroud"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -224,9 +205,11 @@
         app:layout_constraintTop_toBottomOf="@+id/espaco" />
 
     <LinearLayout
-        android:layout_width="347dp"
+        android:layout_width="0dp"
         android:layout_height="48dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
         android:background="@drawable/gray_backgroud"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
