@@ -22,7 +22,7 @@
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="52dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="UNIVERSITÁRIO"
@@ -35,8 +35,8 @@
         android:id="@+id/goBackArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="36dp"
         android:src="@drawable/go_back_arrow_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -55,22 +55,25 @@
 
     <TextView
         android:id="@+id/textView25"
-        android:layout_width="191dp"
+        android:layout_width="0dp"
         android:layout_height="81dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="Por apenas R$22,00 por mês, você garante a melhor experiência como universitário no Héstia."
         android:textColor="@color/white"
         android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView8"
         app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/textView24"
         app:layout_marginBaseline="200dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="390dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/universitario_premium_item_list_background"
         android:gravity="center"
         android:orientation="vertical"
@@ -216,6 +219,7 @@
                 android:src="@drawable/options_icon" />
 
             <LinearLayout
+                android:id="@+id/item5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -243,9 +247,11 @@
 
     <Button
         android:id="@+id/assinar"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="61dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/button_premium_universitario"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="Assinar plano Labareda"

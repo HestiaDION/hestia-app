@@ -129,7 +129,7 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
 
         UUID moradiaId = UUID.fromString(moradiaIdString);
         // get de informações
-        moradiaService.getMoradiaById(moradiaIdString, new MoradiaByIdCallback() {
+        moradiaService.getMoradiaById(moradiaId, new MoradiaByIdCallback() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSuccess(Moradia moradias) {

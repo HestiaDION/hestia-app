@@ -66,12 +66,13 @@
 
         <ImageButton
             android:id="@+id/btAdicionarMoradia"
-            android:layout_width="57dp"
+            android:layout_width="0dp"
             android:layout_height="61dp"
-            android:layout_marginEnd="44dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="50dp"
+            android:background="@android:color/transparent"
             android:src="@drawable/floatting_action_button"
-            app:layout_constraintBottom_toBottomOf="@+id/recycler_ad"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

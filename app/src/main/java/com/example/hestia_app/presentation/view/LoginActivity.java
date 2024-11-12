@@ -58,9 +58,10 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = autenticar.getCurrentUser();
 
         if (user != null) {
-            Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
-            startActivity(intent);
-            finish();
+//            Intent intent = new Intent(LoginActivity.this, MainActivityNavbar.class);
+//            startActivity(intent);
+//            finish();
+            autenticar.signOut();
         }
 
         cadastroRedirect.setOnClickListener(v -> {

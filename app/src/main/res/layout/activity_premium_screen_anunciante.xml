@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="92dp"
+        android:layout_width="0dp"
         android:layout_height="82dp"
         android:layout_marginTop="68dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="50dp"
         android:src="@drawable/logo_premium_anunciante"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="52dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="ANUNCIANTE"
@@ -55,22 +55,25 @@
 
     <TextView
         android:id="@+id/textView25"
-        android:layout_width="191dp"
-        android:layout_height="81dp"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="Por apenas R$16,00 por mês, você garante a melhor experiência como anunciante no Héstia."
         android:textColor="@color/white"
         android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView8"
         app:layout_constraintStart_toStartOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/textView24"
         app:layout_marginBaseline="200dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="390dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/anunciante_premium_item_list_background"
         android:gravity="center"
         android:orientation="vertical"
@@ -171,7 +174,7 @@
 
             <ImageView
                 android:id="@+id/imageView12"
-                android:layout_width="109dp"
+                android:layout_width="54dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="3dp"
                 android:layout_weight="1"
@@ -245,9 +248,11 @@
 
     <Button
         android:id="@+id/assinar"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="61dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="24dp"
+        android:layout_marginEnd="50dp"
         android:background="@drawable/button_premium_anunciante"
         android:fontFamily="@font/poppins_semi_bold"
         android:text="Assinar plano Faísca"
