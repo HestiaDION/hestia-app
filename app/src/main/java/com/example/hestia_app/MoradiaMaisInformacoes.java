@@ -3,6 +3,7 @@ package com.example.hestia_app;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -17,13 +18,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
 import com.example.hestia_app.data.api.callbacks.ListUniversitariosCallback;
 import com.example.hestia_app.data.api.callbacks.MoradiaByIdCallback;
+import com.example.hestia_app.data.services.ImagensMoradiaService;
 import com.example.hestia_app.data.services.MoradiaService;
 import com.example.hestia_app.data.services.UniversitarioMoradiaService;
+import com.example.hestia_app.domain.models.ImagensMoradia;
 import com.example.hestia_app.domain.models.Member;
 import com.example.hestia_app.domain.models.Moradia;
 import com.example.hestia_app.domain.models.Universitario;
+import com.example.hestia_app.presentation.view.adapter.HouseImgAdapter;
 import com.example.hestia_app.presentation.view.adapter.MemberAdapter;
 import com.example.hestia_app.utils.ViewUtils;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,6 +50,7 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
     RecyclerView recyclerView;
     MemberAdapter memberAdapter;
     UniversitarioMoradiaService universitarioMoradiaService;
+    ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,8 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
         joinMoradia = findViewById(R.id.btnAssociar);
         entrarContato = findViewById(R.id.btnEntrarContato);
         contatoTitulo = findViewById(R.id.contatoTitulo);
+
+        viewPager2 = findViewById(R.id.viewPager);
 
         goBack = findViewById(R.id.goBackArrow);
         goBack.setOnClickListener(v -> finish());
@@ -141,6 +149,27 @@ public class MoradiaMaisInformacoes extends AppCompatActivity {
                 capacidadePessoas.setText("Capacidade de " + moradias.getQuantidadeMaximaPessoas() + " pessoas");
                 descricao.setText(String.valueOf(moradias.getDescricao()));
                 regras.setText(String.valueOf(moradias.getRegras()));
+
+                // pegar as fotos das moradias
+                List<String> imageList = new ArrayList<>();
+                // pegar as imagens do mongo e repetir a requisição até que de certo
+                ImagensMoradiaService imagensMoradiaService = new ImagensMoradiaService();
+                imagensMoradiaService.getImagensMoradias(moradias.getId(), new ImagensMoradiaCallback() {
+                    @Override
+                    public void onSuccess(ImagensMoradia response) {
+                        Log.d("Imagens", "onSuccess: " + response.getImagens());
+                        imageList.addAll(response.getImagens());
+                        // Configure o ViewPager2 com o adapter de imagens
+                        HouseImgAdapter houseImgAdapter = new HouseImgAdapter(MoradiaMaisInformacoes.this, imageList);
+                        viewPager2.setAdapter(houseImgAdapter);
+                        houseImgAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.d("imagens", "onFailure: " + t.getMessage());
+                    }
+                });
 
                 email = moradias.getEmailAnunciante(); // Aqui o email é corretamente atribuído
 
