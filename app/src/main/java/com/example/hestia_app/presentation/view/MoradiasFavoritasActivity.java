@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.GetUUIDByEmailCallback;
 import com.example.hestia_app.data.api.callbacks.MoradiaByIdCallback;
@@ -29,6 +30,7 @@ import java.util.UUID;
 public class MoradiasFavoritasActivity extends AppCompatActivity {
     ImageButton voltar;
     RecyclerView recycleViewFavorita;
+    LottieAnimationView lottieAnimationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class MoradiasFavoritasActivity extends AppCompatActivity {
             }
         });
 
+        lottieAnimationView = findViewById(R.id.gif);
         recycleViewFavorita = findViewById(R.id.recycleViewFavorita);
 
         recycleViewFavorita.setLayoutManager(new LinearLayoutManager(this));
@@ -70,10 +73,15 @@ public class MoradiasFavoritasActivity extends AppCompatActivity {
                                 public void onSuccess(Moradia moradias) {
                                     moradiaList.add(moradias);
                                     Log.d("moradiaList", "onSuccess: " + moradiaList);
-                                    
-                                    MoradiasFavoritasAdapter adapter = new MoradiasFavoritasAdapter(MoradiasFavoritasActivity.this, moradiaList);
-                                    recycleViewFavorita.setAdapter(adapter);
-                                    adapter.notifyDataSetChanged();
+
+                                    if (moradiaList.isEmpty()){
+                                        lottieAnimationView.setVisibility(View.VISIBLE);
+                                    } else {
+                                        lottieAnimationView.setVisibility(View.GONE);
+                                        MoradiasFavoritasAdapter adapter = new MoradiasFavoritasAdapter(MoradiasFavoritasActivity.this, moradiaList);
+                                        recycleViewFavorita.setAdapter(adapter);
+                                        adapter.notifyDataSetChanged();
+                                    }
                                 }
 
                                 @Override

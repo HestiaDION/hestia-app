@@ -106,18 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/filtros"
             app:lottie_autoPlay="true"
             app:lottie_loop="true"
-            app:lottie_rawRes="@raw/clipboard_animation" />
-
-        <TextView
-            android:id="@+id/txt_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/poppins_medium"
-            android:text="Todas as moradias já foram vistas"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frame_cards" />
+            app:lottie_rawRes="@raw/empty" />
 
         <ImageView
             android:id="@+id/premiumButtonUniversity"
