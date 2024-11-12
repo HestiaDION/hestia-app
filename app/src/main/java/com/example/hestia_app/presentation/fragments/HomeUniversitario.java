@@ -120,8 +120,6 @@ public class HomeUniversitario extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home_universitario, container, false);
         premiumButton = view.findViewById(R.id.premiumButtonUniversity);
         frameLayout = view.findViewById(R.id.frame_cards);
-        txt_card = view.findViewById(R.id.txt_card);
-        txt_card.setVisibility(View.INVISIBLE);
         notification_button = view.findViewById(R.id.notification_button);
         lottieAnimationView = view.findViewById(R.id.gif);
 
@@ -305,17 +303,15 @@ public class HomeUniversitario extends Fragment {
 
         final List<String>[] imageList = new List[]{new ArrayList<>()};
 
-        if(moradiasLista.isEmpty()) {
-            lottieAnimationView.setVisibility(View.VISIBLE);
-            return;
-        }
-
         if (currentIndex >= moradiasLista.size()) {
-            txt_card.setVisibility(View.VISIBLE); // Mostra o texto de fim de lista
             Toast.makeText(getActivity(), "Você viu todos os anúncios!", Toast.LENGTH_SHORT).show();
+            lottieAnimationView.setVisibility(View.VISIBLE);
+            frameLayout.setVisibility(View.GONE);
             return;
         }
 
+        frameLayout.setVisibility(View.VISIBLE);
+        lottieAnimationView.setVisibility(View.GONE);
         Moradia anuncioCasa = moradiasLista.get(currentIndex);
         View card = LayoutInflater.from(getActivity()).inflate(R.layout.activity_item_moradia, null); // Infla o layout do cartão
 
