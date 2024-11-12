@@ -5,6 +5,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hestia_app.R;
@@ -44,7 +45,7 @@ public class Notificacoes extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_ad);
 
         NotificationAdapter notificationsAdapter = new NotificationAdapter(notifications, this);
-        notificationsAdapter.setHasStableIds(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(notificationsAdapter);
         notificationsAdapter.notifyDataSetChanged();
     }

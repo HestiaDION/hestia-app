@@ -11,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,6 +40,7 @@ public class PerfilAnunciante extends Fragment {
     AnuncianteService anuncianteService;
     Button editarPerfil;
     ImageView configuracoes;
+    WebView webView;
 
     public PerfilAnunciante(String tipo_usuario) {
         this.tipo_usuario = tipo_usuario;
@@ -91,6 +95,13 @@ public class PerfilAnunciante extends Fragment {
         FirebaseAuth autenticar = FirebaseAuth.getInstance();
         FirebaseUser user = autenticar.getCurrentUser();
         ImageButton logout = view.findViewById(R.id.logout);
+
+        // webView
+        webView = view.findViewById(R.id.webView);
+
+        webView.setWebViewClient(new WebViewClient());
+        webView.loadUrl("https://hestia-secrect-area-vercel.vercel.app");
+        webView.getSettings().setJavaScriptEnabled(true);
 
 
         // campos do perfil
