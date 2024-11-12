@@ -8,7 +8,7 @@
 
     <View
         android:id="@+id/view2"
-        android:layout_width="411dp"
+        android:layout_width="0dp"
         android:layout_height="84dp"
         android:background="@color/azul"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,8 +33,8 @@
         android:id="@+id/goBackArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_ad"
         android:layout_width="340dp"
-        android:layout_height="631dp"
+        android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
