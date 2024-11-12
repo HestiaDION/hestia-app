@@ -1,10 +1,14 @@
 package com.example.hestia_app.presentation.view.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.hestia_app.MoradiaMaisInformacoes;
 import com.example.hestia_app.R;
 import com.example.hestia_app.data.api.callbacks.GetUUIDByEmailCallback;
 import com.example.hestia_app.data.api.callbacks.ImagensMoradiaCallback;
@@ -81,7 +86,9 @@ public class MoradiasFavoritasAdapter extends RecyclerView.Adapter<MoradiasFavor
 
         // Ações dos botões
         holder.infoButton.setOnClickListener(v -> {
-            // Lógica para o botão "Mais informações"
+            Intent intent = new Intent(context, MoradiaMaisInformacoes.class);
+            intent.putExtra("moradiaId", moradia.getId().toString());
+            startActivity(context, intent, null);
         });
 
         holder.deleteButton.setOnClickListener(v -> {

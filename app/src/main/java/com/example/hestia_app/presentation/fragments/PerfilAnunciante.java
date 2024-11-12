@@ -3,6 +3,7 @@ package com.example.hestia_app.presentation.fragments;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.net.http.SslError;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -99,9 +101,19 @@ public class PerfilAnunciante extends Fragment {
         // webView
         webView = view.findViewById(R.id.webView);
 
-        webView.setWebViewClient(new WebViewClient());
         webView.loadUrl("https://hestia-secrect-area-vercel.vercel.app");
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.getSettings().setAllowContentAccess(true);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed(); // Ignorar o erro de SSL para desenvolvimento
+            }
+        });
+
 
 
         // campos do perfil
